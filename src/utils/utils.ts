@@ -10,7 +10,7 @@ import productId from "../app/(pages)/product/[productId]/page";
 
 export const getProducts = cache(async () => {
   const querySnapshot = await getDocs(collection(db, 'products'));
-  const docs = querySnapshot.docs.map((product) => product.data()); // Access the documents array
+  const docs = querySnapshot.docs.map((product) => product.data() as ProductParams); // Access the documents array
 
   return docs;
 })
