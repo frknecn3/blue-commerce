@@ -1,7 +1,7 @@
 'use client'
 import Fuse from "fuse.js"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import ProductCard from "../../../components/ProductCard"
 import { getAllProducts } from "../../../utils/utils"
 import '../../../components/css/index.css'
@@ -36,7 +36,9 @@ const SearchPage = () =>{
 
     return(
         <div className="grid-container">
+            <Suspense>
             {searchResults.map((i,a)=>(<ProductCard params={i} key={a}/>))}
+            </Suspense>
         </div>
     )
 
