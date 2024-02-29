@@ -36,7 +36,7 @@ const SearchPage = () =>{
 
     return(
         <div className="grid-container">
-            {searchResults.map((i)=>(<ProductCard params={i}/>))}
+            {searchResults.map((i,a)=>(<ProductCard params={i} key={a}/>))}
         </div>
     )
 
