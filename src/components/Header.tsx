@@ -11,7 +11,6 @@ import { RootState, } from '../redux/store';
 import { FaShoppingCart } from "react-icons/fa";
 import {v4 as randomUUID } from 'uuid';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 
 const Header = () => {
@@ -24,6 +23,7 @@ const Header = () => {
   const [prevCartLen, setPrevCartLen] = useState(0);
   const cartText = useRef(null)
   const [searchQuery,setSearchQuery] = useState('')
+  const formRef = useRef(null)
   const router=useRouter()
 
 
@@ -102,10 +102,11 @@ const Header = () => {
 
 
 
-  const onSearch=(e:React.FormEvent)=>{
+  const onSearch=async(e:React.FormEvent)=>{
     e.preventDefault();
-    const encodedSearchQuery = encodeURI(searchQuery)
-    router.push(`/search?q=${encodedSearchQuery}`)
+    const searchInput = formRef.current as HTMLInputElement 
+    const encodedSearchQuery = encodeURI(searchInput.value)
+    formRef.current.value.trim() === ""?router.push('/'):router.push(`/search?q=${encodedSearchQuery}`)
   }
 
 
@@ -122,8 +123,8 @@ const Header = () => {
 
 
       <div className='w-[30%] relative'>
-        <form onSubmit={onSearch}>
-          <input onChange={(e)=>{setSearchQuery(e.target.value)}} type="text" className='w-full  rounded-xl border-2 border-gray-500 text-black p-4' placeholder='Search for products...'/>
+        <form  onSubmit={(e)=>{}}>
+          <input ref={formRef} onInput={(e)=>{onSearch(e)}} type="text" className='w-full  rounded-xl border-2 border-gray-500 text-black p-4' placeholder='Search for products...'/>
           <button className='absolute transform top-[50%] right-4 translate-y-[-50%] text-[30px] text-gray-500'><FaSearch/></button>
         </form>
       </div>

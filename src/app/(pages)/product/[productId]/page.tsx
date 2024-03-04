@@ -1,6 +1,9 @@
 
+import { ReactNode } from "react";
 import ProductButtons from "../../../../components/ProductButtons";
-import { addToCart, getSpecificProduct, getUser} from "../../../../utils/utils";
+import { ProductParams, ReviewParams } from "../../../../constants/constants";
+import { addToCart, getSpecificProduct, getUser } from "../../../../utils/utils";
+import Reviews from "./reviews";
 
 
 
@@ -8,11 +11,11 @@ const productId = async ({ params }: { params: { productId: string } }) => {
     const currentProduct = await getSpecificProduct(params.productId)
     const seller = await getUser(currentProduct.seller)
 
-    return (<>
-        <div className="flex justify-around rounded-xl bg-[#ddf5ff] p-4 m-4">
+    return (<div className="rounded-xl bg-[#b0e7ff] my-4 ml-8 mr-2 border-2 border-gray-500" >
+        <div className="border-2 flex justify-around p-4">
             <div className="flex flex-col w-full gap-4 justify-center items-center">
-                <img src={currentProduct?.photoURL} className='rounded-xl w-[25vw]' alt="" />
-                <span className="font-semibold text-[25px]">{currentProduct?.name}</span>
+                <span className="font-semibold text-[45px]">{currentProduct?.name}</span>
+                <img src={currentProduct?.photoURL} className='border-2 border-gray-400 rounded-xl w-[25vw]' alt="" />
             </div>
             <div className=" p-4 w-full h-[30rem] text-[20px] m-4 flex flex-col justify-between items-center">
                 <div className="w-full h-[25rem] m-4 flex justify-between flex-grow">
@@ -41,12 +44,16 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                 <ProductButtons product={params?.productId} />
             </div>
         </div>
+
         
         <div className="flex flex-col justify-center items-center m-[2rem]">
-            <div className="bg-blue-500 p-[1rem] rounded-xl"><span className="text-center font-semibold text-[27px]">ABOUT THE PRODUCT</span></div>
-            <p className="p-[3rem] text-[25px] text-center">{currentProduct.desc}</p>
+                <div className="bg-blue-500 p-[1rem] rounded-xl"><span className="text-center font-semibold text-[27px]">ABOUT THE PRODUCT</span></div>
+                <p className="p-[3rem] text-[25px] text-center w-[60vw]">{currentProduct.desc}</p>
         </div>
-        </>
+
+        {<Reviews currentProduct={currentProduct}/>}
+
+    </div>
     );
 }
 

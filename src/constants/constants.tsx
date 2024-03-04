@@ -48,6 +48,16 @@ export class ProductParams {
     category:string
     seller:string
     desc:string
+    reviews:{
+    }[]
+}
+
+export class ReviewParams {
+    text:string
+    rating:number
+    sender:string
+    photoURL?:string
+    userObj?:User
 }
 
 export class User {

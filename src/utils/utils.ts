@@ -1,11 +1,9 @@
-import { arrayRemove, arrayUnion, collection, doc, DocumentData, getDocs, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { cache } from "react";
-import { auth, db, storage } from "../firebase/config";
+import { db, storage } from "../firebase/config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as randomUUID } from 'uuid';
-import { ProductParams, User } from "../constants/constants";
-import { useDispatch } from "react-redux";
-import productId from "../app/(pages)/product/[productId]/page";
+import { ProductParams, ReviewParams, User } from "../constants/constants";
 
 
 export const getProducts = cache(async () => {
@@ -16,14 +14,16 @@ export const getProducts = cache(async () => {
 })
 
 export const getSpecificProduct = async (id: string): Promise<ProductParams | null> => {
-  const q = query(collection(db, "products"), where("id", "==", id));
+  if(id)
+  {const q = query(collection(db, "products"), where("id", "==", id));
   const querySnapshot = await getDocs(q);
   if (querySnapshot.docs.length > 0) {
     const doc = querySnapshot.docs[0].data();
     return doc as ProductParams;
   } else {
     return null;
-  }
+  }}
+  else{console.log('id is ', typeof id)}
 };
 
 export const getAllProductsOfUser = async (id: string): Promise<ProductParams[] | null> => {
@@ -158,7 +158,6 @@ export const getUser = async (id: string): Promise<User | null> => {
   const q = query(collection(db, "users"), where("userID", "==", id))
   const querySnapshot = await getDocs(q)
   const doc = querySnapshot.docs[0]?querySnapshot.docs[0].data():''
-  console.log(typeof doc)
   if (typeof doc==='object') {
     return doc as User;
   } else {
@@ -252,3 +251,17 @@ export const getAllProducts = async():Promise<ProductParams[]> =>{
       return docs
   }catch(err){console.log(err)}
 }
+
+export const getReviews = async (id: string): Promise<ReviewParams[]> => {
+  
+    const product = await getSpecificProduct(id)
+    const reviews = product.reviews
+    const updatedReviews = reviews.map(async(review:ReviewParams)=>{
+      const userObj = await getUser(review.sender)
+      return {...review,userObj}
+    })
+
+    const docPromise = await Promise.all(updatedReviews)
+    const finalDocs = docPromise.flat()
+    return finalDocs as ReviewParams[];
+  };
