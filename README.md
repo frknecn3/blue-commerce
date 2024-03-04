@@ -2,7 +2,7 @@
 <hr/>
 <h2>PREVIEW</h2>
 <hr/>
-![](preview.gif)
+<img src='preview.gif' />
 
 <h2>ABOUT</h2>
 <hr/>
