@@ -114,30 +114,35 @@ const Header = () => {
 
 
   return (
-    <div className='h-[18vh]'>    <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-full h-[20vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-16'>
+    <div className='h-[18vh]'>    
+    
+      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-full h-[20vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-16'>
 
-      <div className='flex items-center justify-center gap-4 h-full'>
-        <a href="/" className='flex'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[6vw] rounded-[50%] border-4 border-black-800' /><h1 className='flex items-center gap-4 font-bold text-[40px]'>
-          BluE-Commerce</h1></a>
+        <div className='flex items-center justify-center gap-4 h-full'>
+          <a href="/" className='flex'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[6vw] rounded-[50%] border-4 border-black-800' /><h1 className='flex items-center gap-4 font-bold text-[40px]'>
+            BluE-Commerce</h1></a>
+        </div>
+
+
+        <div className='w-[30%] relative'>
+          <form  onSubmit={(e)=>{}}>
+            <input ref={formRef} onInput={(e)=>{onSearch(e)}} type="text" className='w-full  rounded-xl border-2 border-gray-500 text-black p-4' placeholder='Search for products...'/>
+            <button className='absolute transform top-[50%] right-4 translate-y-[-50%] text-[30px] text-gray-500'><FaSearch/></button>
+          </form>
+        </div>
+
+        <a href="/cart">
+          <div  ref={cartText} className='text-blue-400 cart-text flex items-center hover:brightness-125 hover:translate-y-[-3px] hover:shadow-lg transition-all relative bg-white rounded-xl font-semibold p-2 justify-center'><div className='relative'><span className='text-white text-[20px] font-semibold absolute top-[40%] left-[60%] transform -translate-x-1/2 -translate-y-1/2'>{cartLen}</span><FaShoppingCart className='cart-text text-[40px]' /></div>MY CART</div>
+        </a>
+        
+        <div className='flex gap-[20px] justify-between items-center'>
+          <a href={auth.currentUser?`/profile/${user?.uid}`:'/login'}><div className='flex items-center justify-start gap-4'><FaUser size={'30px'} /><span className='text-[20px]'>{user?.displayName}</span></div></a>
+          <button className='' onClick={() => { setSidebar(true) }}><IoIosMenu size={'40px'} /></button>
+        </div>
+
       </div>
 
-
-      <div className='w-[30%] relative'>
-        <form  onSubmit={(e)=>{}}>
-          <input ref={formRef} onInput={(e)=>{onSearch(e)}} type="text" className='w-full  rounded-xl border-2 border-gray-500 text-black p-4' placeholder='Search for products...'/>
-          <button className='absolute transform top-[50%] right-4 translate-y-[-50%] text-[30px] text-gray-500'><FaSearch/></button>
-        </form>
-      </div>
-
-      <a href="/cart">
-        <div  ref={cartText} className='text-blue-400 cart-text flex items-center hover:brightness-125 hover:translate-y-[-3px] hover:shadow-lg transition-all relative bg-white rounded-xl font-semibold p-2 justify-center'><div className='relative'><span className='text-white text-[20px] font-semibold absolute top-[40%] left-[60%] transform -translate-x-1/2 -translate-y-1/2'>{cartLen}</span><FaShoppingCart className='cart-text text-[40px]' /></div>MY CART</div>
-      </a>
-      <div className='flex gap-[20px] justify-between items-center'>
-        <a href={auth.currentUser?`/profile/${user?.uid}`:'/login'}><div className='flex items-center justify-start gap-4'><FaUser size={'30px'} /><span className='text-[20px]'>{user?.displayName}</span></div></a>
-        <button className='' onClick={() => { setSidebar(true) }}><IoIosMenu size={'40px'} /></button>
-      </div>
-
-    </div>
+      
 
       <Sidebar setSidebar={setSidebar} sidebar={sidebar} />
     </div>

@@ -2,12 +2,12 @@
 import { addDoc, arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { categories, ProductParams } from "../../../../constants/constants";
+import { categories, ProductParams, ReviewParams } from "../../../../constants/constants";
 import { db, storage } from "../../../../firebase/config";
 import './style.css'
 import { v4 as randomUUID } from 'uuid';
 import { redirect, useRouter } from "next/navigation";
-import { uploadMedia } from "../../../../utils/utils";
+import { uploadDocument, uploadMedia } from "../../../../utils/utils";
 import Image from "next/image";
 
 
@@ -53,31 +53,20 @@ const CreateProduct = () => {
             datePublished: new Date().toString(),
             id:randomUUID(),
             name:e.target[1].value,
-            price:`${e.target[2].value} $`,
+            price:Number(e.target[2].value),
             quantity:1,
             photoURL:image,
             seller:user.uid,
             desc:e.target[3].value,
             category:e.target[4].value,
-            
-
-
-        }
-        const uploadDocument = async () => {
-            console.log(user.uid)
-            try {
-              // Add a new document with an auto-generated ID to a collection
-              const userRef = doc(db, "users", user.uid);
-              await updateDoc(userRef,{
-                allProducts:arrayUnion(data.id)
-              })
-              const docRef = await addDoc(collection(db, "products"), data);
-            } catch (e) {
-              console.error("Error adding document: ", e);
+            reviews:[],
+            stars:{
+                count:Math.round(Math.random()*100),
+                stars:Math.round(Math.random()*5)
             }
-            
-    }
-    await uploadDocument()
+        }
+
+    await uploadDocument(user,data)
     router.push('/')
     }
 

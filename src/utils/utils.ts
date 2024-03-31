@@ -1,13 +1,33 @@
-import { arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { cache } from "react";
 import { db, storage } from "../firebase/config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as randomUUID } from 'uuid';
 import { ProductParams, ReviewParams, User } from "../constants/constants";
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import {ReadonlyURLSearchParams} from 'next/navigation'
+import { Option } from "../constants/constants";
+export const getProducts = cache(async (params?) => {
+  console.log('params:',params)
+  const {sort,category}:{sort:string,category:string} = params
 
+  const baseQuery = query(collection(db, 'products'));
 
-export const getProducts = cache(async () => {
-  const querySnapshot = await getDocs(collection(db, 'products'));
+  // Define an array to hold additional query constraints
+  const additionalConstraints: any[] = [];
+  
+  if (category) {
+    additionalConstraints.push(where('category', '==', category));
+  }
+  
+  if (sort) {
+    additionalConstraints.push(orderBy('price', sort === 'ascendingprice' ? 'asc' : 'desc'));
+  }
+  
+  // Combine the base query with additional constraints
+  const newQuery = query(baseQuery, ...additionalConstraints);
+
+  const querySnapshot = await getDocs(newQuery);
   const docs = querySnapshot.docs.map((product) => product.data() as ProductParams); // Access the documents array
 
   return docs;
@@ -36,6 +56,20 @@ export const getAllProductsOfUser = async (id: string): Promise<ProductParams[] 
   catch (err) {
     console.log(err)
   }
+}
+
+export  const uploadDocument = async (user,data) => {
+  try {
+    // Add a new document with an auto-generated ID to a collection
+    const userRef = doc(db, "users", user.uid);
+    await updateDoc(userRef,{
+      allProducts:arrayUnion(data.id)
+    })
+    const docRef = await addDoc(collection(db, "products"), data);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+  
 }
 
 export const getCart = async (id: string): Promise<ProductParams[] | null> => {
@@ -264,4 +298,21 @@ export const getReviews = async (id: string): Promise<ReviewParams[]> => {
     const docPromise = await Promise.all(updatedReviews)
     const finalDocs = docPromise.flat()
     return finalDocs as ReviewParams[];
+  };
+
+
+
+
+
+
+  export const handleSortCategory = (e:Option,router:AppRouterInstance,queryparams:ReadonlyURLSearchParams,pathname:string) => {
+    const current = new URLSearchParams(Array.from(queryparams.entries())); // -> has to use this form
+    current.set('sort',e.value)
+    
+    
+    const search = current.toString();
+
+    const query = search ? `?${search}` : "";
+
+    router.replace(`${pathname}${query}`,{scroll:false});
   };

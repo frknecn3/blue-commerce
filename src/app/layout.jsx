@@ -16,9 +16,9 @@ export default function RootLayout({ children }) {
       <body className='relative'>
           <StoreProvider>
             <Header />
-          <main className='pt-[10vh] pb-[15vh]'>
-            <div className='min-h-[60vh] pr-6'>
-              {children}
+          <main className='pt-[2vh] pb-[15vh]'>
+              <div className='min-h-[60vh]'>
+                {children}
               </div>
           </main>
           <Footer className='absolute bottom-0' />

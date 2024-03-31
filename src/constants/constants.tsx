@@ -38,29 +38,37 @@ const Links = [
 export default Links
 
 export class ProductParams {
-    version:1
+    version:number
     datePublished:string
     id:string
     name:string
     photoURL:string
-    price:string
+    price:number
     quantity:number
     category:string
     seller:string
     desc:string
-    reviews:{
-    }[]
+    reviews:ReviewParams[]
+    stars:{
+        count:number
+        stars:number
+    }
 }
 
 export class ReviewParams {
     text:string
-    rating:number
+    rating:1|2|3|4|5
     sender:string
     photoURL?:string
     userObj?:User
 }
 
 export class User {
+    // constructor(userID?:string,photoURL?:string,allProducts?:string[],name?:string,cart?:string[],wishlist?:string[]){
+    //     this.userID = userID||''
+    //     this.photoURL=photoURL||''
+    // }
+
     userID:string
     photoURL:string
     allProducts:string[]
@@ -70,10 +78,42 @@ export class User {
 }
 
 export const categories:string[] = [
+    '',
     'Entertainment',
     'Technology',
     'Medical',
     'Art',
     'Educational',
     'Kitchenware'
+]
+
+export type Option = {
+    value:string
+    label:string
+}
+
+export const SelectOptions:Option[] = categories.map((category)=>{return{value:category,label:category}})
+
+
+export const hotbarElements = [
+    {
+        value:'trending',
+        label:'Trending'
+    },
+    {
+        value:'whatsnew',
+        label:'Newest Products'
+    },
+    {
+        value:'offers',
+        label:'Special Offers'
+    },
+    {
+        value:'promoted',
+        label:'Promoted Products'
+    },
+    {
+        value:'fastdelivery',
+        label:'Same-day Delivery'
+    },
 ]

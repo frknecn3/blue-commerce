@@ -19,7 +19,7 @@ const CartDiv = () => {
                 try {
                     const totalPrice =
                         cart.reduce((accumulator, item) => {
-                            if (item && item.price) { return accumulator + Number(item.price.split(' ')[0]); } return accumulator;
+                            if (item && item.price) { return accumulator + Number(item.price); } return accumulator;
                         }, 0); return <span>{totalPrice}$</span>;
                 }
                 catch (err) { console.log(err) }
@@ -46,12 +46,12 @@ const CartDiv = () => {
 
   return (
     <div className='flex h-full'>
-    <div className='h-full w-[75%] p-4'>
+    <div className='h-full w-[75%] p-4 flex flex-col items-center'>
         {displayCart&&displayCart.length>0 ? displayCart?.map((product, i) => (
 
-            <div key={i} className='w-full rounded-xl mb-[40px] flex items-center  h-[10rem] m-4 p-2 text-black'>
-                <div className='overflow-hidden w-full h-[12rem] px-10 text-[30px] bg-white rounded-xl grid place-items-center justify-items-center grid-cols-4'>
-                    <img src={product?.photoURL} alt="" className=' rounded-xl w-[100%] h-[100%] p-2' />
+            <div key={i} className='w-[75%] rounded-xl mb-[40px] flex items-center  h-[10rem] m-4 p-2 text-black shadow-md'>
+                <div className='overflow-hidden w-full h-[12rem] px-10 py-4 text-[30px] bg-white rounded-xl grid place-items-center justify-items-center grid-cols-4'>
+                    <img src={product?.photoURL} alt="" className=' rounded-xl w-[95%] h-[95%] p-2' />
                     <span className='text-start'>{product?.name}</span>
                     <span>{product?.price}</span>
                     <button onClick={() => { removeFromCart(id, product?.id), reloadCart(id, dispatch) }}><FaTrash /></button>

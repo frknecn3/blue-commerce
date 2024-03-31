@@ -6,6 +6,14 @@ const Footer = () => {
         <div>
             <span>2024 | All rights reserved.</span>
         </div>
+        <div className='flex gap-4'>
+          <img src="https://images.hepsiburada.net/assets/footer/bonus-card.svg" alt="" />
+          <img src="https://images.hepsiburada.net/assets/footer/maximum.svg" alt="" />
+          <img src="https://images.hepsiburada.net/assets/footer/world.svg" alt="" />
+          <img src="https://images.hepsiburada.net/assets/footer/ziraat.svg" alt="" />
+          <img src="https://images.hepsiburada.net/assets/footer/card-finans.svg" alt="" />
+          <img src="https://images.hepsiburada.net/assets/footer/axess.svg" alt="" />
+        </div>
         <div>
             <span>Made by Furkan Ercan</span>
         </div>

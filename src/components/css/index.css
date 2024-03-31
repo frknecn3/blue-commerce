@@ -5,7 +5,8 @@
     zoom: 100%;
 }
 body{
-    background: linear-gradient(to bottom,#d9f7ff,#befffb);
+    background: linear-gradient(to bottom,#fafeff,#f1fffe);
+    overflow-x: hidden;
 }
 .img-hidden{
     display: none;
