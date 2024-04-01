@@ -31,7 +31,7 @@ const MainPage = async ({
       
         <div className="flex bg-white justify-center text-[1.5rem] text-gray-500 px-[10rem] w-full h-[7.5vh] items-center border-b border-t">
           {hotbarElements.map((element,i)=>{
-          return <div key={i} className={`${i!==0?'border-l-4':''} border-gray-300 p-2 px-6 group  `}>
+          return <div key={element.label} className={`${i!==0?'border-l-4':''} border-gray-300 p-2 px-6 group  `}>
             <a className="group-hover:text-red-300 transition-all" href={element.value}>{element.label}</a>
           </div>
           })}
@@ -56,7 +56,7 @@ const MainPage = async ({
         {Array.isArray(products) ? (
           products.map(
             (product: ProductParams, i: number): React.ReactNode => (
-              <ProductCard key={i} params={product} />
+              <ProductCard key={product.id} params={product} />
             )
           )
         ) : (
