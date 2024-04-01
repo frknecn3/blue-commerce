@@ -35,7 +35,7 @@ const Reviews = ({ currentProduct }: { currentProduct: ProductParams }) => {
                 reviews.map((review: ReviewParams, i: number) => {
                     const user = review.userObj
 
-                    return (<Review userRef={user} i={i} review={review}/> )
+                    return (<Review key={i} userRef={user} i={i} review={review}/> )
                 }
                 )
             )}
