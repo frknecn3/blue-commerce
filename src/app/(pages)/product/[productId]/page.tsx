@@ -11,14 +11,19 @@ const productId = async ({ params }: { params: { productId: string } }) => {
     const currentProduct = await getSpecificProduct(params.productId)
     const seller = await getUser(currentProduct.seller)
 
-    return (<div className="rounded-xl bg-[#b0e7ff] my-4 ml-8 mr-2 border-2 border-gray-500" >
-        <div className="border-2 flex justify-around p-4">
+    return (
+    <div className="w-full flex justify-center">
+                <div className="rounded-xl bg-[#b0e7ff] my-4 ml-8 mr-4 px-10 border-2 border-gray-500" >
+        <div className="flex justify-around p-2">
+
             <div className="flex flex-col w-full gap-4 justify-center items-center">
                 <span className="font-semibold text-[45px]">{currentProduct?.name}</span>
                 <img src={currentProduct?.photoURL} className='border-2 border-gray-400 rounded-xl w-[25vw]' alt="" />
             </div>
+
             <div className=" p-4 w-full h-[30rem] text-[20px] m-4 flex flex-col justify-between items-center">
                 <div className="w-full h-[25rem] m-4 flex justify-between flex-grow">
+                    {/* Details */}
                     <div className="w-[65%] grid p-4 m-4 border-gray-500 border-2 rounded-xl bg-white grid-cols-2">
                         <div className="font-bold border-2 p-2 h-max flex items-center"><span>Price</span></div>
                         <div className=" border-2 p-2 h-max flex items-center">{currentProduct?.price}</div>
@@ -29,7 +34,8 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                         <div className="font-bold border-2 p-2 h-max flex items-center"><span>Stocks Left</span></div>
                         <div className=" border-2 p-2 h-max flex items-center">{currentProduct?.quantity}</div>
                     </div>
-
+                    
+                    {/* Seller */}
                     <div className="w-[35%] m-4 bg-white rounded-xl p-4 border-2 border-gray-500">
                         <a href={`/profile/${seller?.userID}`}>
                             <div className="rounded-xl border-2 p-4">
@@ -53,6 +59,7 @@ const productId = async ({ params }: { params: { productId: string } }) => {
 
         {<Reviews currentProduct={currentProduct}/>}
 
+    </div>
     </div>
     );
 }
