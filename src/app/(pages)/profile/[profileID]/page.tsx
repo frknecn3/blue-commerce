@@ -20,7 +20,7 @@ const Profile = async ({ params }: { params: { profileID: string } }) => {
                 <div className="mx-[3rem] w-full bg-blue-300 p-4 rounded-xl flex flex-col justify-center items-center">
                     <span className="text-center">All Products of This User</span>
                     <div className="mx-[3rem] w-full p-4 rounded-xl grid grid-cols-4">
-                        {products.map((product) => (<div className="m-2"><ProductCard params={product} key={product.id} /></div>))}
+                        {products.map((product) => (<div className="m-2" key={product.id}><ProductCard params={product} /></div>))}
                     </div>
                 </div>
             </div>
