@@ -22,7 +22,7 @@ const MainPage = async ({
   const products = await getProducts(q);
   
 
-  const featuredProduct: ProductParams = products[5] /*Math.floor(Math.random() * products.length) */
+  const featuredProduct: ProductParams = products[Math.floor(Math.random() * products.length)] /*Math.floor(Math.random() * products.length) */
   const randomReview:ReviewParams = featuredProduct&&featuredProduct.reviews&&!searchParams.category?featuredProduct.reviews[0]:null
 
   return (
@@ -115,8 +115,8 @@ const MainPage = async ({
               <div className="w-auto text-[2rem] flex flex-col justify-around items-center text-yellow-400">
                 <div className="flex flex-col items-center justify-center">
                   <span className="flex">{[...Array(5)].map((_, index) => {return index<(featuredProduct.stars?.stars||3)?<FaStar key={index}/>:<FaRegStar key={index}/>;})}</span>
-                  <span className="text-black">{featuredProduct.stars?.count?`Out of ${featuredProduct.stars.count} reviews`:'No reviews yet'}</span>
- 
+                  <span className="text-black text-center">{featuredProduct.stars?.count?`Out of ${featuredProduct.stars.count} reviews`:'No reviews yet'}</span>
+                  
                 </div>
 
                 <div className="">
