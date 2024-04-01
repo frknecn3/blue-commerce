@@ -5,25 +5,25 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as randomUUID } from 'uuid';
 import { ProductParams, ReviewParams, User } from "../constants/constants";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import {ReadonlyURLSearchParams} from 'next/navigation'
+import { ReadonlyURLSearchParams } from 'next/navigation'
 import { Option } from "../constants/constants";
 export const getProducts = cache(async (params?) => {
-  console.log('params:',params)
-  const {sort,category}:{sort:string,category:string} = params
+  console.log('params:', params)
+  const { sort, category }: { sort: string, category: string } = params
 
   const baseQuery = query(collection(db, 'products'));
 
   // Define an array to hold additional query constraints
   const additionalConstraints: any[] = [];
-  
+
   if (category) {
     additionalConstraints.push(where('category', '==', category));
   }
-  
+
   if (sort) {
     additionalConstraints.push(orderBy('price', sort === 'ascendingprice' ? 'asc' : 'desc'));
   }
-  
+
   // Combine the base query with additional constraints
   const newQuery = query(baseQuery, ...additionalConstraints);
 
@@ -34,16 +34,17 @@ export const getProducts = cache(async (params?) => {
 })
 
 export const getSpecificProduct = async (id: string): Promise<ProductParams | null> => {
-  if(id)
-  {const q = query(collection(db, "products"), where("id", "==", id));
-  const querySnapshot = await getDocs(q);
-  if (querySnapshot.docs.length > 0) {
-    const doc = querySnapshot.docs[0].data();
-    return doc as ProductParams;
-  } else {
-    return null;
-  }}
-  else{console.log('id is ', typeof id)}
+  if (id) {
+    const q = query(collection(db, "products"), where("id", "==", id));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length > 0) {
+      const doc = querySnapshot.docs[0].data();
+      return doc as ProductParams;
+    } else {
+      return null;
+    }
+  }
+  else { console.log('id is ', typeof id) }
 };
 
 export const getAllProductsOfUser = async (id: string): Promise<ProductParams[] | null> => {
@@ -58,18 +59,18 @@ export const getAllProductsOfUser = async (id: string): Promise<ProductParams[] 
   }
 }
 
-export  const uploadDocument = async (user,data) => {
+export const uploadDocument = async (user, data) => {
   try {
     // Add a new document with an auto-generated ID to a collection
     const userRef = doc(db, "users", user.uid);
-    await updateDoc(userRef,{
-      allProducts:arrayUnion(data.id)
+    await updateDoc(userRef, {
+      allProducts: arrayUnion(data.id)
     })
     const docRef = await addDoc(collection(db, "products"), data);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
-  
+
 }
 
 export const getCart = async (id: string): Promise<ProductParams[] | null> => {
@@ -94,7 +95,9 @@ export const getCart = async (id: string): Promise<ProductParams[] | null> => {
       const Promises = preprocessDoc.map(async (productId: string) => {
         return await getSpecificProduct(productId);
       });
-      const products = await Promise.all(Promises);
+      const products1 = await Promise.all(Promises);
+
+      const products = products1.filter(product => product !== null && product !== undefined);
 
       if (products) {
         localStorage.setItem('cart', JSON.stringify(products));
@@ -145,7 +148,7 @@ export const addToCart = async (uid: string, productId: string): Promise<String 
 
   const user = await getUser(uid)
 
-  if(user){
+  if (user) {
     try {
       const userRef = doc(db, "users", uid);
       await updateDoc(userRef, {
@@ -155,35 +158,36 @@ export const addToCart = async (uid: string, productId: string): Promise<String 
       return 'Successful'
     } catch (err) { console.log(err) }
   }
-  else{
+  else {
     addToAnonymousCart(productId)
   }
-    
-  
+
+
 }
 
 export const removeFromCart = async (uid: string, productId: string): Promise<string | undefined> => {
-  
+
   const user = await getUser(uid)
 
-  if(user){
-  try {
-    if (!db || !uid || !productId) {
-      console.error("Invalid parameters for removeFromCart");
-      return undefined;
-    }
+  if (user) {
+    try {
+      if (!db || !uid || !productId) {
+        console.error("Invalid parameters for removeFromCart");
+        return undefined;
+      }
 
-    const userRef = doc(db, "users", uid);
-    await updateDoc(userRef, {
-      cart: arrayRemove(productId)
-    });
-    reloadCart(uid)
-    localStorage.setItem('cart', JSON.stringify(await getCart(uid)))
-    return 'Successful';
-  } catch (err) {
-    console.error(err);
-  }}
-  else{
+      const userRef = doc(db, "users", uid);
+      await updateDoc(userRef, {
+        cart: arrayRemove(productId)
+      });
+      reloadCart(uid)
+      localStorage.setItem('cart', JSON.stringify(await getCart(uid)))
+      return 'Successful';
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  else {
     removeFromAnonymousCart(productId)
   }
 }
@@ -191,8 +195,8 @@ export const removeFromCart = async (uid: string, productId: string): Promise<st
 export const getUser = async (id: string): Promise<User | null> => {
   const q = query(collection(db, "users"), where("userID", "==", id))
   const querySnapshot = await getDocs(q)
-  const doc = querySnapshot.docs[0]?querySnapshot.docs[0].data():''
-  if (typeof doc==='object') {
+  const doc = querySnapshot.docs[0] ? querySnapshot.docs[0].data() : ''
+  if (typeof doc === 'object') {
     return doc as User;
   } else {
     return null;
@@ -265,54 +269,53 @@ export const addToAnonymousCart = (productId: string): void => {
   localStorage.setItem('tempCart', JSON.stringify(tempCart));
 };
 
-export const removeFromAnonymousCart = (productId:string):void=>{
-    let tempCart = JSON.parse(localStorage.getItem('tempCart')) || [];
-    const updatedCart = tempCart.filter((i:string)=>i!==productId)
-    localStorage.setItem('tempCart', JSON.stringify(updatedCart));
+export const removeFromAnonymousCart = (productId: string): void => {
+  let tempCart = JSON.parse(localStorage.getItem('tempCart')) || [];
+  const updatedCart = tempCart.filter((i: string) => i !== productId)
+  localStorage.setItem('tempCart', JSON.stringify(updatedCart));
 }
 
-export const getAnonymousCart = ():string[] =>{
-  try
-  {return JSON.parse(localStorage.getItem('tempCart'))}
-  catch(error){console.log(error)}
+export const getAnonymousCart = (): string[] => {
+  try { return JSON.parse(localStorage.getItem('tempCart')) }
+  catch (error) { console.log(error) }
 }
 
-export const getAllProducts = async():Promise<ProductParams[]> =>{
-  try{
-      const docQuery = query(collection(db,'products'))
-      const querySnapshot = await getDocs(docQuery)
-      const docs = querySnapshot.docs.map((i)=>{return i.data() as ProductParams})
-      return docs
-  }catch(err){console.log(err)}
+export const getAllProducts = async (): Promise<ProductParams[]> => {
+  try {
+    const docQuery = query(collection(db, 'products'))
+    const querySnapshot = await getDocs(docQuery)
+    const docs = querySnapshot.docs.map((i) => { return i.data() as ProductParams })
+    return docs
+  } catch (err) { console.log(err) }
 }
 
 export const getReviews = async (id: string): Promise<ReviewParams[]> => {
-  
-    const product = await getSpecificProduct(id)
-    const reviews = product.reviews
-    const updatedReviews = reviews.map(async(review:ReviewParams)=>{
-      const userObj = await getUser(review.sender)
-      return {...review,userObj}
-    })
 
-    const docPromise = await Promise.all(updatedReviews)
-    const finalDocs = docPromise.flat()
-    return finalDocs as ReviewParams[];
-  };
+  const product = await getSpecificProduct(id)
+  const reviews = product.reviews
+  const updatedReviews = reviews.map(async (review: ReviewParams) => {
+    const userObj = await getUser(review.sender)
+    return { ...review, userObj }
+  })
 
-
+  const docPromise = await Promise.all(updatedReviews)
+  const finalDocs = docPromise.flat()
+  return finalDocs as ReviewParams[];
+};
 
 
 
 
-  export const handleSortCategory = (e:Option,router:AppRouterInstance,queryparams:ReadonlyURLSearchParams,pathname:string) => {
-    const current = new URLSearchParams(Array.from(queryparams.entries())); // -> has to use this form
-    current.set('sort',e.value)
-    
-    
-    const search = current.toString();
 
-    const query = search ? `?${search}` : "";
 
-    router.replace(`${pathname}${query}`,{scroll:false});
-  };
+export const handleSortCategory = (e: Option, router: AppRouterInstance, queryparams: ReadonlyURLSearchParams, pathname: string) => {
+  const current = new URLSearchParams(Array.from(queryparams.entries())); // -> has to use this form
+  current.set('sort', e.value)
+
+
+  const search = current.toString();
+
+  const query = search ? `?${search}` : "";
+
+  router.replace(`${pathname}${query}`, { scroll: false });
+};
