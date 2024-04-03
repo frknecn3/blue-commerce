@@ -22,7 +22,7 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
   return (
     <div
       style={{ zIndex: `${isHovered ? "9999999999" : "1"}` }}
-      className={` relative grid-container px-[30px]`}
+      className={` relative grid-container px-[30px] group`}
     >
       <div className="flex-col items-center justify-between hover:translate-y-[-5px] hover:shadow-black transition-all bg-blue-100 p-4 shadow-md rounded-xl border-gray-500 flex max-w-[200px]">
         <a className="text-center" href={`/product/${params.id}`}>
@@ -60,9 +60,14 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
             <h1 className="text-[25px] font-semibold">${params?.price}</h1>
           </div>
         </a>
-        <div>
+        <div className="flex flex-col justify-center items-center gap-2">
+          <div className="text-white flex text-[9px] font-semibold text-nowrap gap-[4px] px-2">
+            <div className="p-1 rounded-2xl bg-orange-400"><span>Trending</span></div>
+            <div className="p-1 rounded-2xl bg-blue-400"><span>24H Delivery</span></div>
+            <div className="p-1 rounded-2xl bg-green-400"><span>1Y Warranty</span></div>
+          </div>
           <button
-            className="bg-green-500 text-white inline-block justify-self-center p-2 m-2 rounded-xl hover:brightness-125 focus-within:bg-white focus-within:text-black focus-within:translate-y-[-3px] border-black transition-all"
+            className="bg-green-500 opacity-0 group-hover:opacity-100 text-white inline-block justify-self-center p-2 m-2 rounded-xl hover:brightness-125 focus-within:bg-white focus-within:text-black focus-within:translate-y-[-3px] border-black transition-all"
             onClick={() => {
               addToCart(id, params.id), reloadCart(id, dispatch);
             }}

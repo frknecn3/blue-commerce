@@ -7,9 +7,12 @@ import { ProductParams, ReviewParams, User } from "../constants/constants";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { ReadonlyURLSearchParams } from 'next/navigation'
 import { Option } from "../constants/constants";
+
+
+
 export const getProducts = cache(async (params?) => {
   console.log('params:', params)
-  const { sort, category }: { sort: string, category: string } = params
+  let { sort = '', category = '' } = params || {};
 
   const baseQuery = query(collection(db, 'products'));
 

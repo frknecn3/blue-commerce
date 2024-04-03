@@ -1,14 +1,16 @@
 import ProductCard from "../../components/ProductCard";
 import "../../components/css/index.css";
-import { getProducts, getUser } from "../../utils/utils";
+import { getProducts} from "../../utils/utils";
 import { hotbarElements, ProductParams, ReviewParams } from "../../constants/constants";
 import React from "react";
 import SelectComponent from "../../components/SelectComponent";
 import SortComponent from "../../components/SortComponent";
-import Link from "next/link";
-import { FaRegStar, FaStar } from "react-icons/fa";
-import Review from "../../components/Review";
-import FeaturedProductButton from "../../components/FeaturedProduct/FeaturedProductButton";
+import FeaturedProduct from "../../components/FeaturedProduct";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import Slider from "../../components/Carousel";
 
 const MainPage = async ({
   searchParams,
@@ -37,6 +39,12 @@ const MainPage = async ({
           })}
         </div>
 
+        {/* CAROUSEL */}
+        <div className="flex flex-col text-[2rem] font-semibold gap-4 justify-center items-center my-5">
+          <span>Special Offers For Today</span>
+          <Slider items={products} style={'w-[75%] h-[60vh] mx-[20vw]'}/>
+        </div>
+
 
 
 
@@ -51,18 +59,13 @@ const MainPage = async ({
         </div>
       </div>
 
+
+
       {/* Popular Products Section */}
       <div className="grid-container mx-[3vw] mb-10 pr-6 mt-5">
-        {Array.isArray(products) ? (
-          products.map(
-            (product: ProductParams, i: number): React.ReactNode => (
-              <ProductCard key={product.id} params={product} />
-            )
-          )
-        ) : (
-          <div>Error loading products.</div>
-        )}
+        {Array.isArray(products) ? (products.map((product: ProductParams, i: number): React.ReactNode => (<ProductCard key={product.id} params={product} />))) : (<div>Error loading products.</div>)}
       </div>
+
 
       {/* Featured Products Section */}
       {!searchParams.category ? (
@@ -71,64 +74,15 @@ const MainPage = async ({
               Featured Product
             </h1>
 
-            <div className="w-full h-[50vh] bg-slate-100 p-10 mt-5 rounded-[1.5rem] shadow-xl flex justify-between gap-10 hover:translate-y-[-5px] transition-all">
-              <div>
-                
-              <Link href={`/product/${featuredProduct.id}`}>
-                <div className="relative">
-                  <div className="w-[20vw] h-[40vh]">
-                    <img
-                      src={featuredProduct.photoURL}
-                      alt="product image"
-                      className="rounded-[2rem] w-full h-full shadow-xl "
-                    />
-                  </div>
-
-
-                  <div className="bg-green-500 opacity-90 rounded-md rounded-br-[2rem] absolute bottom-0 right-0">
-                     <h1 className="text-white opacity-100 text-[3rem]">18% OFF</h1>
-                  </div>
-                </div>
-                
-              </Link>
-
-                
-              </div>
-
-              <div className="w-auto h-[40vh]">
-
-                <h1 className="text-[1.5rem] font-bold h-auto">
-                  {featuredProduct.name}
-                </h1>
-                
-                <div className="h-auto flex-grow">
-                  <p className="text-[1rem] text-truncate text-ellipsis text-gray-600">
-                    {featuredProduct.desc.slice(0,100)}...
-                  </p>
-                </div>
-
-                {randomReview&&<div className="flex-grow">
-                  <Review i={1} userRef={randomReview.sender} review={randomReview}/></div>}
-
-              </div>
-
-              <div className="w-auto text-[2rem] flex flex-col justify-around items-center text-yellow-400">
-                <div className="flex flex-col items-center justify-center">
-                  <span className="flex">{[...Array(5)].map((_, index) => {return index<(featuredProduct.stars?.stars||3)?<FaStar key={index}/>:<FaRegStar key={index}/>;})}</span>
-                  <span className="text-black text-center">{featuredProduct.stars?.count?`Out of ${featuredProduct.stars.count} reviews`:'No reviews yet'}</span>
-                  
-                </div>
-
-                <div className="">
-                  <FeaturedProductButton featuredProduct={featuredProduct} />
-                </div>
-              </div>
-
-            </div>
+            <FeaturedProduct featuredProduct={featuredProduct} randomReview={randomReview}/>
           </div>
       ) : (
         <div></div>
       )}
+
+
+
+
     </main>
   );
 };
