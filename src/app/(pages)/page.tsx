@@ -49,14 +49,16 @@ const MainPage = async ({
 
 
 
-      <div className="flex justify-between px-6 w-[100vw]">
-        <h1 className="text-[2rem] md:mx-[10vw] my-8 font-semibold">
+      <div className="flex justify-center">
+      <div className="flex flex-col md:flex-row justify-between w-full">
+        <h1 className=" text-[1.5rem] md:text-[2rem] md:mx-[10vw] my-8 text-center font-semibold">
           Popular Products
         </h1>
-        <div className="flex gap-4 items-center w-[100vw] md:mx-[10vw]">
+        <div className="flex flex-col md:flex-row gap-4 items-center w-full md:mx-[10vw]">
           <SortComponent />
           <SelectComponent />
         </div>
+      </div>
       </div>
 
 

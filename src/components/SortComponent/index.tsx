@@ -26,7 +26,7 @@ const SortComponent = () => {
   
   
     return (
-    <Select className='z-[3]' options={sortOptions} onChange={(e)=>handleSortCategory(e,router,params,pathname)}/>
+    <Select className='z-[4]' options={sortOptions} onChange={(e)=>handleSortCategory(e,router,params,pathname)}/>
   )
 }
 

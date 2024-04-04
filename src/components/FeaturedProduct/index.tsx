@@ -16,8 +16,8 @@ const FeaturedProduct = ({featuredProduct,randomReview}:FeaturedProductProps) =>
    
       
     <Link href={`/product/${featuredProduct.id}`}>
-      <div className="relative h-full">
-        <div className="lg:w-[20vw] lg:h-[40vh] w-[40vw] h-[30vh]">
+      <div className="relative h-full flex items-center">
+        <div className="lg:w-[20vw] lg:h-[40vh] w-full mx-4 h-[30vh]">
           <img
             src={featuredProduct.photoURL}
             alt="product image"
@@ -26,7 +26,7 @@ const FeaturedProduct = ({featuredProduct,randomReview}:FeaturedProductProps) =>
         </div>
 
 
-        <div className="bg-green-500 opacity-90 rounded-md rounded-br-[2rem] absolute bottom-0 right-0">
+        <div className="bg-green-500 opacity-90 rounded-md rounded-br-[2rem] absolute bottom-0 right-4">
            <h1 className="text-white opacity-100 text-[3rem]">18% OFF</h1>
         </div>
       </div>

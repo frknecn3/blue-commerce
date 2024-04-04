@@ -116,10 +116,10 @@ const Header = () => {
   return (
     <div className='h-[18vh] w-[100vw]'>    
     
-      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-[100vw] h-[20vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-4 md:px-16'>
+      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-[100vw] h-[20vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-4 md:px-8 lg:px-16'>
 
         <div className='flex items-center justify-center gap-4 h-full md:flex'>
-          <a href="/" className='flex'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[4rem] h-auto md:w-[7rem] rounded-[50%] border-4 border-black-800' /><h1 className='hidden md:flex items-center gap-4 font-bold text-[40px]'>
+          <a href="/" className='flex'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[4rem] h-auto md:w-[7rem] rounded-[50%] border-4 border-black-800' /><h1 className='hidden md:flex items-center gap-4 font-bold md:text-[25px] lg:text-[40px]'>
             BluE-Commerce</h1></a>
         </div>
 
@@ -136,7 +136,7 @@ const Header = () => {
         </a>
         
         <div className='flex gap-[20px] justify-between items-center'>
-          <a href={auth.currentUser?`/profile/${user?.uid}`:'/login'}><div className='flex items-center justify-start gap-4'><FaUser size={'30px'} /><span className='text-[20px] hidden md:block'>{user?.displayName}</span></div></a>
+          <a href={auth.currentUser?`/profile/${user?.uid}`:'/login'}><div className='flex items-center justify-start gap-4'><FaUser size={'30px'} /><span className='text-[20px] hidden lg:block'>{user?.displayName}</span></div></a>
           <button className='' onClick={() => { setSidebar(true) }}><IoIosMenu size={'40px'} /></button>
         </div>
 
