@@ -39,14 +39,14 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
               alt=""
               className={`${
                 isHovered ? "scale-[200%]" : "scale-100"
-              }  transition-all w-full h-full relative rounded-xl  object-cover border-2 border-gray-300 shadow-sm`}
+              }  transition-all w-full h-full relative rounded-xl  object-scale-up border-2 border-gray-300 shadow-sm`}
             />
           </div>
 
 
-          <div>
+          <div className="flex items-center justify-center h-16 my-2">
             {params ? (
-              <h2 className="font-semibold text-center p-2">{params.name}</h2>
+              <p className="font-semibold text-center p-1 overflow-auto whitespace-">{params.name}</p>
             ) : (
               <span>Loading Product...</span>
             )}
