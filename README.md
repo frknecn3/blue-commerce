@@ -26,5 +26,6 @@ BluE-Commerce is a Next-based E-commerce project website. It features many moder
   <li>Displaying user profiles to see all the products they are selling.</li>
   <li>Ability to view product reviews and details about specific products.</li>
   <li>Uploading new products to the website, only when authenticated.</li>
-  <li>Fuzzy-matched searchbar to easily find searched products</li>
+  <li>Fuzzy-matched searchbar to easily find searched products.</li>
+  <li>Responsive Design to create an easy experience for both mobile and tablet users.</li>
 </ul>
