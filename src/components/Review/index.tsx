@@ -29,7 +29,7 @@ const Review = ({i,userRef,review}:{i:number,userRef:User|string,review:ReviewPa
     <div className='bg-white rounded-xl mt-1 w-full h-full'>
 
         <div className="flex items-center justify-end top-4 right-[30px] p-2 w-auto text-center">
-        <span className="flex items-center justify-center text-[25px] text-yellow-400">{
+        <span className="flex items-center justify-center md:text-[1rem] lg:text-[1.5rem] text-yellow-400 mt-[-1rem]">{
           [...Array(5)].map((_, index) => {
             return index<(review.rating||3)?<FaStar key={index}/>:<FaRegStar key={index}/>;
           })
@@ -41,12 +41,12 @@ const Review = ({i,userRef,review}:{i:number,userRef:User|string,review:ReviewPa
         <div key={i} className="relative flex py-1 gap-4  items-center justify-center ">
 
           <div className="flex flex-col items-center justify-center mx-4 w-[6.8vw]">
-              <a href={`/profile/${user?.userID}`}><img src={user?.photoURL} className="w-[6.8vw] rounded-full" alt="" /></a>
-              <span className="text-[20px] font-semibold text-center">{user?.name}</span>
+              <a href={`/profile/${user?.userID}`}><img src={user?.photoURL||'/vercel.svg'} className="w-[6.8vw] h-[6.8vw] rounded-full" alt="" /></a>
+              <span className="md:text-[1rem] lg:text-[1.5rem] font-semibold text-center">{user?.name}</span>
           </div>
 
           <div className="w-full">
-              <p className="text-[25px] overflow-auto">{review?.text}</p>
+              <p className="md:text-[1rem] lg:text-[1.5rem] overflow-auto">{review?.text}</p>
           </div>
 
         </div>

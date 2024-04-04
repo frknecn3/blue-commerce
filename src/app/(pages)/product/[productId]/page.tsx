@@ -4,6 +4,8 @@ import ProductButtons from "../../../../components/ProductButtons";
 import { ProductParams, ReviewParams } from "../../../../constants/constants";
 import { addToCart, getSpecificProduct, getUser } from "../../../../utils/utils";
 import Reviews from "./reviews";
+import { IoStar,IoStarOutline } from "react-icons/io5";
+import Review from "../../../../components/Review";
 
 
 
@@ -12,55 +14,46 @@ const productId = async ({ params }: { params: { productId: string } }) => {
     const seller = await getUser(currentProduct.seller)
 
     return (
-    <div className="w-full flex justify-center">
-                <div className="rounded-xl bg-[#b0e7ff] my-4 ml-8 mr-4 px-10 border-2 border-gray-500" >
-        <div className="flex justify-around p-2">
-
-            <div className="flex flex-col w-full gap-4 justify-center items-center">
-                <span className="font-semibold text-[45px]">{currentProduct?.name}</span>
-                <img src={currentProduct?.photoURL} className='border-2 border-gray-400 rounded-xl w-[25vw]' alt="" />
-            </div>
-
-            <div className=" p-4 w-full h-[30rem] text-[20px] m-4 flex flex-col justify-between items-center">
-                <div className="w-full h-[25rem] m-4 flex justify-between flex-grow">
-                    {/* Details */}
-                    <div className="w-[65%] grid p-4 m-4 border-gray-500 border-2 rounded-xl bg-white grid-cols-2">
-                        <div className="font-bold border-2 p-2 h-max flex items-center"><span>Price</span></div>
-                        <div className=" border-2 p-2 h-max flex items-center">{currentProduct?.price}</div>
-                        <div className="font-bold border-2 p-2 h-max flex items-center"><span>Category</span></div>
-                        <div className=" border-2 p-2 h-max flex items-center">{currentProduct?.category}</div>
-                        <div className="font-bold border-2 p-2 h-max flex items-center"><span>Publish Date</span></div>
-                        <div className=" border-2 p-2 h-max flex items-center">{currentProduct?.datePublished.split(' ').slice(1, 4).join(" ")}</div>
-                        <div className="font-bold border-2 p-2 h-max flex items-center"><span>Stocks Left</span></div>
-                        <div className=" border-2 p-2 h-max flex items-center">{currentProduct?.quantity}</div>
-                    </div>
+        <div>
+            
+            <div className="lg:w-auto md:mx-[3rem] lg:mx-[10rem] m-4 flex lg:flex-row flex-col justify-center lg:items-stretch items-center bg-white border-2 border-gray-300 rounded-t-xl">
+                <div className="w-full mg:w-full lg:my-[15vh] h-[60vh] flex justify-center bg-white">
+                    <img src={currentProduct.photoURL} className="w-[80%] h-full rounded-xl" alt="" />
+                </div>
+                <div className="lg:w-full flex flex-col lg:gap-2 gap-8 bg-gray-200 p-1 lg:p-20 box-border rounded-tr-xl">
+                    <div className="mb-8"><p className="text-[1.5rem] md:text-[2.5rem] font-semibold">{currentProduct.name}</p></div>
                     
-                    {/* Seller */}
-                    <div className="w-[35%] m-4 bg-white rounded-xl p-4 border-2 border-gray-500">
-                        <a href={`/profile/${seller?.userID}`}>
-                            <div className="rounded-xl border-2 p-4">
-                                <img src={seller?.photoURL} className=' z-10 rounded-[50%] w-[5rem]' alt="" />
-                                <p>{seller?.name}</p>
-                                <p>Sells {seller?.allProducts.length} products.</p>
-                            </div>
-                        </a>
+                    {/* Price and Stars */}
+                    <div className="flex justify-between lg:leading-[3rem]">
+                        <div className="flex flex-col">
+                        <span className="text-[2rem] md:text-[3rem] font-semibold">${currentProduct.price}</span>
+                        <span className="text-[1rem] md:text-[1.5rem] font-normal text-gray-600">Up to 12 installments</span>
+                        </div>
 
+                        <div className="flex text-[2rem] flex-col">
+                                <div className="text-yellow-400 flex items-center h-[40px]"><span className="text-black font-semibold mr-2">{currentProduct.stars?.stars}</span>{[...Array(5)].map((_, index) => {return index<(currentProduct.stars?.stars||3)?<IoStar key={index}/>:<IoStarOutline key={index}/>;})}</div>
+                                <span className="text-[1.5rem] text-center text-gray-500">{currentProduct.stars?.count} Reviews</span>
+                        </div>
+                    </div>
+
+                    <div className="h-full flex items-center md:text-[1rem] lg:text-[1.5rem] text-center">
+                        <p>{currentProduct.desc}</p>
+                    </div>
+
+                    <div>
+                    <ProductButtons product={params?.productId} />
                     </div>
                 </div>
-                <ProductButtons product={params?.productId} />
+
+            </div>
+            {/* Reviews */}
+            <div className="lg:w-auto md:mx-[3rem] lg:mx-[10rem] flex flex-col justify-center lg:items-stretch items-center bg-white border-2 border-gray-300 rounded-b-xl">
+                <div className="w-full text-[1.7rem] font-semibold p-2 text-center capitalize"><h1>Reviews About The Product</h1></div>
+                <div>
+                    <Reviews currentProduct={currentProduct}/>
+                </div>
             </div>
         </div>
-
-        
-        <div className="flex flex-col justify-center items-center m-[2rem]">
-                <div className="bg-blue-500 p-[1rem] rounded-xl"><span className="text-center font-semibold text-[27px]">ABOUT THE PRODUCT</span></div>
-                <p className="p-[3rem] text-[25px] text-center w-[60vw]">{currentProduct.desc}</p>
-        </div>
-
-        {<Reviews currentProduct={currentProduct}/>}
-
-    </div>
-    </div>
     );
 }
 

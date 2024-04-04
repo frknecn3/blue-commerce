@@ -7,11 +7,13 @@ import "./css/index.css";
 import { v4 as randomUUID } from "uuid";
 import Image from "next/image";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const ProductCard = ({ params }: { params: ProductParams }) => {
   const dispatch = useDispatch();
   const [id, setId] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isDivHovered, setIsDivHovered] = useState(false);
 
   useEffect(() => {
     const userExists = JSON.parse(localStorage.getItem("user"));
@@ -23,6 +25,8 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
     <div
       style={{ zIndex: `${isHovered ? "9999999999" : "1"}` }}
       className={` relative grid-container group`}
+      onMouseEnter={()=>{setIsDivHovered(true)}}
+      onMouseLeave={()=>{setIsDivHovered(false)}}
     >
       <div className="flex-col items-center justify-between hover:translate-y-[-5px] hover:shadow-black transition-all bg-blue-100 p-4 shadow-md rounded-xl border-gray-500 flex max-w-[200px]">
         <a className="text-center" href={`/product/${params.id}`}>
@@ -64,23 +68,25 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
           </div>
         </a>
         <div className="flex flex-col justify-center items-center gap-2">
-          <div className="text-white flex md:flex-row flex-col text-[9px] font-semibold text-nowrap gap-[4px] px-2">
+          <motion.div animate={{scale:isDivHovered?1.2:1}} transition={{duration:0.2}} className="text-white flex z-10 md:flex-row flex-col text-[9px] font-semibold text-nowrap gap-[4px] px-2">
             <div className="p-[0.125rem] md:p-1 rounded-2xl bg-orange-400"><span>Trending</span></div>
             <div className="p-[0.125rem] md:p-1 rounded-2xl bg-blue-400"><span>24H Delivery</span></div>
             <div className="p-[0.125rem] md:p-1 rounded-2xl bg-green-400"><span>1Y Warranty</span></div>
-          </div>
-          <button
+          </motion.div>
+          <motion.button
+            animate={{y:isDivHovered?0:10,opacity:isDivHovered?100:0}}
+            transition={{duration:0.3}}
             className="bg-green-500 
-            opacity-0 group-hover:opacity-100 text-white inline-block 
+             text-white inline-block 
             justify-self-center md:p-2 md:m-2 m-1 p-1 rounded-xl hover:brightness-125 
-            focus-within:bg-white focus-within:text-black focus-within:translate-y-[-3px] 
-            border-black transition-all text-[0.7rem] md:text-[1rem]"
+            focus-within:bg-white focus-within:text-black 
+            border-black text-[0.7rem] md:text-[1rem]"
             onClick={() => {
               addToCart(id, params.id), reloadCart(id, dispatch);
             }}
           >
             ADD TO CART
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>

@@ -116,10 +116,10 @@ const Header = () => {
   return (
     <div className='h-[18vh] w-[100vw]'>    
     
-      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-[100vw] h-[20vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-4 md:px-8 lg:px-16'>
+      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-[100vw] h-[12vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-4 md:px-8 lg:px-16'>
 
         <div className='flex items-center justify-center gap-4 h-full md:flex'>
-          <a href="/" className='flex'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[4rem] h-auto md:w-[7rem] rounded-[50%] border-4 border-black-800' /><h1 className='hidden md:flex items-center gap-4 font-bold md:text-[25px] lg:text-[40px]'>
+          <a href="/" className='flex gap-2'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[4rem] h-auto md:w-[5rem] rounded-[50%] border-4 border-black-800' /><h1 className='hidden md:flex items-center gap-4 font-bold md:text-[22px] lg:text-[30px]'>
             BluE-Commerce</h1></a>
         </div>
 

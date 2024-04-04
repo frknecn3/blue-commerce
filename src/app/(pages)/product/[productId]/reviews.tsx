@@ -28,7 +28,6 @@ const Reviews = ({ currentProduct }: { currentProduct: ProductParams }) => {
 
     return (
         <div className="flex flex-col justify-center items-center m-[2rem]">
-            <div className="bg-blue-500 p-[1rem] rounded-xl"><span className="text-center font-semibold text-[27px]">REVIEWS</span></div>
             {reviews.length === 0 ? (
                 <div className="py-4"><Loader/></div>
             ) : (

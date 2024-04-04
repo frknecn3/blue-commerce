@@ -25,7 +25,7 @@ body{
 
 .collapse {
     min-height: 100px;
-    max-height: 400px; /* Set a value greater than the expected height of your content */
+    max-height: 200px; /* Set a value greater than the expected height of your content */
     transform-origin: top;
     transform: scaleY(0.05);
     transition: all 0.4s ease, max-height 0.4s ease;
@@ -33,7 +33,7 @@ body{
 }
 .show {
     min-height: 100px;
-    max-height: 400px; /* Set a value greater than the expected height of your content */
+    max-height: 200px; /* Set a value greater than the expected height of your content */
     transform-origin: top;
     transform: scaleY(1);
     transition: all 0.4s ease, max-height 0.4s ease;
