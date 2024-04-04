@@ -18,8 +18,8 @@ body{
 @media screen and (max-width:768px) {
   .grid-container{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 10px; /* Adjust the gap between columns as needed */
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px; /* Adjust the gap between columns as needed */
   }
 }
 

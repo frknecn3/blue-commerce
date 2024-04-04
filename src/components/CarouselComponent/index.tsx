@@ -20,13 +20,13 @@ const CarouselComponent = ({ product }: { product: ProductParams }) => {
   } = product;
 
   return (
-    <div className="p-1 bg-[#ffffff] flex justify-center rounded-xl py-5 border">
+    <div className="p-1 bg-[#ffffff] flex justify-center items-center rounded-xl py-5 border h-[80vh]">
       <a href={`/product/${id}`}>
-        <div className="w-[20vw] h-[35vh] relative">
+        <div className="md:w-[20vw] md:h-[35vh] w-[80vw] h-[40vh] relative">
           <img src={photoURL} className="rounded-xl w-full h-full" alt="carousel photo" />
           <ArrowAnimation />
         </div>
-        <div className="w-[20vw]"><p className="text-center text-wrap text-ellipsis">{name}</p></div>
+        <div className="flex justify-center"><span className="text-center">{name}</span></div>
       </a>
     </div>
   );
