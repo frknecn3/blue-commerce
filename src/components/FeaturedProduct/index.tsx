@@ -12,12 +12,12 @@ type FeaturedProductProps = {
 
 const FeaturedProduct = ({featuredProduct,randomReview}:FeaturedProductProps) => {
   return (
-    <div className="w-full h-[50vh] bg-slate-100 p-10 mt-5 rounded-[1.5rem] shadow-xl flex justify-between gap-10 hover:translate-y-[-5px] transition-all">
-    <div>
+    <div className="w-[90vw] md:h-auto bg-slate-100 p-10 mt-5 rounded-[1.5rem] shadow-xl flex md:flex-row flex-col justify-center md:justify-between gap-10 hover:translate-y-[-5px] transition-all">
+   
       
     <Link href={`/product/${featuredProduct.id}`}>
-      <div className="relative">
-        <div className="w-[20vw] h-[40vh]">
+      <div className="relative h-full">
+        <div className="lg:w-[20vw] lg:h-[40vh] w-[40vw] h-[30vh]">
           <img
             src={featuredProduct.photoURL}
             alt="product image"
@@ -34,9 +34,8 @@ const FeaturedProduct = ({featuredProduct,randomReview}:FeaturedProductProps) =>
     </Link>
 
       
-    </div>
 
-    <div className="w-auto h-[40vh]">
+    <div className="w-auto h-[40vh] hidden lg:block">
 
       <h1 className="text-[1.5rem] font-bold h-auto">
         {featuredProduct.name}

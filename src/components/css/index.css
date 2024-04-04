@@ -2,7 +2,6 @@
 
 *{
     font-family: 'Poppins';
-    zoom: 100%;
 }
 body{
     background: linear-gradient(to bottom,#fafeff,#f1fffe);
@@ -16,6 +15,13 @@ body{
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px; /* Adjust the gap between columns as needed */
   }
+@media screen and (max-width:768px) {
+  .grid-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px; /* Adjust the gap between columns as needed */
+  }
+}
 
 .collapse {
     min-height: 100px;

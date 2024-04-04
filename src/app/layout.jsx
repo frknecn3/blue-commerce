@@ -13,15 +13,14 @@ export default function RootLayout({ children }) {
   console.log("Entry file executed!");
   return (
     <html lang="en">
-      <body className='relative'>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+      <body className='relative w-[100vw]'>
           <StoreProvider>
-            <Header />
-          <main className='pt-[2vh] pb-[15vh]'>
-              <div className='min-h-[60vh]'>
+            <Header className='w-[100vw]'/>
+          <main className='pt-[2vh] pb-[15vh] w-[100vw] min-h-[60vh] '>
                 {children}
-              </div>
           </main>
-          <Footer className='absolute bottom-0' />
+          <Footer className='absolute bottom-0 w-[100vw]' />
           
           </StoreProvider>
       </body>

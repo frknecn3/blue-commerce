@@ -28,10 +28,10 @@ const MainPage = async ({
   const randomReview:ReviewParams = featuredProduct&&featuredProduct.reviews&&!searchParams.category?featuredProduct.reviews[0]:null
 
   return (
-    <main className="">
+    <main className="w-[100vw]">
 
       
-        <div className="flex bg-white justify-center text-[1.5rem] text-gray-500 px-[10rem] w-full h-[7.5vh] items-center border-b border-t">
+        <div className="flex bg-white justify-center overflow-x-scroll md:overflow-hidden text-[1rem] md:text-[1.5rem] text-gray-500 px-[10rem] w-[100vw] h-[7.5vh] items-center border-b border-t">
           {hotbarElements.map((element,i)=>{
           return <div key={element.label} className={`${i!==0?'border-l-4':''} border-gray-300 p-2 px-6 group  `}>
             <a className="group-hover:text-red-300 transition-all" href={element.value}>{element.label}</a>
@@ -40,20 +40,20 @@ const MainPage = async ({
         </div>
 
         {/* CAROUSEL */}
-        <div className="flex flex-col text-[2rem] font-semibold gap-4 justify-center items-center my-5">
+        <div className="flex flex-col w-[100vw] text-[1.5rem] md:text-[2rem] font-semibold gap-4 justify-center items-center my-0 md:my-5">
           <span>Special Offers For Today</span>
-          <Slider items={products} style={'w-[75%] h-[60vh] mx-[20vw]'}/>
+          <Slider items={products} style={'w-[100vw] md:w-[75vw] h-[60vh]'}/>
         </div>
 
 
 
 
 
-      <div className="flex justify-between px-6">
-        <h1 className="text-[2rem] mx-[10vw] my-8 font-semibold">
+      <div className="flex justify-between px-6 w-[100vw]">
+        <h1 className="text-[2rem] md:mx-[10vw] my-8 font-semibold">
           Popular Products
         </h1>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center w-[100vw] md:mx-[10vw]">
           <SortComponent />
           <SelectComponent />
         </div>
@@ -62,14 +62,14 @@ const MainPage = async ({
 
 
       {/* Popular Products Section */}
-      <div className="grid-container mx-[3vw] mb-10 pr-6 mt-5">
+      <div className="grid-container mx-[3vw] mb-10 md:px-6 px-6 w-[90vw] mt-5">
         {Array.isArray(products) ? (products.map((product: ProductParams, i: number): React.ReactNode => (<ProductCard key={product.id} params={product} />))) : (<div>Error loading products.</div>)}
       </div>
 
 
       {/* Featured Products Section */}
       {!searchParams.category ? (
-          <div className="mx-[5vw]">
+          <div className="md:mx-[5vw] w-[100vw]">
             <h1 className="text-[2rem] mx-[5vw] font-semibold ">
               Featured Product
             </h1>
