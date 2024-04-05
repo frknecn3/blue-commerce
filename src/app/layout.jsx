@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
           <main className='pt-[2vh] pb-[15vh] w-[100vw] min-h-[72vh] '>
                 {children}
           </main>
-          <Footer className='absolute bottom-0 w-[100vw]' />
+          <Footer className='w-[100vw]' />
           
           </StoreProvider>
       </body>

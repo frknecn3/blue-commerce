@@ -27,17 +27,15 @@ const Reviews = ({ currentProduct }: { currentProduct: ProductParams }) => {
     // Use useEffect to log the reviews whenever the reviews state changes
 
     return (
-        <div className="flex flex-col justify-center items-center m-[2rem]">
-            {reviews.length === 0 ? (
-                <div className="py-4"><Loader/></div>
-            ) : (
-                reviews.map((review: ReviewParams, i: number) => {
-                    const user = review.userObj
-
-                    return (<Review key={i} userRef={user} i={i} review={review}/> )
-                }
+        <div className="flex flex-col justify-center items-center m-[2rem] gap-4">
+            {   
+                !reviews?<div className="py-4"><Loader/></div>:reviews&&reviews.length===0?<div className="py-4">No reviews were found.</div> :(
+                reviews.map((review: ReviewParams, i: number) => 
+                {const user = review.userObj
+                return (<Review key={i} userRef={user} i={i} review={review}/> )}
                 )
-            )}
+            )
+        }
         </div>
     );
 }
