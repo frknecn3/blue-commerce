@@ -22,7 +22,7 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                     <img src={currentProduct.photoURL} className="w-full max-w-[80vw] h-[40vh] lg:h-[60vh] rounded-xl" alt="" />
                 </div>
                 <div className="w-full flex flex-col justify-center lg:items-stretch items-center lg:gap-8 gap-16 bg-gray-200 p-2 md:p-10 2xl:p-20 h-full rounded-tr-xl">
-                    <div className="mb-8">
+                    <div className="mb-8 flex w-full flex-col items-center justify-center">
                         <p className="text-[2rem] md:text-[2.5rem] font-semibold text-center md:text-start">{currentProduct.name}</p>
                         <a href={`/profile/${seller.userID}`}><div className="flex text-gray-600 text-[1rem] lg:text-[1.5rem] items-center gap-2">Listed by <img src={seller.photoURL} className="w-[30px] rounded-[50%]" alt="" />{seller.name}</div></a>
                     </div>

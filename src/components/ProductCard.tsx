@@ -15,13 +15,15 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isDivHovered, setIsDivHovered] = useState<boolean>(false);
+  const [width,setWidth] = useState<number>(0)
 
   useEffect(() => {
     const userExists = JSON.parse(localStorage.getItem("user"));
     const randomID = randomUUID();
     setId(userExists ? JSON.parse(localStorage.getItem("user")).uid : randomID);
     setIsClient(true)
-  }, []);
+    setWidth(window.innerWidth)
+  }, [window.onresize]);
 
   return (
     <div
@@ -98,7 +100,7 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
           <motion.button
             animate={{
               y: isDivHovered ? 0 : 10,
-              opacity: isDivHovered ? 100 : 0,
+              opacity: isDivHovered ? 100 : width<1024?100:0,
             }}
             transition={{ duration: 0.3 }}
             className="bg-green-500 

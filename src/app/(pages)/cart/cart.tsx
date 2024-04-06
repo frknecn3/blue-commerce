@@ -21,7 +21,7 @@ const CartDiv = () => {
                     const totalPrice =
                         cart.reduce((accumulator, item) => {
                             if (item && item.price) { return accumulator + Number(item.price); } return accumulator;
-                        }, 0); return <span>{totalPrice}$</span>;
+                        }, 0); return <span>${totalPrice}</span>;
                 }
                 catch (err) { console.log(err) }
             }
@@ -51,11 +51,11 @@ const CartDiv = () => {
             {displayCart&&displayCart.length>0 ? displayCart?.map((product, i) => (
 
                 <div key={i} className='w-full rounded-xl mb-[10px] flex items-center h-full text-black'>
-                    <div className='overflow-hidden w-full h-full text-[1.5rem] gap-4 lg:gap-0 p-2 bg-white rounded-xl shadow-md grid place-items-center justify-items-center lg:grid-cols-4'>
-                        <a href={`/product/${product.id}`}><div className='w-[15rem] h-[15rem] object-contain shadow-md m-1 rounded-md'><img src={product?.photoURL} alt="" className='object-contain rounded-xl w-full h-full p-2' /></div></a> 
+                    <div className='overflow-hidden w-full h-full text-[1.5rem] gap-8 lg:gap-0 m-4 p-4 bg-white rounded-xl shadow-md grid place-items-center justify-items-center lg:grid-cols-4'>
+                        <a href={`/product/${product.id}`}><div className='w-[12vw] h-[12vh] lg:w-[15rem] lg:h-[15rem] object-contain shadow-md m-4 rounded-md'><img src={product?.photoURL} alt="" className='object-contain rounded-xl w-full h-full p-2' /></div></a> 
                         <span className='text-center'>{product?.name}</span>
-                        <span>{product?.price}</span>
-                        <button onClick={() => { removeFromCart(id, product?.id), reloadCart(id, dispatch) }}><FaTrash /></button>
+                        <span>${product?.price}</span>
+                        <button className='text-[3rem] text-red-600' onClick={() => { removeFromCart(id, product?.id), reloadCart(id, dispatch) }}><FaTrash /></button>
                     </div>
                 </div>
 
