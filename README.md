@@ -20,7 +20,7 @@ BluE-Commerce is a Next-based E-commerce project website. It features many moder
 
 <h2>Features:</h2>
 <ul>
-  <li>💻 Most crucial parts such as products are Server-side Rendered, meaning better SEO and better end-user experience.</li>
+  <li>💻 Most crucial parts such as products are Server-side Rendered, meaning better SEO and faster end-user experience.</li>
   <li>📝 Fetching, sorting and filtering products.</li>
   <li>🛒 Adding products to a shopping cart that can be accessed both as anonymous or logged-in.</li>
   <li>☁ Cloud-stored shopping cart makes the user able to resume their shopping at a later time.</li>
