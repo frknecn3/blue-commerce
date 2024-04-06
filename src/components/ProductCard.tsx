@@ -11,13 +11,16 @@ import { motion } from "framer-motion";
 const ProductCard = ({ params }: { params: ProductParams }) => {
   const dispatch = useDispatch();
   const [id, setId] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isDivHovered, setIsDivHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState<boolean>(false);
+  const [isDivHovered, setIsDivHovered] = useState<boolean>(false);
 
   useEffect(() => {
     const userExists = JSON.parse(localStorage.getItem("user"));
     const randomID = randomUUID();
     setId(userExists ? JSON.parse(localStorage.getItem("user")).uid : randomID);
+    setIsClient(true)
   }, []);
 
   return (
@@ -99,15 +102,32 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
             }}
             transition={{ duration: 0.3 }}
             className="bg-green-500 
-             text-white inline-block 
+             text-white block
             justify-self-center md:p-2 md:m-2 m-1 p-1 rounded-xl hover:brightness-125 
-            focus-within:bg-white focus-within:text-black 
+            relative
             border-black text-[0.7rem] md:text-[1rem]"
             onClick={() => {
               addToCart(id, params.id), reloadCart(id, dispatch);
+              setIsClicked(true);!isClicked?setTimeout(() => setIsClicked(false), 2000):'';
             }}
           >
-            ADD TO CART
+            <motion.span
+            animate={{y:isClicked?30:0,opacity:isClicked?0:100}}
+            transition={{ duration: 0.3 }}
+            className=""
+            >
+              ADD TO CART
+            </motion.span>
+            
+            <motion.div 
+              className="absolute left-1/2 top-1/2 transform translate-y-[-50%] translate-x-[-50%] w-full h-full">
+            {isClient?<motion.span
+            className="absolute top-0 left-0 bottom-0 right-0 h-full w-full"
+              animate={{y:isClicked?10:-30,opacity:isClicked?100:0}}
+              transition={{ duration: 0.3 }}
+            >ITEM ADDED
+            </motion.span>:''}
+            </motion.div>
           </motion.button>
         </div>
       </div>

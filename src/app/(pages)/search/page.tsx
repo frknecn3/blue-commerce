@@ -35,7 +35,7 @@ const SearchPage = () =>{
     },[searchQuery])
 
     return(
-        <div className={searchResults.length?`grid-container pt-4`:''}>
+        <div className={`${searchResults.length?`grid-container pt-4`:''} mx-4 lg:mx-16`}>
             <Suspense>
                 {searchResults.length>0?searchResults.map((i,a)=>(<ProductCard params={i} key={a}/>)):<div className="text-gray-500 text-[30px] w-full text-center">Couldn't find any products similar to query: {searchQuery}</div>}
             </Suspense>

@@ -33,7 +33,7 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                         <PriceComponent currentProduct={currentProduct}/>
                         </div>
 
-                        <div className="flex text-[2rem] md:text-[2.5rem] lg:text-[3rem] flex-col">
+                        <div className="flex text-[2rem] flex-col">
                                 <div className="text-yellow-400 flex items-center h-[40px]"><span className="text-black font-semibold mr-2">{currentProduct.stars?.stars}</span>{[...Array(5)].map((_, index) => {return index<(currentProduct.stars?.stars||3)?<IoStar key={index}/>:<IoStarOutline key={index}/>;})}</div>
                                 <span className="text-center text-gray-500">{currentProduct.stars?.count} Reviews</span>
                         </div>

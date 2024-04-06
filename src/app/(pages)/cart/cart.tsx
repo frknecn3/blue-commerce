@@ -51,7 +51,7 @@ const CartDiv = () => {
 
             <div key={i} className='w-[75%] rounded-xl mb-[40px] flex items-center  h-[10rem] m-4 p-2 text-black shadow-md'>
                 <div className='overflow-hidden w-full h-[12rem] px-10 py-4 text-[30px] bg-white rounded-xl grid place-items-center justify-items-center grid-cols-4'>
-                    <img src={product?.photoURL} alt="" className=' rounded-xl w-[95%] h-[95%] p-2' />
+                    <a href={`/product/${product.id}`}><img src={product?.photoURL} alt="" className=' rounded-xl w-[95%] h-[95%] p-2' /></a> 
                     <span className='text-start'>{product?.name}</span>
                     <span>{product?.price}</span>
                     <button onClick={() => { removeFromCart(id, product?.id), reloadCart(id, dispatch) }}><FaTrash /></button>

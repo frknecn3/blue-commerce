@@ -13,7 +13,7 @@ const PriceComponent = ({currentProduct}:{currentProduct:ProductParams}) => {
 
   return (
     <div className={`w-full z-30 flex flex-col text-center  ${width<768?'fixed bottom-[9.9vh] border-t bg-white border-gray-400 left-0':'static'}`}>
-        <span className="text-[2rem] md:text-[3rem] font-semibold">${currentProduct.price}</span>
+        <span className="text-[2.5rem] md:text-[3rem] font-semibold">${currentProduct.price}</span>
         <span className="text-base md:text-[1.5rem] font-normal text-gray-600">Up to 12 installments</span>
     </div>
   )
