@@ -5,6 +5,7 @@ import { ProductParams } from '../../../constants/constants'
 import { RootState, store } from '../../../redux/store'
 import {getCart,reloadCart, removeFromCart } from '../../../utils/utils'
 import { FaTrash } from "react-icons/fa";
+import {TotalComponent} from './TotalComponent'
 
 const CartDiv = () => {
 
@@ -46,26 +47,24 @@ const CartDiv = () => {
 
   return (
     <div className='flex h-full'>
-    <div className='h-full w-[75%] p-4 flex flex-col items-center'>
-        {displayCart&&displayCart.length>0 ? displayCart?.map((product, i) => (
+        <div className='h-full lg:w-[75%] w-full p-1 lg:p-4 flex flex-col items-center'>
+            {displayCart&&displayCart.length>0 ? displayCart?.map((product, i) => (
 
-            <div key={i} className='w-[75%] rounded-xl mb-[40px] flex items-center  h-[10rem] m-4 p-2 text-black shadow-md'>
-                <div className='overflow-hidden w-full h-[12rem] px-10 py-4 text-[30px] bg-white rounded-xl grid place-items-center justify-items-center grid-cols-4'>
-                    <a href={`/product/${product.id}`}><img src={product?.photoURL} alt="" className=' rounded-xl w-[95%] h-[95%] p-2' /></a> 
-                    <span className='text-start'>{product?.name}</span>
-                    <span>{product?.price}</span>
-                    <button onClick={() => { removeFromCart(id, product?.id), reloadCart(id, dispatch) }}><FaTrash /></button>
+                <div key={i} className='w-full rounded-xl mb-[10px] flex items-center h-full text-black'>
+                    <div className='overflow-hidden w-full h-full text-[1.5rem] gap-4 lg:gap-0 p-2 bg-white rounded-xl shadow-md grid place-items-center justify-items-center lg:grid-cols-4'>
+                        <a href={`/product/${product.id}`}><div className='w-[15rem] h-[15rem] object-contain shadow-md m-1 rounded-md'><img src={product?.photoURL} alt="" className='object-contain rounded-xl w-full h-full p-2' /></div></a> 
+                        <span className='text-center'>{product?.name}</span>
+                        <span>{product?.price}</span>
+                        <button onClick={() => { removeFromCart(id, product?.id), reloadCart(id, dispatch) }}><FaTrash /></button>
+                    </div>
                 </div>
-            </div>
 
-        )) : <div className='text-[30px] flex flex-col items-center justify-center text-center'>Your Cart is Currently Empty
-        <a className='rounded-xl bg-white text-blue-400 p-4' href='/'>Go Back to Shopping</a></div>}
+            )) : <div className='text-[30px] flex flex-col items-center justify-center text-center'>Your Cart is Currently Empty
+            <a className='rounded-xl bg-white text-blue-400 p-4' href='/'>Go Back to Shopping</a></div>}
+        </div>
+        <TotalComponent   calculateTotalCost={calculateTotalCost} displayCart={displayCart}  />
     </div>
-    <div className='bg-gray-600 flex p-4 m-4 w-[25%] text-[25px] h-full rounded-md'>
-        Total Cost: {calculateTotalCost(displayCart)}
-    </div>
-</div>
   )
 }
 
-export default CartDiv
+  export default CartDiv

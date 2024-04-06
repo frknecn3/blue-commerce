@@ -71,13 +71,53 @@ body{
   }
 }
 
+/* ${width<768?'':'static'} */
+
+.price-component{
+  /* fixed; bottom-[9.9vh] border-t bg-white border-gray-400 left-0 */
+  position: fixed;
+  bottom: 9.9vh;
+  border-top: 1px solid rgb(89, 89, 89);
+  background-color: white;
+  left: 0;
+}
+
+@media screen and (min-width:1024px) {
+  .price-component{
+    position: static;
+    background-color: transparent;
+    border: none;
+  }
+}
 
 
+.total-component{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  color:black;
+  width: 100%;
+}
 
-
-
-
-
+@media screen and (min-width:1024px) {
+  .total-component{
+    position: sticky;
+    box-shadow: 0 5px 10px 3px rgba(0,0,0,0.2);
+    top: 15vh;
+    bottom: 5vh;
+    right: 0;
+    height: max-content;
+    width: 25%;
+    margin: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 2rem;
+    background-color: white;
+    color: black;
+  }
+}
 
 
 

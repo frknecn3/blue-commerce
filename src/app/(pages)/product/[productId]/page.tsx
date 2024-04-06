@@ -19,12 +19,12 @@ const productId = async ({ params }: { params: { productId: string } }) => {
             
             <div className="lg:w-auto md:mx-[3rem] 2xl:mx-[10rem] mx-4 mt-4 flex lg:flex-row flex-col justify-center  items-center bg-white border-2 border-gray-300 rounded-t-xl">
                 <div className="w-full rounded-xl md:w-full h-full flex justify-center items-center p-4 bg-white">
-                    <img src={currentProduct.photoURL} className="w-full h-[40vh] lg:h-[60vh] rounded-xl" alt="" />
+                    <img src={currentProduct.photoURL} className="w-full max-w-[80vw] h-[40vh] lg:h-[60vh] rounded-xl" alt="" />
                 </div>
                 <div className="w-full flex flex-col justify-center lg:items-stretch items-center lg:gap-8 gap-16 bg-gray-200 p-2 md:p-10 2xl:p-20 h-full rounded-tr-xl">
                     <div className="mb-8">
-                        <p className="text-[1.5rem] md:text-[2.5rem] font-semibold">{currentProduct.name}</p>
-                        <a href={`/profile/${seller.userID}`}><div className="flex text-gray-600 text-[1.5rem] items-center gap-2">Listed by {seller.name}<img src={seller.photoURL} className="w-[30px] rounded-[50%]" alt="" /></div></a>
+                        <p className="text-[2rem] md:text-[2.5rem] font-semibold text-center md:text-start">{currentProduct.name}</p>
+                        <a href={`/profile/${seller.userID}`}><div className="flex text-gray-600 text-[1rem] lg:text-[1.5rem] items-center gap-2">Listed by <img src={seller.photoURL} className="w-[30px] rounded-[50%]" alt="" />{seller.name}</div></a>
                     </div>
                     
                     {/* Price and Stars */}
