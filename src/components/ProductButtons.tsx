@@ -13,7 +13,7 @@ const ProductButtons = ({ product }: { product: string }) => {
   console.log(width)
 
   return (
-    <div className={`product-buttons w-full h-auto md:text-[1rem] lg:text-[1.5rem] flex-grow text-white flex lg:flex-row justify-center gap-[3rem]`}>
+    <div className={`product-buttons w-full h-[10vh] md:text-[1rem] lg:text-[1.5rem] flex-grow text-white flex lg:flex-row justify-center gap-[3rem]`}>
       <button
         className="bg-green-500 p-2 lg:p-4 m-4 flex justify-center items-center rounded-xl hover:translate-y-[-5px] transition-all"
         onClick={() => {

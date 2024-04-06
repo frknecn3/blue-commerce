@@ -51,7 +51,7 @@ const MainPage = async ({
 
       <div className="flex justify-center">
       <div className="flex flex-col md:flex-row justify-between w-full">
-        <h1 className=" text-[1.5rem] md:text-[2rem] md:mx-[10vw] my-8 text-center font-semibold">
+        <h1 className=" text-[1.5rem] md:text-[2rem] md:mx-[10vw] w-full my-8 text-center font-semibold">
           Popular Products
         </h1>
         <div className="flex flex-col md:flex-row gap-4 justify-end items-center w-full md:mx-[10vw]">

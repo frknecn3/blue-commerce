@@ -3,6 +3,7 @@
 *{
     font-family: 'Poppins';
     box-sizing: border-box;
+    font-size: 98%;
 }
 body{
     background: linear-gradient(to bottom,#fafeff,#f1fffe);
@@ -22,6 +23,11 @@ body{
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 20px; /* Adjust the gap between columns as needed */
   }
+}
+
+
+.product-card{
+  background: radial-gradient(from red to blue) !important; 
 }
 
 .collapse {
@@ -55,7 +61,6 @@ body{
   flex-direction: row;
   background: white;
   z-index: 99999999;
-  border-top: 1px solid black;
 }
 
 @media screen and (min-width:1024px) {
@@ -63,7 +68,6 @@ body{
     position: static;
     flex-direction: row;
     background-color: transparent;
-    border-top: 0px;
   }
 }
 

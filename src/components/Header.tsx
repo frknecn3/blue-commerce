@@ -114,12 +114,12 @@ const Header = () => {
 
 
   return (
-    <div className='h-[18vh]'>    
+    <header className='h-[12vh]'>    
     
-      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-[100vw] h-[12vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-2 lg:px-8 lg:px-16'>
+      <div ref={headerRef} style={{ 'zIndex': '10000' }} className='fixed top-0 w-[100vw] h-[12vh] bg-blue-400 text-white flex justify-between items-center border-b-8 border-blue-100 p-4 px-2 md:px-8 lg:px-16'>
 
         <div className='flex items-center justify-center gap-4 h-full lg:flex'>
-          <a href="/" className='flex gap-2'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[4rem] h-auto lg:w-[5rem] rounded-[50%] border-4 border-black-800' /><h1 className='hidden lg:flex items-center gap-4 font-bold lg:text-[22px] lg:text-[30px]'>
+          <a href="/" className='flex gap-2'><img loading='lazy' src="/a1.png" alt="" className='object-cover w-[4rem] h-auto lg:w-[5rem] rounded-[50%] border-4 border-black-800' /><h1 className='hidden lg:flex items-center gap-4 font-bold md:text-[22px] lg:text-[30px]'>
             BluE-Commerce</h1></a>
         </div>
 
@@ -145,7 +145,7 @@ const Header = () => {
       
 
       <Sidebar setSidebar={setSidebar} sidebar={sidebar} />
-    </div>
+    </header>
   )
 }
 

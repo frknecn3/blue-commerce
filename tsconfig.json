@@ -30,7 +30,7 @@
     "src/utils/utils.ts",
     "src/components/Header.tsx",
     "src/redux/store.js"
-  ],
+, "src/components/PriceComponent"  ],
   "exclude": [
     "node_modules"
   ]
