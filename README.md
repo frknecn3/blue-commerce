@@ -2,7 +2,7 @@
 
 ![gif](preview.gif)
 
-BluE-Commerce is a Next-based E-commerce project website. It features many modern features for elegant and easily-accessible e-commerce websites and applications.
+BluE-Commerce is a Next-based E-commerce project website. It features many modern features for elegant and accessible e-commerce websites and applications.
 
 <a href='https://blue-commerce-pied.vercel.app/'>Click Here to Visit Live Website</a>
 
