@@ -119,6 +119,25 @@ body{
   }
 }
 
+.item-grid{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+
+@media screen and (min-width:1024px) {
+  .item-grid{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 25% 25% 15% 35%;
+    place-items: center;
+  }
+  
+}
 
 
 

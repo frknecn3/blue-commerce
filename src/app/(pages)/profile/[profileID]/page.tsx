@@ -10,7 +10,7 @@ const Profile = async ({ params }: { params: { profileID: string } }) => {
     return (
         <div className="w-full">
             <div className="flex flex-col 2xl:flex-row justify-around items-center 2xl:items-start m-2 lg:p-20">
-                <div className="w-[10rem] lg:w-[20rem] flex flex-col justify-center items-center mt-[2rem]">
+                <div className="w-[10rem] 2xl:sticky top-20 lg:w-[20rem] flex flex-col justify-center items-center mt-[2rem]">
                     <img src={user.photoURL} className='rounded-[50%] border-4 border-black' alt="" />
                     <p className="text-center text-[1.5rem]">{user.name}</p>
                 </div>

@@ -50,7 +50,7 @@ const MainPage = async ({
 
 
       <div className="flex justify-center">
-      <div className="flex flex-col md:flex-row justify-between w-full">
+      <div className="flex flex-col md:flex-row justify-between w-full border-t-2">
         <h1 className=" text-[1.5rem] md:text-[2rem] md:mx-[10vw] w-full my-8 text-center font-semibold">
           Popular Products
         </h1>
@@ -73,7 +73,7 @@ const MainPage = async ({
 
       {/* Featured Products Section */}
       {!searchParams.category ? (
-          <div className="w-[100vw] flex justify-center flex-col">
+          <div className="w-[100vw] flex justify-center flex-col border-t-2">
             <h1 className="text-[2rem] text-center font-semibold ">
               Featured Product
             </h1>
