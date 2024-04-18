@@ -53,11 +53,11 @@ const CartModal = (props: Props) => {
 
         <div className='h-3/5 px-4 my-5 overflow-auto'>
             
-            {displayCart?.map((i)=>{
+            {displayCart?.map((item,i)=>{
                 
                 return(
 
-                <CartModalProduct product={i}/>
+                <CartModalProduct product={item} key={i}/>
 
             )})}
         
