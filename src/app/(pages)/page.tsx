@@ -41,7 +41,7 @@ const MainPage = async ({
 
         {/* CAROUSEL */}
         <div className="flex flex-col w-[100vw] text-[1.5rem] md:text-[2rem] font-semibold gap-4 justify-center items-center my-0 md:my-5">
-          <span>Special Offers For Today</span>
+          <span className="text-white">Special Offers For Today</span>
           <Slider items={products} style={'w-[100vw] md:w-[75vw] h-full py-1'}/>
         </div>
 
@@ -51,7 +51,7 @@ const MainPage = async ({
 
       <div className="flex justify-center">
       <div className="flex flex-col md:flex-row justify-between w-full border-t-2">
-        <h1 className=" text-[1.5rem] md:text-[2rem] md:mx-[10vw] w-full my-8 text-center font-semibold">
+        <h1 className="text-white text-[1.5rem] md:text-[2rem] md:mx-[10vw] w-full my-8 text-center font-semibold">
           Popular Products
         </h1>
         <div className="flex flex-col md:flex-row gap-4 justify-end items-center w-full md:mx-[10vw]">
@@ -74,7 +74,7 @@ const MainPage = async ({
       {/* Featured Products Section */}
       {!searchParams.category ? (
           <div className="w-[100vw] flex justify-center flex-col border-t-2">
-            <h1 className="text-[2rem] text-center font-semibold ">
+            <h1 className="text-[2rem] text-center font-semibold text-white">
               Featured Product
             </h1>
 

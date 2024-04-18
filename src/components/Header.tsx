@@ -11,6 +11,8 @@ import { RootState, } from '../redux/store';
 import { FaShoppingCart } from "react-icons/fa";
 import {v4 as randomUUID } from 'uuid';
 import { useRouter } from 'next/navigation';
+import CartModal from './CartModal';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 
 const Header = () => {
@@ -18,14 +20,17 @@ const Header = () => {
   const [sidebar, setSidebar] = useState(false)
   const headerRef = useRef(null)
   const [user, setUser] = useState<{ uid: string, displayName: string }>(null)
-  const cart = useSelector((store: RootState) => store.cart)
+  const cart = useSelector((store: RootState) => store.generalReducer.cart)
   const [cartLen, setCartLen] = useState(0)
   const [prevCartLen, setPrevCartLen] = useState(0);
   const cartText = useRef(null)
   const [searchQuery,setSearchQuery] = useState('')
-  const formRef = useRef(null)
-  const router=useRouter()
+  const formRef = useRef<HTMLInputElement>(null)
+  const router:AppRouterInstance=useRouter()
+  const isCartOpen:boolean = useSelector((store:RootState)=>store.cartDisplayReducer.cartDisplay)
+  const [isMobile,setIsMobile] = useState<boolean>(null)
 
+  const dispatch=useDispatch()
 
 
 
@@ -35,6 +40,8 @@ const Header = () => {
       const storedCartData = JSON.parse(localStorage.getItem('cart'));
       const cartLength = storedCartData ? storedCartData.length : 0; // Use 0 if the cart data is not available
       setCartLen(cartLength);
+      
+      setIsMobile(window.innerWidth<768?true:false)
     };
 
     headerInfo()
@@ -58,24 +65,25 @@ const Header = () => {
     const header = headerRef.current;
     let prevScrollPos = window.scrollY;
 
-    const scrollHandler = () => {
-      let currentScrollPos = window.scrollY;
+    // const scrollHandler = () => {
+    //   let currentScrollPos = window.scrollY;
 
-      if (currentScrollPos > prevScrollPos) {
-        header?.classList.add('collapse');
-        header?.classList.remove('show');
-      } else if (currentScrollPos < prevScrollPos) {
-        header?.classList.remove('collapse');
-        header?.classList.add('show');
-      }
+    //   if (currentScrollPos > prevScrollPos) {
+    //     header?.classList.add('collapse');
+    //     header?.classList.remove('show');
+    //   } else if (currentScrollPos < prevScrollPos) {
+    //     header?.classList.remove('collapse');
+    //     header?.classList.add('show');
+    //   }
 
-      prevScrollPos = currentScrollPos;
-    };
+    //   prevScrollPos = currentScrollPos;
+    // };
 
-    window.addEventListener('scroll', scrollHandler);
+    // window.addEventListener('scroll', scrollHandler);
 
-    return () => window.removeEventListener('scroll', scrollHandler);
-  }, [auth, cart]); // cart was added later on
+    // return () => window.removeEventListener('scroll', scrollHandler);
+  }
+  , [auth, cart]); // cart was added later on
 
   useEffect(() => {
 
@@ -131,9 +139,21 @@ const Header = () => {
           </form>
         </div>
 
-        <a href="/cart">
-          <div  ref={cartText} className='text-blue-400 cart-text flex items-center hover:brightness-125 hover:translate-y-[-3px] hover:shadow-lg transition-all relative bg-white rounded-xl font-semibold p-2 justify-center'><div className='relative'><span className='text-white text-sm lg:text-[20px] font-semibold absolute top-[40%] left-[60%] transform -translate-x-1/2 -translate-y-1/2'>{cartLen}</span><FaShoppingCart className='cart-text text-2xl lg:text-[40px]' /></div><span className='hidden lg:block'>MY CART</span></div>
-        </a>
+        {/* <a href="/cart"> */}
+          <button  ref={cartText} onClick={()=>{isMobile?router.push('/cart'):(!isCartOpen?dispatch({type:'OPEN_CART_MODAL'}):'')}} 
+          className='text-blue-400 cursor-default cart-text flex items-center hover:translate-y-[-3px] hover:shadow-lg transition-all relative bg-white rounded-xl font-semibold p-2 justify-center'>
+            <div className='relative'>
+              <span className='text-white text-sm lg:text-[20px] font-semibold absolute top-[40%] left-[60%] transform -translate-x-1/2 -translate-y-1/2'>{cartLen}</span>
+              <FaShoppingCart className='cart-text text-2xl lg:text-[40px]' />
+            </div>
+
+            <span className='hidden lg:block'>MY CART</span>
+            
+            
+            <CartModal />
+
+          </button>
+        {/* </a> */}
         
         <div className='flex gap-[20px] justify-between items-center'>
           <a href={auth.currentUser?`/profile/${user?.uid}`:'/login'}><div className='flex items-center justify-start gap-4 text-2xl lg:text-[40px]'><FaUser /><span className='text-[20px] hidden lg:block'>{user?.displayName}</span></div></a>

@@ -1,8 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import {generalReducer} from './reducers'
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {cartDisplayReducer, generalReducer} from './reducers'
+const rootReducer = combineReducers({
+    generalReducer,
+    cartDisplayReducer
+})
 export const store = () => {
     return configureStore({
-        reducer:generalReducer
+        reducer:rootReducer
     })
 }
 // Infer the type of makeStore

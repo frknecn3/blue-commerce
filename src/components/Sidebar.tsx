@@ -2,7 +2,7 @@ import { signOut } from 'firebase/auth'
 import React from 'react'
 import Links from '../constants/constants'
 import { auth } from '../firebase/config'
-import { handleLogOut } from '../utils/clientOnlyUtils'
+import { handleLogOut } from '../utils/clientOnlyUtils.tsx'
 
 const Sidebar = ({setSidebar,sidebar}) => {
   return (

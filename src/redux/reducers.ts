@@ -1,6 +1,6 @@
 import { ProductParams, User } from "../constants/constants";
 
-export const initialState:{
+export const initialStateGeneralReducer:{
     cart:ProductParams[],
     user:User|{}
 } = {
@@ -8,7 +8,7 @@ export const initialState:{
     user:{}
 }
 
-export const generalReducer = (state:{cart:ProductParams[],user:User|{}}=initialState,action:{type:String,payload?:{user:{},cart:ProductParams[]}}) =>{
+export const generalReducer = (state:{cart:ProductParams[],user:User|{}}=initialStateGeneralReducer,action:{type:String,payload?:{user:{},cart:ProductParams[]}}) =>{
     switch (action.type){
         case 'UPDATE_USER':
             const updatedDoc = {...state,cart:action.payload.cart,user:action.payload.user}
@@ -24,3 +24,19 @@ export const generalReducer = (state:{cart:ProductParams[],user:User|{}}=initial
             return state
     }
 }
+
+const initialCartDisplayReducer: { cartDisplay: boolean } = { cartDisplay: false };
+
+export const cartDisplayReducer = (
+  state: { cartDisplay: boolean } = initialCartDisplayReducer,
+  action: { type: string }
+) => {
+  switch (action.type) {
+    case "OPEN_CART_MODAL":
+      return { ...state, cartDisplay: true };
+    case "CLOSE_CART_MODAL":
+      return { ...state, cartDisplay: false };
+    default:
+      return state;
+  }
+};

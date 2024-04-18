@@ -21,9 +21,12 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
     const userExists = JSON.parse(localStorage.getItem("user"));
     const randomID = randomUUID();
     setId(userExists ? JSON.parse(localStorage.getItem("user")).uid : randomID);
-    setIsClient(true)
-    setWidth(window.innerWidth)
-  }, [window.onresize]);
+    window?setIsClient(true):''
+  }, []);
+
+  useEffect(()=>{
+    isClient?setWidth(window.innerWidth):''
+  },[isClient])
 
   return (
     <div
@@ -109,7 +112,7 @@ const ProductCard = ({ params }: { params: ProductParams }) => {
             relative
             border-black text-[0.7rem] md:text-[1rem]"
             onClick={() => {
-              addToCart(id, params.id), reloadCart(id, dispatch);
+              addToCart(id, params.id), reloadCart(id, dispatch), dispatch({type:'OPEN_CART_MODAL'});
               setIsClicked(true);!isClicked?setTimeout(() => setIsClicked(false), 2000):'';
             }}
           >

@@ -12,7 +12,7 @@ type FeaturedProductProps = {
 
 const FeaturedProduct = ({featuredProduct,randomReview}:FeaturedProductProps) => {
   return (
-    <div className="w-[90vw] mx-auto md:h-auto bg-slate-100 p-10 mt-5 rounded-[1.5rem] shadow-xl flex md:flex-row flex-col justify-center md:justify-between gap-10 hover:translate-y-[-5px] transition-all">
+    <div className="w-[90vw] mx-auto md:h-auto bg-slate-100 p-10 mt-5 mb-10 rounded-[1.5rem] shadow-xl flex md:flex-row flex-col justify-center md:justify-between gap-10 hover:translate-y-[-5px] transition-all">
    
       
     <Link href={`/product/${featuredProduct.id}`}>

@@ -1,5 +1,6 @@
 import { signOut, User } from "firebase/auth";
 import { auth } from "../firebase/config";
+import { ProductParams } from "../constants/constants";
 
 export const getActiveUserFromStorage = ():User => {
     if (typeof window !== 'undefined') {
@@ -16,4 +17,15 @@ export const getActiveUserFromStorage = ():User => {
     localStorage.setItem('tempCart',JSON.stringify([]))
   }
 
-  
+  export const calculateTotalCost =
+  (cart: ProductParams[]):any => {
+      if (cart) {
+          try {
+              const totalPrice =
+                  cart.reduce((accumulator, item) => {
+                      if (item && item.price) { return accumulator + Number(item.price); } return accumulator;
+                  }, 0); return <span>${totalPrice}</span>;
+          }
+          catch (err) { console.log(err) }
+      }
+  };
