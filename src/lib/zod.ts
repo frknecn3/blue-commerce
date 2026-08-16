@@ -35,7 +35,10 @@ export type UpdateProductDto = z.infer<typeof UpdateProductSchema>;
 export const RegisterUserSchema = z.object({
     name: z.string().min(3),
     email: z.string().email(),
-    password: z.string(),
+    password: z.string()
+        .min(8, "Password must be at least 8 characters long")
+        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .regex(/[0-9]/, "Password must contain at least one number"),
     confirmPassword: z.string(),
     phone: z.string().min(10),
     country: z.string(),
