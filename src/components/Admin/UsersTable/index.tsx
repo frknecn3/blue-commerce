@@ -6,107 +6,104 @@ import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import TableUserRow from './TableUserRow';
 
 type Props = {
-    data: User[]
+    data: User[];
 }
 
 const UsersTable = ({ data }: Props) => {
-
-    const [page, setPage] = useState(1);
-    const [sort, setSort] = useState<{ key: string, order: string }>({ key: '', order: 'asc' })
+    const [sort, setSort] = useState<{ key: string, order: string }>({ key: '', order: 'asc' });
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('sort', sort.key)
-        params.set('order', sort.order)
-        if (sort.key == '') params.delete('sort');
-        if (sort.order == '') params.delete('order');
-        router.replace(`${pathname}?${params.toString()}`)
-
-    }, [sort])
+        if (sort.key) {
+            params.set('sort', sort.key);
+            params.set('order', sort.order);
+        } else {
+            params.delete('sort');
+            params.delete('order');
+        }
+        router.replace(`${pathname}?${params.toString()}`);
+    }, [sort]);
 
     const reqSort = (key: string) => {
         let direction = 'asc';
         let newKey = key;
 
-        if (key == sort.key && sort.order == 'asc') direction = 'desc'
-        else if (key == sort.key && sort.order == 'desc') {
+        if (key === sort.key && sort.order === 'asc') direction = 'desc';
+        else if (key === sort.key && sort.order === 'desc') {
             newKey = '';
             direction = '';
-        }
-        else direction = 'asc'
+        } else direction = 'asc';
 
-        setSort({ key: newKey, order: direction })
-    }
+        setSort({ key: newKey, order: direction });
+    };
 
     const getSortIcon = (name: string) => {
-        if (sort.key !== name) return ''
-        return sort.order === 'asc' ? <FaArrowDown /> : <FaArrowUp />
-    }
+        if (sort.key !== name) return null;
+        return sort.order === 'asc' ? <FaArrowDown className="text-[10px]" /> : <FaArrowUp className="text-[10px]" />;
+    };
 
     return (
-        <div className='overflow-y-scroll mt-[2vh] min-h-[70vh]'>
-            <table className='border border-black w-full'>
-                <thead className='border'>
-                    <tr className='font-bold bg-blue-100 sticky top-0'>
-                        <td className='px-4 py-8'>
-
-                        </td>
-                        <td className='' onClick={() => reqSort('name')}>
-                            <div className='inline-flex justify-center items-center gap-1'>
-                                Name
-                                <span className='w-4'>
+        <div className="w-full bg-white rounded-xl border border-sky-100 shadow-xs overflow-hidden my-4">
+            <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-sky-50/80 border-b border-sky-100 text-xs font-bold text-slate-700 select-none">
+                            <th className="px-4 py-3.5 w-16 text-center">Avatar</th>
+                            <th
+                                className="px-4 py-3.5 cursor-pointer hover:text-blue-600 transition-colors"
+                                onClick={() => reqSort('name')}
+                            >
+                                <div className="inline-flex items-center gap-1.5">
+                                    <span>Full Name</span>
                                     {getSortIcon('name')}
-                                </span>
-                            </div>
-
-                        </td>
-                        <td className='' onClick={() => reqSort('status')}>
-                            <div className='inline-flex justify-center items-center gap-1'>
-                                Status
-                                <span className='w-4'>
+                                </div>
+                            </th>
+                            <th
+                                className="px-4 py-3.5 cursor-pointer hover:text-blue-600 transition-colors"
+                                onClick={() => reqSort('status')}
+                            >
+                                <div className="inline-flex items-center gap-1.5">
+                                    <span>Status</span>
                                     {getSortIcon('status')}
-                                </span>
-                            </div>
-                        </td>
-                        <td className='' onClick={() => reqSort('price')}>
-                            <div className='inline-flex justify-center items-center gap-1'>
-                                Price
-                                <span className='w-4'>
-                                    {getSortIcon('price')}
-                                </span>
-                            </div>
-
-                        </td>
-                        <td className='' onClick={() => reqSort('stock')}>
-                            <div className='inline-flex justify-center items-center gap-1'>
-                                Stock
-                                <span className='w-4'>
-                                    {getSortIcon('stock')}
-                                </span>
-                            </div>
-                        </td>
-                        <td>
-                            <div className='inline-flex justify-center items-center gap-1'>
-                                Actions
-                            </div>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody className='border overflow-scroll '>
-                    {
-                        data.map((item) => {
-                            return (
-                                <TableUserRow item={item} key={item.id}/>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>
+                                </div>
+                            </th>
+                            <th
+                                className="px-4 py-3.5 cursor-pointer hover:text-blue-600 transition-colors"
+                                onClick={() => reqSort('email')}
+                            >
+                                <div className="inline-flex items-center gap-1.5">
+                                    <span>Email Address</span>
+                                    {getSortIcon('email')}
+                                </div>
+                            </th>
+                            <th className="px-4 py-3.5">
+                                <span>Phone Number</span>
+                            </th>
+                            <th className="px-4 py-3.5 text-center">
+                                <span>Role</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-sky-50">
+                        {data.length > 0 ? (
+                            data.map((item) => (
+                                <TableUserRow item={item} key={item.id} />
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={6} className="px-4 py-12 text-center text-xs text-slate-500 font-medium">
+                                    No users found matching the criteria.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default UsersTable
+export default UsersTable;

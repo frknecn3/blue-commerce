@@ -1,10 +1,9 @@
-import { activateProduct } from '@/app/actions/productActions'
-import { Product, Store } from '@/generated/prisma'
+'use client'
+import { Store } from '@/generated/prisma'
 import { shimmer, toBase64 } from '@/utils/clientOnlyUtils'
 import Image from 'next/image'
-import React, { Dispatch } from 'react'
-import { FaCircle, FaTrash } from 'react-icons/fa'
-import { TiTick } from 'react-icons/ti'
+import React from 'react'
+import { FaStore } from 'react-icons/fa'
 
 type StoreWithCount = Store & {
   _count?: {
@@ -13,67 +12,57 @@ type StoreWithCount = Store & {
 };
 
 type Props = {
-    item: StoreWithCount,
+    item: StoreWithCount;
 }
 
-const TableProductRow = ({ item }: Props) => {
-
-    console.log(item)
-
-    const color = item.status == "ACTIVE" ? "lightgreen" : item.status == "DISABLED" ? 'red' : "gray"
+const TableStoreRow = ({ item }: Props) => {
     return (
-        <tr className='border-y'>
-            <td className='px-4'>
-                <Image width={50} height={50} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`} src={item.avatar || ''} className='w-12 h-12' alt="" />
-            </td>
-            <td>{item.storeName}</td>
-            <td>
-                <div className='inline-flex items-center justify-center gap-1'>
-                    <FaCircle color={color} />
-                    <span className={`text-${color}-500`}>{item.status}</span>
+        <tr className="hover:bg-sky-50/40 transition-colors text-xs font-medium text-slate-800">
+            {/* Avatar */}
+            <td className="px-4 py-3 text-center">
+                <div className="relative w-10 h-10 mx-auto rounded-md bg-sky-50/60 border border-sky-100 overflow-hidden flex items-center justify-center p-0.5">
+                    {item.avatar ? (
+                        <Image
+                            fill
+                            sizes="40px"
+                            placeholder="blur"
+                            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(40, 40))}`}
+                            src={item.avatar}
+                            className="object-cover"
+                            alt={item.storeName}
+                        />
+                    ) : (
+                        <FaStore className="text-blue-500 text-sm" />
+                    )}
                 </div>
             </td>
-            <td className=''>
-                <div className='text-right w-[20%] '>
-                    {Number(item._count?.products)}
-                </div>
-            </td>
-            {/* <td className=''>
-                <div className={`text-right w-[20%] ${item.stock === 0 && 'text-red-600 font-semibold'} `}>
-                    {item.stock === 0 ? 'OUT' : item.stock}
-                </div>
-            </td>
-            <td>
-                {
-                    item.status == "ACTIVE" ?
-                        <button onClick={async () => {
-                            const confirmed = window.confirm('Are you sure you want to delete this product?');
 
-                            if (confirmed) {
-                                const res = await deleteProduct(item.id)
-                                if (!res?.success) {
-                                    alert(res?.message)
-                                }
-                            }
-                        }}>
-                            <FaTrash />
-                        </button> :
-                        <button onClick={async () => {
-                            const confirmed = window.confirm('Are you sure you want to activate this product for listing?');
+            {/* Store Name */}
+            <td className="px-4 py-3 font-semibold text-slate-900">
+                <span>{item.storeName}</span>
+            </td>
 
-                            if (confirmed) {
-                                const res = await activateProduct(item.id)
-                                if (!res?.success) {
-                                    alert(res?.message)
-                                }
-                            }
-                        }}>
-                            <TiTick />
-                        </button>
-                }
-            </td> */}
+            {/* Status */}
+            <td className="px-4 py-3">
+                {item.status === 'ACTIVE' ? (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        Active
+                    </span>
+                ) : (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                        {item.status}
+                    </span>
+                )}
+            </td>
+
+            {/* Product Count */}
+            <td className="px-4 py-3 text-right font-bold text-slate-900">
+                {item._count?.products ?? 0}
+            </td>
         </tr>
-    )
-}
+    );
+};
 
-export default TableProductRow
+export default TableStoreRow;

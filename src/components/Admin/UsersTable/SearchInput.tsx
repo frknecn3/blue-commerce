@@ -1,7 +1,7 @@
 'use client'
 import { debounce } from '@/utils/clientOnlyUtils'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
 type Props = {
@@ -9,46 +9,41 @@ type Props = {
 }
 
 const SearchInput = ({ placeholder = 'value' }: Props) => {
-
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [input, setInput] = useState<string>('');
 
     const debouncedSearch = useCallback(
         debounce((value: string) => {
             const params = new URLSearchParams(searchParams.toString());
 
-            if (value) params.set('q', value)
+            if (value) params.set('q', value);
             else params.delete('q');
 
-            if (Number(searchParams.get('page')) > 1) params.set('page', "1")
+            if (Number(searchParams.get('page')) > 1) params.set('page', "1");
 
-            router.replace(`${pathname}?${params}`);
+            router.replace(`${pathname}?${params.toString()}`);
         }, 300),
-
-        [pathname, router, searchParams])
+        [pathname, router, searchParams]
+    );
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const searchValue = e.currentTarget.value
-            .replaceAll(' ', '')
-            .replaceAll('-', '')
-            .toLowerCase();
-
-        debouncedSearch(searchValue);
-    }
+        debouncedSearch(e.currentTarget.value.trim());
+    };
 
     return (
-        <div className='pt-8'>
-            <div className='border inline-flex items-center gap-1 px-4 py-2 rounded-xl border-black'>
-                <FaSearch />
+        <div className="relative w-full sm:w-72">
+            <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-white border border-sky-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 shadow-xs transition-all">
+                <FaSearch className="text-slate-400 text-xs shrink-0" />
                 <input
-                    className=' pt-1 outline-none'
-                    placeholder={`Enter ${placeholder}...`}
-                    onChange={handleInputChange} />
+                    defaultValue={searchParams.get('q') || ''}
+                    className="w-full bg-transparent text-xs text-slate-800 placeholder:text-slate-400 outline-none"
+                    placeholder={placeholder}
+                    onChange={handleInputChange}
+                />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SearchInput
+export default SearchInput;
