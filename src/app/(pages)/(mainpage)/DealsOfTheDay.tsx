@@ -26,9 +26,9 @@ const DealsOfTheDay = ({ product }: Props) => {
             
             {/* Header Badge */}
             <div className="flex items-center justify-between z-10">
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                    <FaFire className="text-amber-200 animate-pulse text-sm" />
-                    <span>Don't Miss Out!</span>
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
+                    <FaFire className="text-amber-200 text-sm" />
+                    <span>Featured Deal</span>
                 </div>
                 <span className="text-[11px] font-semibold bg-red-600 px-2 py-0.5 rounded-full animate-bounce">
                     Limited Time

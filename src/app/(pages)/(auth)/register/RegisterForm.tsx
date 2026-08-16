@@ -282,7 +282,7 @@ const RegisterForm = (props: Props) => {
     useEffect(() => console.log(onboardingData), [onboardingData])
 
     return (
-        <div className="relative mt-20 flex flex-col px-4 py-8 rounded-md bg-white shadow-md border items-center  border-stone-400 md:min-w-[500px]">
+        <div className="relative mt-20 flex flex-col px-4 py-8 rounded-md bg-white shadow-sm border items-center border-sky-200 md:min-w-[500px]">
             <div className="flex flex-col justify-center items-center">
                 {
                     onboardingStep == 1 ?
