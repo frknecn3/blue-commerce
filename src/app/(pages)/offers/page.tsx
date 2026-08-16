@@ -17,46 +17,46 @@ const OffersPage = async () => {
     const products: Serialized<Product>[] = dbProducts.map((prod) => SerializeProduct(prod));
 
     return (
-        <main className="min-h-screen bg-slate-100/70 py-8 px-4 sm:px-6 lg:px-10 max-w-[1480px] mx-auto">
+        <main className="min-h-screen bg-sky-50/40 py-8 px-4 sm:px-6 lg:px-10 max-w-[1480px] mx-auto">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">
                 <Link href="/" className="hover:text-blue-600">Home</Link>
                 <span>/</span>
-                <span className="text-slate-900 font-bold">Special Offers</span>
+                <span className="text-blue-900 font-bold">Special Offers</span>
             </nav>
 
             {/* Campaign Banner */}
-            <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-blue-950 text-white rounded-lg p-6 sm:p-10 mb-8 border border-slate-800 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="bg-gradient-to-r from-blue-600 via-sky-600 to-blue-700 text-white rounded-lg p-6 sm:p-8 mb-6 border border-blue-500 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <div className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs font-extrabold px-3 py-1 rounded uppercase tracking-wider mb-2">
-                        <FaBolt className="text-yellow-400 animate-pulse" />
-                        <span>Flash Campaigns</span>
+                    <div className="inline-flex items-center gap-2 bg-white text-blue-700 text-xs font-bold px-2.5 py-1 rounded mb-2 shadow-xs">
+                        <FaBolt className="text-amber-500" />
+                        <span>Flash Deals</span>
                     </div>
-                    <h1 className="text-2xl sm:text-4xl font-black uppercase tracking-wider">Special Offers & Deals</h1>
-                    <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-xl">
-                        Save up to 40% on top tech, kitchenware, laptops, and everyday essentials. Limited stock availability!
+                    <h1 className="text-2xl sm:text-3xl font-bold">Special Offers & Deals</h1>
+                    <p className="text-xs sm:text-sm text-sky-100 mt-1 max-w-xl font-normal">
+                        Save up to 40% on top tech, kitchenware, laptops, and everyday essentials.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 w-full md:w-auto">
-                    <div className="bg-slate-800/80 border border-slate-700 p-3 rounded text-center">
-                        <FaPercent className="text-blue-400 text-lg mx-auto mb-1" />
-                        <span className="text-xs font-bold block text-white">Up to 40% Off</span>
+                    <div className="bg-white/20 backdrop-blur-xs border border-white/30 p-3 rounded text-center shadow-xs">
+                        <FaPercent className="text-sky-200 text-lg mx-auto mb-1" />
+                        <span className="text-xs font-semibold block text-white">Up to 40% Off</span>
                     </div>
-                    <div className="bg-slate-800/80 border border-slate-700 p-3 rounded text-center">
-                        <FaShippingFast className="text-blue-400 text-lg mx-auto mb-1" />
-                        <span className="text-xs font-bold block text-white">Free Express Shipping</span>
+                    <div className="bg-white/20 backdrop-blur-xs border border-white/30 p-3 rounded text-center shadow-xs">
+                        <FaShippingFast className="text-sky-200 text-lg mx-auto mb-1" />
+                        <span className="text-xs font-semibold block text-white">Free Express Shipping</span>
                     </div>
                 </div>
             </div>
 
             {/* Offers Product Catalog */}
-            <div className="flex items-center justify-between border-b-2 border-slate-900 pb-2 mb-6">
-                <h2 className="text-base font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
+            <div className="flex items-center justify-between border-b border-blue-600 pb-2 mb-6">
+                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
                     <FaTag className="text-blue-600" />
                     <span>Active Deal Products</span>
                 </h2>
-                <span className="text-xs font-bold text-slate-500">{products.length} Offers Available</span>
+                <span className="text-xs font-medium text-slate-500">{products.length} Offers Available</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5">

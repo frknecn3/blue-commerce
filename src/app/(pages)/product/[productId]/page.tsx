@@ -73,9 +73,9 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                             {seller && (
                                 <Link
                                     href={`/sellers/${seller.id}`}
-                                    className="text-xs font-semibold uppercase tracking-wider text-blue-600 hover:underline"
+                                    className="text-xs font-semibold text-blue-600 hover:underline"
                                 >
-                                    {seller.storeName || 'Blue-Commerce'}
+                                    {seller.storeName || 'BluE-Commerce'}
                                 </Link>
                             )}
                             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 leading-tight">
@@ -100,7 +100,7 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                         </div>
 
                         <div>
-                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-2">Description</h3>
+                            <h3 className="text-sm font-bold text-slate-900 mb-2">Description</h3>
                             <p className="text-slate-600 leading-relaxed text-sm whitespace-pre-line">
                                 {currentProduct.description || "No description provided for this product."}
                             </p>

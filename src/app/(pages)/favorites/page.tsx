@@ -7,13 +7,10 @@ import { selectAllFavorites } from '@/redux/slices/favoriteSlice';
 type Props = {}
 
 const FavoritesPage = (props: Props) => {
-
-    const favorites = useAppSelector(selectAllFavorites).map((item) => item);
+    const favorites = useAppSelector(selectAllFavorites);
 
     return (
-        <div className='grid auto-cols-fr'>
-            <FavoritesGrid favorites={favorites} />
-        </div>
+        <FavoritesGrid favorites={favorites} />
     )
 }
 
