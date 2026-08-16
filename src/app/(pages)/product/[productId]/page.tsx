@@ -11,11 +11,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { shimmer, toBase64 } from "@/utils/clientOnlyUtils";
 import ProductButtons from "@/components/ProductButtons";
-import { ProductWithSeller, SerializedProduct, SerializedProductWithSeller } from "@/types/product";
+import { ProductRawWithSeller, SerializedProduct, SerializedProductWithSeller } from "@/types/product";
 
 
 const productId = async ({ params }: { params: { productId: string } }) => {
-    const product: ProductWithSeller | null = await prisma.product.findUnique({
+    const product: ProductRawWithSeller | null = await prisma.product.findUnique({
         where: {
             id: params.productId
         },
