@@ -101,13 +101,13 @@ const HeaderSearchbar = () => {
                 <input
                     onInput={onSearch}
                     type="search"
-                    className={`w-full rounded-md border border-slate-700 bg-white py-2.5 pl-4 pr-12 text-sm text-black outline-none transition-all duration-150 placeholder:text-slate-400 focus:border-blue-500 ${isVisible ? 'rounded-b-none border-b-0' : ''} z-[21]`}
+                    className={`w-full rounded-md border border-blue-300 bg-white py-2.5 pl-4 pr-12 text-sm text-slate-800 outline-none transition-all duration-150 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-400 ${isVisible ? 'rounded-b-none border-b-0' : ''} z-[21] shadow-xs`}
                     placeholder='Search for products, categories...'
                 />
                 <button
                     type='submit'
                     aria-label='Search'
-                    className='absolute right-1.5 top-1/2 grid h-7 w-8 -translate-y-1/2 transform place-items-center rounded bg-blue-600 text-xs font-bold text-white transition-colors hover:bg-blue-500'
+                    className='absolute right-1.5 top-1/2 grid h-7 w-8 -translate-y-1/2 transform place-items-center rounded bg-blue-600 text-xs font-bold text-white transition-colors hover:bg-blue-700'
                 >
                     <FaSearch />
                 </button>

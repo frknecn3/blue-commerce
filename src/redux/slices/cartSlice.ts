@@ -70,7 +70,7 @@ export const addToCart = createAsyncThunk(
                 cart = [...cart, { ...payload, quantity: payload.quantity ?? 1 }]
             }
             else {
-                cart[index].quantity += 1
+                cart[index].quantity += (payload.quantity ?? 1)
                 updatedProduct = cart[index]
             }
 

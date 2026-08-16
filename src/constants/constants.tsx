@@ -128,48 +128,53 @@ export const hotbarElements = [
 
 export const ribbons = [
     {
-        url: '/assets/categories/cosmetics.png',
-        zoom: "1.5",
-        title: "Cosmetics",
-        href: "/category/cosmetics"
-    },
-    {
-        url: '/assets/categories/fastfood.png',
+        url: '/assets/categories/phones.jpg',
         zoom: "1",
-        title: "Food",
-        href: "/category/food"
+        title: "Phones",
+        href: "/category/phones"
     },
     {
-        url: '/assets/categories/laptop.png',
-        zoom: "1.5",
+        url: '/assets/categories/laptops.jpg',
+        zoom: "1",
         title: "Laptops",
         href: "/category/laptops"
     },
     {
-        url: '/assets/categories/oven.png',
+        url: '/assets/categories/gaming.jpg',
         zoom: "1",
-        title: "Kitchenware",
-        href: "/category/kitchenware"
+        title: "Gaming",
+        href: "/category/gaming"
     },
     {
-        url: '/assets/categories/television.png',
-        zoom: "1.5",
-        title: "Televisions",
-        href: "/category/televisions"
+        url: '/assets/categories/smartwatch.jpg',
+        zoom: "1",
+        title: "Smartwatches",
+        href: "/category/smartwatches"
     },
     {
-        url: '/assets/categories/gold.png',
-        zoom: "1.5",
-        title: "Gold",
-        href: "/category/gold"
+        url: '/assets/categories/headphones.jpg',
+        zoom: "1",
+        title: "Audio",
+        href: "/category/audio"
     },
     {
-        url: '/assets/categories/phone.png',
-        zoom: "1.5",
-        title: "Phones",
-        href: "/category/phones"
+        url: '/assets/categories/fashion.jpg',
+        zoom: "1",
+        title: "Fashion",
+        href: "/category/fashion"
     },
-
+    {
+        url: '/assets/categories/furniture.jpg',
+        zoom: "1",
+        title: "Furniture",
+        href: "/category/furniture"
+    },
+    {
+        url: '/assets/categories/books.jpg',
+        zoom: "1",
+        title: "Books",
+        href: "/category/books"
+    },
 ]
 
 export const countries = [
