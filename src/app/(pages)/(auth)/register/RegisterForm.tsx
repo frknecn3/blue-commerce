@@ -12,6 +12,8 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { toast } from 'sonner';
 
+import PasswordStrengthIndicator from '@/components/Auth/PasswordStrengthIndicator';
+
 type Props = {}
 
 const RegisterForm = (props: Props) => {
@@ -19,9 +21,26 @@ const RegisterForm = (props: Props) => {
     const { onboardingData, onboardingStep } = useAppSelector(state => state.uiReducer)
     const dispatch = useAppDispatch();
     const [flag, setFlag] = useState('TR');
+    const [password, setPassword] = useState(onboardingData.password || '');
+    const [isChecking, setIsChecking] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     const router = useRouter();
 
-    const btnContent = onboardingStep !== 3 ? <>Next<FaChevronRight /></> : 'Finish'
+    const clearFieldError = (field: string) => {
+        if (fieldErrors[field]) {
+            setFieldErrors(prev => {
+                const next = { ...prev };
+                delete next[field];
+                return next;
+            });
+        }
+    };
+
+    const btnContent = isChecking
+        ? 'Checking...'
+        : onboardingStep !== 3
+            ? <>Next<FaChevronRight /></>
+            : 'Finish'
 
     let currentForm: React.ReactNode;
 
@@ -37,17 +56,68 @@ const RegisterForm = (props: Props) => {
         case 1:
             currentForm =
                 <React.Fragment key='step-1'>
-                    <Input id='name' label='Full Name' placeholder='Enter full name' defaultValue={onboardingData.name} />
-                    <Input id='email' label='E-mail' placeholder='example@info.com' type='email' defaultValue={onboardingData.email} />
-                    <Input id='password' label='Password' placeholder='A strong password' type='password' defaultValue={onboardingData.password} />
-                    <Input id='confirmPassword' label='Password Confirm' placeholder='Same as your password' type='password' defaultValue={onboardingData.confirmPassword} />
+                    <Input
+                        id='name'
+                        label='Full Name'
+                        placeholder='Enter full name'
+                        defaultValue={onboardingData.name}
+                        error={fieldErrors.name}
+                        onChange={() => clearFieldError('name')}
+                    />
+                    <Input
+                        id='email'
+                        label='E-mail'
+                        placeholder='example@info.com'
+                        type='email'
+                        defaultValue={onboardingData.email}
+                        error={fieldErrors.email}
+                        onChange={() => clearFieldError('email')}
+                    />
+                    <Input
+                        id='password'
+                        label='Password'
+                        placeholder='A strong password'
+                        type='password'
+                        defaultValue={onboardingData.password || password}
+                        error={fieldErrors.password}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            clearFieldError('password');
+                        }}
+                    />
+                    <PasswordStrengthIndicator password={password} />
+                    <Input
+                        id='confirmPassword'
+                        label='Password Confirm'
+                        placeholder='Same as your password'
+                        type='password'
+                        defaultValue={onboardingData.confirmPassword}
+                        error={fieldErrors.confirmPassword}
+                        onChange={() => clearFieldError('confirmPassword')}
+                    />
                 </React.Fragment>
             break;
         case 2:
             currentForm =
                 <React.Fragment key='step-2'>
-                    <Input id='phone' label='Phone Number' placeholder='e.g: +90 555 444 33 22' type='phone' defaultValue={onboardingData.phone} />
-                    <Input id='defaultDeliveryLocation' label='Delivery Location' placeholder='e.g: Sillicon Valley, CA' type='string' defaultValue={onboardingData.defaultDeliveryLocation} />
+                    <Input
+                        id='phone'
+                        label='Phone Number'
+                        placeholder='e.g: +90 555 444 33 22'
+                        type='phone'
+                        defaultValue={onboardingData.phone}
+                        error={fieldErrors.phone}
+                        onChange={() => clearFieldError('phone')}
+                    />
+                    <Input
+                        id='defaultDeliveryLocation'
+                        label='Delivery Location'
+                        placeholder='e.g: Sillicon Valley, CA'
+                        type='string'
+                        defaultValue={onboardingData.defaultDeliveryLocation}
+                        error={fieldErrors.defaultDeliveryLocation}
+                        onChange={() => clearFieldError('defaultDeliveryLocation')}
+                    />
 
                     <div className='flex flex-col'>
                         <label htmlFor="" className='pl-2 text-stone-600 pb-1'>Country</label>
@@ -63,7 +133,15 @@ const RegisterForm = (props: Props) => {
         case 3:
             currentForm =
                 <React.Fragment key='step-3'>
-                    <Input label='Terms & Conditions' id='terms' type='checkbox' placeholder='I accept the Terms & Conditions' defaultChecked={onboardingData.terms} />
+                    <Input
+                        label='Terms & Conditions'
+                        id='terms'
+                        type='checkbox'
+                        placeholder='I accept the Terms & Conditions'
+                        defaultChecked={onboardingData.terms}
+                        error={fieldErrors.terms}
+                        onChange={() => clearFieldError('terms')}
+                    />
                     <Input label='Newsletter' id='newsletter' type='checkbox' placeholder='I want to receive promotions and offers.' defaultChecked={onboardingData.newsletter} optional={true} />
                 </React.Fragment>
             break;
@@ -92,21 +170,100 @@ const RegisterForm = (props: Props) => {
         dispatch(onboardingAddData(stepFields));
 
         if (direction === 'NEXT') {
+            const stepErrors: Record<string, string> = {};
+
+            if (onboardingStep === 1) {
+                if (!stepFields.name || stepFields.name.trim().length < 3) {
+                    stepErrors.name = "Full Name must be at least 3 characters long.";
+                }
+                if (!stepFields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(stepFields.email)) {
+                    stepErrors.email = "Please enter a valid email address.";
+                }
+                const passVal = stepFields.password || password;
+                if (!passVal || passVal.length < 8 || !/[A-Z]/.test(passVal) || !/[0-9]/.test(passVal)) {
+                    stepErrors.password = "Password must be at least 8 characters, with 1 uppercase letter and 1 number.";
+                }
+                if (stepFields.password !== stepFields.confirmPassword) {
+                    stepErrors.confirmPassword = "Passwords don't match.";
+                }
+
+                if (Object.keys(stepErrors).length > 0) {
+                    setFieldErrors(stepErrors);
+                    toast.error(Object.values(stepErrors)[0]);
+                    return;
+                }
+
+                // Async Email Pre-flight Check
+                setIsChecking(true);
+                try {
+                    const checkRes = await axios.post('/api/auth/check-email', { email: stepFields.email });
+                    if (checkRes.data?.data?.available === false) {
+                        const msg = checkRes.data.message || 'A user with this email address already exists.';
+                        setFieldErrors({ email: msg });
+                        toast.error(msg);
+                        setIsChecking(false);
+                        return;
+                    }
+                } catch (err) {
+                    if (err instanceof AxiosError) {
+                        const msg = err.response?.data?.message || 'Error checking email availability.';
+                        setFieldErrors({ email: msg });
+                        toast.error(msg);
+                    } else {
+                        toast.error('Error checking email availability.');
+                    }
+                    setIsChecking(false);
+                    return;
+                }
+                setIsChecking(false);
+            } else if (onboardingStep === 2) {
+                if (!stepFields.phone || stepFields.phone.trim().length < 10) {
+                    stepErrors.phone = "Phone number must be at least 10 digits long.";
+                }
+                if (!stepFields.defaultDeliveryLocation || stepFields.defaultDeliveryLocation.trim().length === 0) {
+                    stepErrors.defaultDeliveryLocation = "Delivery location is required.";
+                }
+
+                if (Object.keys(stepErrors).length > 0) {
+                    setFieldErrors(stepErrors);
+                    toast.error(Object.values(stepErrors)[0]);
+                    return;
+                }
+            } else if (onboardingStep === 3) {
+                if (!stepFields.terms) {
+                    setFieldErrors({ terms: "You must accept the Terms & Conditions to complete registration." });
+                    toast.error("You must accept the Terms & Conditions to complete registration.");
+                    return;
+                }
+            }
+
+            setFieldErrors({});
+
             if (onboardingStep < 3) {
                 dispatch(onboardingNextStep());
             } else {
                 const cart = getGuestCart().map((item) => { return { productId: item.productId, quantity: item.quantity } })
                 
+                setIsChecking(true);
                 axios.post('/api/auth/register', { ...onboardingData, ...stepFields, cart })
                     .then((res) => {
+                        setIsChecking(false);
                         if (res.status == 201) {
-                            // toast.success('You were successfully registered.');
                             router.replace('/register/confirm-email')
                         }
                     })
                     .catch((err) => {
+                        setIsChecking(false);
                         if (err instanceof AxiosError) {
-                            toast.error(err.response?.data?.data?.details?.join(' | ') || err.response?.data.message || 'An unknown error has occurred.')
+                            const errCode = err.response?.data?.data?.status || err.response?.data?.code;
+                            if (errCode === 'ERR_USER_EXISTS') {
+                                setFieldErrors({ email: 'This email address is already registered.' });
+                                toast.error('This email is already registered. Navigating back to Step 1.');
+                                dispatch(onboardingPrevStep());
+                                dispatch(onboardingPrevStep());
+                                return;
+                            }
+                            toast.error(err.response?.data?.data?.details?.join(' | ') || err.response?.data?.message || 'An unknown error has occurred.')
                             console.log(err.response)
                         }
                         else {
