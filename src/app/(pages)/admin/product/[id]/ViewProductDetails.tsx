@@ -60,11 +60,11 @@ const ViewProductDetails = ({ product }: Props) => {
                         </DetailRow>
 
                         <DetailRow fieldKey='Date Created'>
-                            {product.createdAt.toLocaleDateString()} - {product.createdAt.toLocaleTimeString()}
+                            {new Date(product.createdAt).toLocaleDateString()} - {new Date(product.createdAt).toLocaleTimeString()}
                         </DetailRow>
 
                         <DetailRow fieldKey='Last Updated'>
-                            {product.updatedAt.toLocaleDateString()} - {product.updatedAt.toLocaleTimeString()}
+                            {new Date(product.updatedAt).toLocaleDateString()} - {new Date(product.updatedAt).toLocaleTimeString()}
                         </DetailRow>
 
                         <DetailRow fieldKey='Status'>

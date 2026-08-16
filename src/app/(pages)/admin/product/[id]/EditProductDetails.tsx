@@ -108,8 +108,8 @@ const EditProductDetails = ({ product, categories, stores }: Props) => {
                             <ProductDetailInput fieldKey='Name' id='name' value={name} fn={setName} placeholder='product name' />
                             <ProductDetailInput fieldKey='Slug' value={product.nameSlug || ''} placeholder='Slug' disabled />
                             <ProductDetailInput fieldKey='ID' value={product.id || ''} placeholder='ID' disabled />
-                            <ProductDetailInput fieldKey='Date Created' value={`${product.createdAt.toLocaleDateString()} - ${product.createdAt.toLocaleTimeString()}` || ''} placeholder='Date Created' disabled />
-                            <ProductDetailInput fieldKey='Date Updated' value={`${product.updatedAt.toLocaleDateString()} - ${product.updatedAt.toLocaleTimeString()}` || ''} placeholder='Date Updated' disabled />
+                            <ProductDetailInput fieldKey='Date Created' value={`${new Date(product.createdAt).toLocaleDateString()} - ${new Date(product.createdAt).toLocaleTimeString()}` || ''} placeholder='Date Created' disabled />
+                            <ProductDetailInput fieldKey='Date Updated' value={`${new Date(product.updatedAt).toLocaleDateString()} - ${new Date(product.updatedAt).toLocaleTimeString()}` || ''} placeholder='Date Updated' disabled />
                             <ProductDetailInput fieldKey='Stock' id='stock' value={stock} fn={setStock} placeholder='stock' />
                             <div className='flex items-center'>
                                 <label htmlFor="" className='flex-1 font-semibold'>Status:</label>
