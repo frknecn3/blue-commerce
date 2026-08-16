@@ -14,16 +14,20 @@ const CartAndControls = (props: Props) => {
 
     return (
         <div className='relative z-10'>
-            <button onClick={() => {
-                dispatch(toggleCartModal())
-            }}
-                className='text-blue-400 cart-text flex items-center border-2 hover:border-neutral-800 cursor-pointer border-transparent hover:shadow-lg transition-all relative bg-white rounded-xl font-semibold p-2 justify-center'>
-                <div className='relative'>
-                    <span className='text-white text-sm lg:text-[15px] font-semibold absolute top-[40%] left-[60%] transform -translate-x-1/2 -translate-y-1/2'>{cart.length}</span>
-                    <FaShoppingCart className='cart-text text-2xl lg:text-[30px]' />
+            <button
+                onClick={() => dispatch(toggleCartModal())}
+                aria-label="View Shopping Cart"
+                className="cart-trigger group inline-flex items-center justify-center gap-2 rounded-md bg-blue-700/80 border border-blue-500 px-3.5 py-2 text-xs font-semibold text-white transition-all duration-150 hover:bg-blue-700 hover:border-blue-400 active:scale-95 shadow-xs cursor-pointer"
+            >
+                <div className="relative">
+                    <FaShoppingCart className="text-sm transition-transform duration-150 group-hover:scale-110" />
+                    {cart.length > 0 && (
+                        <span className="absolute -top-2 -right-2.5 grid h-4 min-w-4 place-items-center rounded-full bg-amber-400 px-1 text-[10px] font-bold text-slate-900 shadow-xs leading-none">
+                            {cart.length}
+                        </span>
+                    )}
                 </div>
-
-                <span className='hidden lg:block'>MY CART</span>
+                <span className="hidden lg:inline font-semibold">Cart</span>
             </button>
             <CartModal />
         </div>
