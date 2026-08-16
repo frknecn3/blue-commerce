@@ -31,12 +31,12 @@ export const withErrorHandler = <T>(handler: ApiHandler<T>) => {
         try {
             return await handler(req, params);
         } catch (err) {
-            console.error("Global Error Handler:", err);
-
+            if (process.env.NODE_ENV !== 'test' && !(err instanceof APIError)) {
+                console.error("Global Error Handler:", err);
+            }
 
             if (err instanceof APIError) {
                 const details = err.details as string[]
-
                 return res<{ status: string, details: string[] }>(err.statusCode, err.message, { status: err.errorCode, details: details });
             }
 
