@@ -1,7 +1,6 @@
-import ProductsTable from '@/components/Admin/ProductsTable'
-import TableControls from '@/components/Admin/ProductsTable/TableControls'
 import StoresTable from '@/components/Admin/StoresTable'
-import { Product } from '@/generated/prisma'
+import TableControls from '@/components/Admin/ProductsTable/TableControls'
+import SearchInput from '@/components/Admin/UsersTable/SearchInput'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import React from 'react'
@@ -10,30 +9,24 @@ type Props = {
     searchParams: {
         q?: string,
         page?: string,
-        limit: number,
-        sort: string,
-        order: 'asc' | 'desc' | ''
+        limit?: string,
+        sort?: string,
+        order?: 'asc' | 'desc' | ''
     }
 }
 
-const ProductsPage = async ({ searchParams }: Props) => {
-
+const StoresPage = async ({ searchParams }: Props) => {
     const page = Number(searchParams.page) || 1;
     const query = searchParams.q || '';
-    const limit = Number(searchParams.limit) || 10
+    const limit = Number(searchParams.limit) || 10;
     const sort = searchParams.sort;
     const order = searchParams.order;
 
-    let data: Product[]
-    let totalAmount;
+    const whereClause = query ? { storeName: { contains: query, mode: "insensitive" as const } } : {};
 
-
-    const getStoresTable = async (query: string, limit: number, page: number) => {
-        const data = await prisma.store.findMany({
-            where: {
-                storeName: { contains: query, mode: "insensitive" },
-                // status: "ACTIVE"
-            },
+    const [data, totalAmount] = await Promise.all([
+        prisma.store.findMany({
+            where: whereClause,
             include: {
                 owner: true,
                 products: true,
@@ -42,41 +35,33 @@ const ProductsPage = async ({ searchParams }: Props) => {
                 }
             },
             take: limit,
-            skip: (page - 1) * 10,
+            skip: (page - 1) * limit,
             orderBy:
-                // if the sort parameter is productCount then special sort by it
-                sort === 'productCount' ?
-                    {
-                        products: {
-                            _count: order || 'asc'
-                        }
-                    }
-                    // if anything else do a normal sort
-                    : sort ?
-                        { [sort]: order || 'asc' }
-                        :
-                    // if there is no sort field at all then don't do anything (undefined)
-                        undefined
-
+                sort === 'productCount'
+                    ? { products: { _count: (order as 'asc' | 'desc') || 'asc' } }
+                    : sort
+                        ? { [sort]: order || 'asc' }
+                        : undefined
+        }),
+        prisma.store.count({
+            where: whereClause
         })
-        totalAmount = await prisma.store.count() || 0;
+    ]);
 
-        return data
-    }
     return (
-        <>
-
-            <div className='flex-[4] flex flex-col h-full mx-[10vw]'>
-                <StoresTable data={(await getStoresTable(query, limit, page))} />
-                <TableControls totalAmount={totalAmount || 0} />
-                <div className='flex justify-center items-center'>
-                    <Link href='/admin/product/create' className='bg-blue-400 px-4 py-2 rounded-md shadow-md text-white hover:scale-105 transition-all'>
-                        Create New Product</Link>
+        <div className='flex-[4] flex flex-col h-full mx-auto max-w-[1400px] px-4 py-6'>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-900">Stores Management</h1>
+                    <p className="text-xs text-slate-500 mt-0.5">View and manage all registered merchant stores.</p>
                 </div>
+                <SearchInput placeholder='Search store name...' />
             </div>
 
-        </>
+            <StoresTable data={data} />
+            <TableControls totalAmount={totalAmount || 0} />
+        </div>
     )
 }
 
-export default ProductsPage
+export default StoresPage
