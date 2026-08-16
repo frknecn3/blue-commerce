@@ -1,12 +1,19 @@
 import { Decimal } from "@/generated/prisma/runtime/client";
-import { Prisma } from "../generated/prisma";
+import { Prisma, Product } from "../generated/prisma";
+import type { CartItemWithProduct, GuestCartItem } from "./cart";
+import type { SerializedFavorite } from "./favorite";
+
+export type { CartItemWithProduct, GuestCartItem, SerializedFavorite };
 
 export type Serialized<T> =
     T extends Decimal ? number :
-    T extends Date ? string :
+    T extends Date ? Date | string :
     T extends Array<infer U> ? Array<Serialized<U>> :
     T extends object ? { [K in keyof T]: Serialized<T[K]> } :
     T
+
+export type SerializedProduct = Serialized<Product>;
+export type ProductType = SerializedProduct;
 
 export const productArgs = {
     withReviews: Prisma.validator<Prisma.ProductDefaultArgs>()({
@@ -33,6 +40,14 @@ export type ProductWithReviews =
 
 export type ProductWithSeller =
     Serialized<Prisma.ProductGetPayload<typeof productArgs.withSeller>>
+
+export type ProductRawWithSeller =
+    Prisma.ProductGetPayload<typeof productArgs.withSeller>
+
+export type SerializedProductWithSeller = ProductWithSeller;
+
+export type ProductWithCategory =
+    Serialized<Prisma.ProductGetPayload<{ include: { category: true } }>>
 
 export type ProductFull =
     Serialized<Prisma.ProductGetPayload<typeof productArgs.full>>
@@ -62,4 +77,4 @@ interface BookSpecs {
 
 
 
-export type ProductSpecs = ClothingSpecs | ElectronicsSpecs | BookSpecs;
+export type ProductSpecs = ClothingSpecs | ElectronicsSpecs | BookSpecs;
