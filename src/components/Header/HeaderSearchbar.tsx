@@ -101,7 +101,7 @@ const HeaderSearchbar = () => {
                 <input
                     onInput={onSearch}
                     type="search"
-                    className={`w-full rounded-md border border-slate-700 bg-slate-800 py-2.5 pl-4 pr-12 text-sm text-white outline-none transition-all duration-150 placeholder:text-slate-400 focus:border-blue-500 focus:bg-slate-900 ${isVisible ? 'rounded-b-none border-b-0' : ''} z-[21]`}
+                    className={`w-full rounded-md border border-slate-700 bg-white py-2.5 pl-4 pr-12 text-sm text-black outline-none transition-all duration-150 placeholder:text-slate-400 focus:border-blue-500 ${isVisible ? 'rounded-b-none border-b-0' : ''} z-[21]`}
                     placeholder='Search for products, categories...'
                 />
                 <button
