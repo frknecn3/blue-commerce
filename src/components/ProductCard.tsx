@@ -56,10 +56,10 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
   const isLowStock = !isOutOfStock && product.stock <= 5;
 
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white transition-all duration-150 hover:border-slate-400 hover:shadow-md">
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-sky-100 bg-white transition-all duration-150 hover:border-blue-400 hover:shadow-md">
       {/* Top-left badge */}
       {badge && (
-        <span className="absolute left-2.5 top-2.5 z-20 rounded bg-red-600 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-xs">
+        <span className="absolute left-2.5 top-2.5 z-20 rounded bg-blue-600 px-2 py-0.5 text-[11px] font-semibold text-white shadow-xs">
           {badge}
         </span>
       )}
@@ -68,14 +68,14 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
       <button
         aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         onClick={handleFavorite}
-        className="absolute right-2.5 top-2.5 z-20 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-slate-600 shadow-sm border border-slate-200 transition hover:scale-110 hover:text-red-600"
+        className="absolute right-2.5 top-2.5 z-20 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-slate-600 shadow-sm border border-sky-100 transition hover:scale-110 hover:text-red-600"
       >
         {isFavorite ? <IoHeart className="text-red-600" size={16} /> : <IoHeartOutline size={16} />}
       </button>
 
       {/* Image */}
       <Link href={`/product/${product.id}`} className="relative block">
-        <div className="relative flex h-44 items-center justify-center overflow-hidden bg-slate-50 p-4">
+        <div className="relative flex h-44 items-center justify-center overflow-hidden bg-sky-50/50 p-4">
           {loading && (
             <div className="absolute inset-0 z-30 grid place-items-center bg-white/60">
               <Loader />
@@ -91,7 +91,7 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
             className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
           {isOutOfStock && (
-            <span className="absolute bottom-2 left-2 rounded bg-slate-900/90 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
+            <span className="absolute bottom-2 left-2 rounded bg-slate-800/90 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
               Out of stock
             </span>
           )}
@@ -106,7 +106,7 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
       {/* Body */}
       <div className="flex flex-1 flex-col p-3">
         <Link href={`/product/${product.id}`} className="flex-1">
-          <h3 className="line-clamp-2 min-h-[2.25rem] text-left text-xs font-bold leading-tight text-slate-900 transition-colors group-hover:text-blue-600">
+          <h3 className="line-clamp-2 min-h-[2.25rem] text-left text-xs font-bold leading-tight text-slate-800 transition-colors group-hover:text-blue-600">
             {product.name}
           </h3>
 
@@ -128,9 +128,9 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
         </Link>
 
         {/* Price + Add to cart */}
-        <div className="mt-3 flex items-center justify-between gap-2 border-t border-slate-100 pt-2.5">
+        <div className="mt-3 flex items-center justify-between gap-2 border-t border-sky-100 pt-2.5">
           <div className="flex flex-col">
-            <span className="text-sm sm:text-base font-black text-slate-900 leading-none">
+            <span className="text-sm sm:text-base font-bold text-slate-900 leading-none">
               ${Number(product.price).toFixed(2)}
             </span>
           </div>
@@ -139,7 +139,7 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
             transition={{ duration: 0.15 }}
             disabled={isOutOfStock || loading}
             onClick={handleAddToCart}
-            className="flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1.5 text-xs font-extrabold text-white shadow-xs transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             <FaCartPlus size={12} />
             <span>Add</span>

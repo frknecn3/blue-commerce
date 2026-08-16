@@ -1,22 +1,29 @@
 import React from 'react'
+import Link from 'next/link'
+import { FiShoppingBag } from 'react-icons/fi'
 
 const Footer = () => {
   return (
-    <footer style={{'zIndex':`9999999999`}} className='bottom-0 w-[100vw] h-auto p-1 md:p-8 text-white flex justify-between items-center md:h-[10vh] bg-blue-400 border-t-8 border-blue-100'>
-        <div className='text-[0.7rem] md:text-[1rem] p-4'>
-            <p>2026 | All rights reserved.</p>
+    <footer className='w-full bg-blue-600 text-blue-100 border-t border-blue-500 py-6'>
+      <div className='max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-medium'>
+        <div className='flex items-center gap-2'>
+          <span className='grid h-6 w-6 place-items-center rounded bg-white text-blue-600 text-xs'>
+            <FiShoppingBag />
+          </span>
+          <span className='font-bold text-white'>BluE-Commerce</span>
+          <span>© 2026 | All rights reserved.</span>
         </div>
-        <div className='flex sm:flex-row flex-col gap-4 text-[0.5rem] md:text-[1rem] p-4'>
-          {/* <img className='w-8 md:w-16' src="https://images.hepsiburada.net/assets/footer/bonus-card.svg" alt="" />
-          <img className='w-8 md:w-16' src="https://images.hepsiburada.net/assets/footer/maximum.svg" alt="" />
-          <img className='w-8 md:w-16' src="https://images.hepsiburada.net/assets/footer/world.svg" alt="" />
-          <img className='w-8 md:w-16' src="https://images.hepsiburada.net/assets/footer/ziraat.svg" alt="" />
-          <img className='w-8 md:w-16' src="https://images.hepsiburada.net/assets/footer/card-finans.svg" alt="" />
-          <img className='w-8 md:w-16' src="https://images.hepsiburada.net/assets/footer/axess.svg" alt="" /> */}
+
+        <div className='flex items-center gap-6'>
+          <Link href="/support" className='hover:text-white transition-colors'>Customer Support</Link>
+          <Link href="/offers" className='hover:text-white transition-colors'>Special Offers</Link>
+          <Link href="/become-seller" className='hover:text-white transition-colors'>Become a Seller</Link>
         </div>
-        <div className='p-4'>
-            <p className='text-[0.7rem] md:text-[1rem] '>Made by Furkan Ercan</p>
+
+        <div>
+          <p className='text-blue-200'>Made with precision by Furkan Ercan</p>
         </div>
+      </div>
     </footer>
   )
 }

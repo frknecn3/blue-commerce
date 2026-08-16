@@ -13,26 +13,26 @@ const supportTopics = [
 
 const SupportPage = () => {
     return (
-        <main className="min-h-screen bg-slate-100/70 py-8 px-4 sm:px-6 lg:px-10 max-w-[1480px] mx-auto">
+        <main className="min-h-screen bg-sky-50/40 py-8 px-4 sm:px-6 lg:px-10 max-w-[1480px] mx-auto">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">
                 <Link href="/" className="hover:text-blue-600">Home</Link>
                 <span>/</span>
-                <span className="text-slate-900 font-bold">Customer Support</span>
+                <span className="text-blue-900 font-bold">Customer Support</span>
             </nav>
 
             {/* Support Hero Header */}
-            <div className="bg-slate-900 text-white rounded-lg p-8 md:p-12 mb-8 shadow-md border border-slate-800 text-center">
-                <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-wider">How Can We Help You?</h1>
-                <p className="text-sm text-slate-300 mt-2 max-w-xl mx-auto font-medium">
-                    Search our knowledge base or browse support topics below for quick assistance.
+            <div className="bg-gradient-to-r from-blue-600 via-sky-600 to-blue-700 text-white rounded-lg p-6 sm:p-8 mb-6 shadow-sm border border-blue-500 text-center">
+                <h1 className="text-2xl sm:text-3xl font-bold">How can we help you?</h1>
+                <p className="text-xs sm:text-sm text-sky-100 mt-1 max-w-xl mx-auto font-normal">
+                    Search our help topics or browse common questions below.
                 </p>
 
                 <div className="mt-6 max-w-2xl mx-auto relative">
                     <input
                         type="text"
                         placeholder="Search for orders, returns, shipping..."
-                        className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-400 py-3 pl-10 pr-4 rounded-md outline-none focus:border-blue-500 text-sm"
+                        className="w-full bg-white border border-blue-200 text-slate-800 placeholder-slate-400 py-3 pl-10 pr-4 rounded-md outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-400 text-sm shadow-sm"
                     />
                     <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base" />
                 </div>
@@ -46,7 +46,7 @@ const SupportPage = () => {
                         <Link
                             key={idx}
                             href={topic.href}
-                            className="bg-white border border-slate-200 rounded-lg p-5 hover:border-blue-600 hover:shadow-md transition-all group flex items-start gap-4"
+                            className="bg-white border border-sky-100 rounded-lg p-5 hover:border-blue-400 hover:shadow-md transition-all group flex items-start gap-4 shadow-xs"
                         >
                             <div className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-blue-50 border border-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                                 <Icon className="text-lg" />
@@ -65,7 +65,7 @@ const SupportPage = () => {
             </div>
 
             {/* Contact Card */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="bg-white border border-sky-100 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs">
                 <div>
                     <h3 className="font-bold text-slate-900 text-base">Still need assistance?</h3>
                     <p className="text-xs text-slate-500 mt-0.5 font-medium">Our customer care team is available 24/7 to resolve your inquiries.</p>
