@@ -97,17 +97,17 @@ const HeaderSearchbar = () => {
 
     return (
         <div className='relative w-full' ref={wrapperRef}>
-            <form id='searchbar' onSubmit={(e) => { }} className='relative'>
+            <form id='searchbar' onSubmit={(e) => { e.preventDefault(); }} className='relative flex items-center'>
                 <input
                     onInput={onSearch}
                     type="search"
-                    className={`w-full rounded-xl border-2 border-gray-300 bg-white p-2.5 pl-4 pr-12 text-black shadow-sm outline-none transition-all duration-200 placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 lg:p-4 lg:pr-12 ${isVisible && 'rounded-b-none border-b-0 shadow-none'} z-[21]`}
-                    placeholder='Search for products...'
+                    className={`w-full rounded-md border border-slate-700 bg-slate-800 py-2.5 pl-4 pr-12 text-sm text-white outline-none transition-all duration-150 placeholder:text-slate-400 focus:border-blue-500 focus:bg-slate-900 ${isVisible ? 'rounded-b-none border-b-0' : ''} z-[21]`}
+                    placeholder='Search for products, categories...'
                 />
                 <button
                     type='submit'
                     aria-label='Search'
-                    className='absolute right-2 top-1/2 grid h-8 w-8 -translate-y-1/2 transform place-items-center rounded-lg text-lg text-gray-400 transition-colors hover:bg-blue-50 hover:text-blue-600'
+                    className='absolute right-1.5 top-1/2 grid h-7 w-8 -translate-y-1/2 transform place-items-center rounded bg-blue-600 text-xs font-bold text-white transition-colors hover:bg-blue-500'
                 >
                     <FaSearch />
                 </button>

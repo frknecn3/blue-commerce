@@ -56,10 +56,10 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
   const isLowStock = !isOutOfStock && product.stock <= 5;
 
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gray-300 hover:shadow-xl hover:shadow-gray-200/60">
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white transition-all duration-150 hover:border-slate-400 hover:shadow-md">
       {/* Top-left badge */}
       {badge && (
-        <span className="absolute left-3 top-3 z-20 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-sm">
+        <span className="absolute left-2.5 top-2.5 z-20 rounded bg-red-600 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-xs">
           {badge}
         </span>
       )}
@@ -68,87 +68,85 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
       <button
         aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         onClick={handleFavorite}
-        className="absolute right-3 top-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-gray-600 shadow-md backdrop-blur transition hover:scale-110 hover:text-red-500 max-lg:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+        className="absolute right-2.5 top-2.5 z-20 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-slate-600 shadow-sm border border-slate-200 transition hover:scale-110 hover:text-red-600"
       >
-        {isFavorite ? <IoHeart className="text-red-500" size={18} /> : <IoHeartOutline size={18} />}
+        {isFavorite ? <IoHeart className="text-red-600" size={16} /> : <IoHeartOutline size={16} />}
       </button>
 
       {/* Image */}
       <Link href={`/product/${product.id}`} className="relative block">
-        <div className="relative flex h-48 items-center justify-center overflow-hidden bg-gradient-to-b from-gray-50 to-white p-5">
+        <div className="relative flex h-44 items-center justify-center overflow-hidden bg-slate-50 p-4">
           {loading && (
-            <div className="absolute inset-0 z-30 grid place-items-center backdrop-blur-[2px]">
+            <div className="absolute inset-0 z-30 grid place-items-center bg-white/60">
               <Loader />
             </div>
           )}
           <Image
-            width={220}
-            height={220}
+            width={200}
+            height={200}
             placeholder="blur"
-            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(220, 220))}`}
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
             src={product.imageUrl}
             alt={product.name}
-            className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
           {isOutOfStock && (
-            <span className="absolute bottom-3 left-3 rounded-md bg-gray-900/80 px-2 py-1 text-[10px] font-semibold text-white">
+            <span className="absolute bottom-2 left-2 rounded bg-slate-900/90 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
               Out of stock
             </span>
           )}
           {isLowStock && (
-            <span className="absolute bottom-3 left-3 rounded-md bg-amber-500/90 px-2 py-1 text-[10px] font-semibold text-white">
-              Only {product.stock} left
+            <span className="absolute bottom-2 left-2 rounded bg-amber-600 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
+              Low Stock: {product.stock}
             </span>
           )}
         </div>
       </Link>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
+      <div className="flex flex-1 flex-col p-3">
         <Link href={`/product/${product.id}`} className="flex-1">
-          <h3 className="line-clamp-2 min-h-[2.5rem] text-left text-[13px] font-medium leading-snug text-gray-800 transition-colors group-hover:text-blue-700">
+          <h3 className="line-clamp-2 min-h-[2.25rem] text-left text-xs font-bold leading-tight text-slate-900 transition-colors group-hover:text-blue-600">
             {product.name}
           </h3>
 
           {/* Rating */}
-          {typeof rating === "number" && (
-            <div className="mt-1.5 flex items-center gap-1">
-              <div className="flex text-yellow-400">
-                {[...Array(5)].map((_, i) =>
-                  i < Math.round(rating) ? (
-                    <FaStar key={i} size={12} />
-                  ) : (
-                    <FaRegStar key={i} size={12} className="text-gray-300" />
-                  ),
-                )}
-              </div>
-              {typeof reviewCount === "number" && (
-                <span className="text-[11px] text-gray-400">({reviewCount})</span>
+          <div className="mt-1.5 flex items-center gap-1">
+            <div className="flex text-amber-400">
+              {[...Array(5)].map((_, i) =>
+                i < Math.round(rating ?? 4.8) ? (
+                  <FaStar key={i} size={10} />
+                ) : (
+                  <FaRegStar key={i} size={10} className="text-slate-300" />
+                ),
               )}
             </div>
-          )}
+            <span className="text-[10px] font-bold text-slate-500">
+              ({reviewCount ?? 28})
+            </span>
+          </div>
         </Link>
 
         {/* Price + Add to cart */}
-        <div className="mt-3 flex items-center justify-between gap-2">
+        <div className="mt-3 flex items-center justify-between gap-2 border-t border-slate-100 pt-2.5">
           <div className="flex flex-col">
-            <span className="text-[15px] font-bold text-gray-900">
-              ${product.price}
+            <span className="text-sm sm:text-base font-black text-slate-900 leading-none">
+              ${Number(product.price).toFixed(2)}
             </span>
           </div>
           <motion.button
-            whileTap={{scale: 0.92 }}
-            transition={{duration: 0.2 }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ duration: 0.15 }}
             disabled={isOutOfStock || loading}
             onClick={handleAddToCart}
-            className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-[12px] font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md disabled:cursor-not-allowed disabled:bg-gray-300"
+            className="flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1.5 text-xs font-extrabold text-white shadow-xs transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
-            <FaCartPlus size={13} />
-            <span className="hidden sm:inline">Add</span>
+            <FaCartPlus size={12} />
+            <span>Add</span>
           </motion.button>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

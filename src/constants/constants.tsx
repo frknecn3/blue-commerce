@@ -92,35 +92,35 @@ export const SelectOptions: Option[] = categories.map((category) => { return { v
 
 export const hotbarElements = [
     {
-        value: 'trending',
+        value: '/category/trending',
         label: 'Trending'
     },
     {
-        value: 'whatsnew',
+        value: '/category/newest',
         label: 'Newest Products'
     },
     {
-        value: 'offers',
+        value: '/offers',
         label: 'Special Offers'
     },
     {
-        value: 'promoted',
+        value: '/category/promoted',
         label: 'Promoted Products'
     },
     {
-        value: 'fastdelivery',
+        value: '/category/fast-delivery',
         label: 'Same-day Delivery'
     },
     {
-        value: 'supermarket',
+        value: '/category/supermarket',
         label: 'Supermarket'
     },
     {
-        value: 'gamingpcs',
+        value: '/category/gaming-pcs',
         label: 'Gaming PCs'
     },
     {
-        value: 'petshop',
+        value: '/category/pet-shop',
         label: 'Pet Shop'
     },
 ]
@@ -130,37 +130,44 @@ export const ribbons = [
     {
         url: '/assets/categories/cosmetics.png',
         zoom: "1.5",
-        title: "Cosmetics"
+        title: "Cosmetics",
+        href: "/category/cosmetics"
     },
     {
         url: '/assets/categories/fastfood.png',
         zoom: "1",
-        title: "Food"
+        title: "Food",
+        href: "/category/food"
     },
     {
         url: '/assets/categories/laptop.png',
         zoom: "1.5",
-        title: "Laptops"
+        title: "Laptops",
+        href: "/category/laptops"
     },
     {
         url: '/assets/categories/oven.png',
         zoom: "1",
-        title: "Kitchenware"
+        title: "Kitchenware",
+        href: "/category/kitchenware"
     },
     {
         url: '/assets/categories/television.png',
         zoom: "1.5",
-        title: "Televisions"
+        title: "Televisions",
+        href: "/category/televisions"
     },
     {
         url: '/assets/categories/gold.png',
         zoom: "1.5",
-        title: "Gold"
+        title: "Gold",
+        href: "/category/gold"
     },
     {
         url: '/assets/categories/phone.png',
         zoom: "1.5",
-        title: "Phones"
+        title: "Phones",
+        href: "/category/phones"
     },
 
 ]

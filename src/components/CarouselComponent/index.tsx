@@ -20,15 +20,14 @@ const CarouselComponent = ({ product }: { product: ProductWithCategory }): React
   }, []);
 
   return (
-    <Link href={`/product/${product.id}`} className='block w-full aspect-[6/3] relative'>
+    <Link href={`/product/${product.id}`} className='block w-full aspect-[16/7] relative overflow-hidden rounded-lg'>
       {photo ?
-        <Image fill sizes="(max-width:768px) 100vw, 50vw" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`} src={`/assets/banners/${photo}`} className="rounded-xl w-full object-cover" alt="carousel photo" />
+        <Image fill sizes="(max-width:768px) 100vw, 50vw" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`} src={`/assets/banners/${photo}`} className="w-full h-full object-cover rounded-lg" alt="carousel photo" />
         : <div
-          className="absolute inset-0 w-full h-full bg-slate-200 animate-pulse"
+          className="absolute inset-0 w-full h-full bg-slate-200 animate-pulse rounded-lg"
           style={{ backgroundImage: `url(data:image/svg+xml;base64,${toBase64(shimmer(600, 300))})` }}
         />
       }
-      {/* <ArrowAnimation /> */}  
     </Link>
   );
 };
