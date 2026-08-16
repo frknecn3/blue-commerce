@@ -1,82 +1,142 @@
+'use client'
 import { activateProduct, softDeleteProduct } from '@/app/actions/productActions'
 import { useConfirm } from '@/context/ConfirmContext'
-import { Product } from '@/generated/prisma'
 import { SerializedProduct } from '@/types/product'
 import { shimmer, toBase64 } from '@/utils/clientOnlyUtils'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { Dispatch } from 'react'
-import { FaCircle, FaTrash } from 'react-icons/fa'
-import { TiTick } from 'react-icons/ti'
+import React from 'react'
+import { FaTrash, FaCheck, FaExternalLinkAlt } from 'react-icons/fa'
 import { toast } from 'sonner'
 
 type Props = {
-    item: SerializedProduct,
+    item: SerializedProduct;
 }
 
 const TableProductRow = ({ item }: Props) => {
-
     const ask = useConfirm();
 
     const handleArchive = async () => {
         const confirmed = await ask('Are you sure you want to archive this product?');
         if (confirmed) {
-            const res = await softDeleteProduct(item.id)
-            toast(res.success ? 'Successfully archived.' : `ERROR: ${res.error}`)
+            const res = await softDeleteProduct(item.id);
+            if (res.success) {
+                toast.success('Product successfully archived.');
+            } else {
+                toast.error(`Error: ${res.error}`);
+            }
         }
-    }
+    };
 
     const handlePublish = async () => {
         const confirmed = await ask('Are you sure you want to activate this product for listing?');
-
         if (confirmed) {
-            const res = await activateProduct(item.id)
-            toast(res.success ? 'Successfully published.' : `ERROR: ${res.error}`)
-
+            const res = await activateProduct(item.id);
+            if (res.success) {
+                toast.success('Product successfully published.');
+            } else {
+                toast.error(`Error: ${res.error}`);
+            }
         }
-    }
+    };
 
+    const getStatusBadge = () => {
+        switch (item.status) {
+            case 'ACTIVE':
+                return (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        Active
+                    </span>
+                );
+            case 'DRAFT':
+                return (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                        Draft
+                    </span>
+                );
+            default:
+                return (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                        Archived
+                    </span>
+                );
+        }
+    };
 
-    const color = item.status === "ACTIVE" ? "green" : item.status === "DRAFT" ? "orange" : "red"
     return (
-        <tr className='border-y'>
-            <td className='px-4'>
-                <Image width={50} height={50} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`} src={item.imageUrl} className='w-12 h-12' alt="" />
+        <tr className="hover:bg-sky-50/40 transition-colors text-xs font-medium text-slate-800">
+            {/* Image */}
+            <td className="px-4 py-3 text-center">
+                <div className="relative w-10 h-10 mx-auto rounded-md bg-sky-50/60 border border-sky-100 overflow-hidden flex items-center justify-center p-0.5">
+                    <Image
+                        fill
+                        sizes="40px"
+                        placeholder="blur"
+                        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(40, 40))}`}
+                        src={item.imageUrl || ''}
+                        className="object-contain"
+                        alt={item.name}
+                    />
+                </div>
             </td>
-            <td>
-                <Link href={`/admin/product/${item.id}`}>
-                    {item.name}
+
+            {/* Name Link */}
+            <td className="px-4 py-3 font-semibold text-slate-900">
+                <Link
+                    href={`/admin/product/${item.id}`}
+                    className="hover:text-blue-600 transition-colors line-clamp-1 inline-flex items-center gap-1.5"
+                >
+                    <span>{item.name}</span>
+                    <FaExternalLinkAlt className="text-[9px] text-slate-400" />
                 </Link>
             </td>
-            <td>
-                <div className='inline-flex items-center justify-center gap-1'>
-                    <FaCircle color={item.status == "ACTIVE" ? "lightgreen" : item.status == "DRAFT" ? 'orange' : "red"} />
-                    <span className={`text-${color}-500`}>{item.status}</span>
-                </div>
+
+            {/* Status */}
+            <td className="px-4 py-3">
+                {getStatusBadge()}
             </td>
-            <td className=''>
-                <div className='text-right w-[20%] '>
-                    {Number(item.price).toFixed(2)}
-                </div>
+
+            {/* Price */}
+            <td className="px-4 py-3 font-bold text-slate-900">
+                ${Number(item.price).toFixed(2)}
             </td>
-            <td className=''>
-                <div className={`text-right w-[20%] ${item.stock === 0 && 'text-red-600 font-semibold'} `}>
-                    {item.stock === 0 ? 'OUT' : item.stock}
-                </div>
+
+            {/* Stock */}
+            <td className="px-4 py-3">
+                {item.stock === 0 ? (
+                    <span className="text-rose-600 font-bold">Out of Stock</span>
+                ) : (
+                    <span className="text-slate-700">{item.stock}</span>
+                )}
             </td>
-            <td>
-                {
-                    item.status == "ACTIVE" ?
-                        <button onClick={handleArchive}>
-                            <FaTrash />
-                        </button> :
-                        <button onClick={handlePublish}>
-                            <TiTick />
-                        </button>
-                }
+
+            {/* Actions */}
+            <td className="px-4 py-3 text-center">
+                {item.status === 'ACTIVE' ? (
+                    <button
+                        onClick={handleArchive}
+                        title="Archive product"
+                        aria-label="Archive product"
+                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors"
+                    >
+                        <FaTrash className="text-xs" />
+                    </button>
+                ) : (
+                    <button
+                        onClick={handlePublish}
+                        title="Publish product"
+                        aria-label="Publish product"
+                        className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded transition-colors"
+                    >
+                        <FaCheck className="text-xs" />
+                    </button>
+                )}
             </td>
         </tr>
-    )
-}
+    );
+};
 
-export default TableProductRow
+export default TableProductRow;
