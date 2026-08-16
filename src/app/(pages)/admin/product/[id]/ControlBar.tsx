@@ -33,8 +33,8 @@ const ControlBar = ({ product }: Props) => {
     const handleHardDelete = async () => {
         if (confirm('WARNING: Are you sure you want to delete this product permanently? This action is irreversible.')) {
             const res = await hardDeleteProduct(product.id);
-            if(res.success) {router.replace('/admin/product'); toast.success('Product successfully deleted.')}
-            
+            if (res.success) { router.replace('/admin/product'); toast.success('Product successfully deleted.') }
+
         }
     }
 

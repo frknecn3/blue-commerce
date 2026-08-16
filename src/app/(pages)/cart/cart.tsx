@@ -1,14 +1,16 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { FaBoxOpen, FaMinus, FaPlus, FaShieldAlt, FaTrash, FaTruck } from "react-icons/fa";
+import { FiLoader } from "react-icons/fi";
 import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hooks';
 import { addToCart, CartUIItem, decrementItem, removeItem } from '@/redux/slices/cartSlice';
 import { CartItemWithProduct } from '@/types/product';
 import Image from 'next/image';
 import { shimmer, toBase64 } from '@/utils/clientOnlyUtils';
+import { toast } from 'sonner';
 interface CartItemProps {
     item: CartUIItem
     disabled: boolean
@@ -16,10 +18,26 @@ interface CartItemProps {
 
 export const CartItem = ({ item, disabled }: CartItemProps) => {
     const dispatch = useAppDispatch()
+    const [isRemoving, setIsRemoving] = useState(false)
     const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
+    const handleRemove = async () => {
+        setIsRemoving(true)
+        try {
+            const res = await dispatch(removeItem(item.id)) as any
+            if (res.meta.requestStatus === 'fulfilled') {
+                toast.success('Item removed from cart.')
+            } else {
+                toast.error('Failed to remove item.')
+                setIsRemoving(false)
+            }
+        } catch (error) {
+            setIsRemoving(false)
+        }
+    }
+
     return (
-        <div className="flex flex-col sm:flex-row gap-4 py-6 first:pt-0 last:pb-0 items-start sm:items-center justify-between">
+        <div className={`flex flex-col sm:flex-row gap-4 py-6 first:pt-0 last:pb-0 items-start sm:items-center justify-between transition-opacity ${isRemoving ? 'opacity-50 pointer-events-none' : ''}`}>
             {/* Image & Main Info Info */}
             <div className="flex gap-4 w-full sm:w-auto">
                 <div className=" relative w-20 h-20 sm:w-24 sm:h-24 bg-slate-50 border border-slate-100 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center">
@@ -48,7 +66,7 @@ export const CartItem = ({ item, disabled }: CartItemProps) => {
                 <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 h-10 overflow-hidden shadow-sm">
                     <button
                         onClick={() => dispatch(decrementItem(item.id))}
-                        disabled={disabled}
+                        disabled={disabled || isRemoving}
                         className="px-3 h-full text-slate-500 hover:bg-slate-100 active:bg-slate-200 disabled:opacity-50 transition-colors"
                         title="Reduce quantity"
                     >
@@ -59,7 +77,7 @@ export const CartItem = ({ item, disabled }: CartItemProps) => {
                     </span>
                     <button
                         onClick={() => { dispatch(addToCart({ productId: item.product.id })) }}
-                        disabled={disabled || item.quantity >= item.product.stock}
+                        disabled={disabled || isRemoving || item.quantity >= item.product.stock}
                         className="px-3 h-full text-slate-500 hover:bg-slate-100 active:bg-slate-200 disabled:opacity-50 transition-colors"
                         title="Increase quantity"
                     >
@@ -81,12 +99,16 @@ export const CartItem = ({ item, disabled }: CartItemProps) => {
 
                 {/* Remove Trash Button */}
                 <button
-                    onClick={() => dispatch(removeItem(item.id))}
-                    disabled={disabled}
+                    onClick={handleRemove}
+                    disabled={disabled || isRemoving}
                     className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all disabled:opacity-40"
                     title="Remove item from cart"
                 >
-                    <FaTrash className="w-4 h-4" />
+                    {isRemoving ? (
+                        <FiLoader className="w-4 h-4 text-blue-600 animate-spin" />
+                    ) : (
+                        <FaTrash className="w-4 h-4" />
+                    )}
                 </button>
             </div>
         </div>
@@ -141,7 +163,7 @@ export const TotalComponent = ({ cart }: TotalComponentProps) => {
                 </div>
             </div>
 
-            <Link href={'/checkout'} className="w-full inline-flex justify-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm shadow-blue-100 mt-2 text-sm uppercase tracking-wider">
+            <Link href={'/checkout'} className="w-full inline-flex justify-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm mt-2 text-sm">
                 Proceed to Checkout
             </Link>
 

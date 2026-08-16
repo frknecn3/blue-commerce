@@ -11,43 +11,43 @@ const benefits = [
 
 const BecomeSellerPage = () => {
     return (
-        <main className="min-h-screen bg-slate-100/70 py-8 px-4 sm:px-6 lg:px-10 max-w-[1480px] mx-auto">
+        <main className="min-h-screen bg-sky-50/40 py-8 px-4 sm:px-6 lg:px-10 max-w-[1480px] mx-auto">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">
                 <Link href="/" className="hover:text-blue-600">Home</Link>
                 <span>/</span>
-                <span className="text-slate-900 font-bold">Become a Seller</span>
+                <span className="text-blue-900 font-bold">Become a Seller</span>
             </nav>
 
             {/* Seller Hero Header */}
-            <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white rounded-lg p-8 sm:p-12 mb-8 shadow-md border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="bg-gradient-to-r from-blue-600 via-sky-600 to-blue-700 text-white rounded-lg p-6 sm:p-10 mb-8 shadow-sm border border-blue-500 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div className="max-w-2xl">
-                    <div className="inline-flex items-center gap-2 bg-blue-600 text-white text-xs font-extrabold px-3 py-1 rounded uppercase tracking-wider mb-3">
+                    <div className="inline-flex items-center gap-2 bg-white text-blue-700 text-xs font-bold px-2.5 py-1 rounded mb-2 shadow-xs">
                         <FiShoppingBag />
-                        <span>Blue-Commerce Marketplace</span>
+                        <span>Seller Marketplace</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-wider">Grow Your E-Commerce Business With Us</h1>
-                    <p className="text-sm text-slate-300 mt-2 font-medium leading-relaxed">
-                        Open your official store on Blue-Commerce today and showcase your products to millions of shoppers across the country.
+                    <h1 className="text-2xl sm:text-3xl font-bold">Sell on BluE-Commerce</h1>
+                    <p className="text-sm text-sky-100 mt-1.5 font-normal leading-relaxed">
+                        Open your official store on BluE-Commerce and start selling your products to thousands of active shoppers.
                     </p>
                 </div>
 
-                <div className="bg-white text-slate-900 p-6 rounded-lg shadow-md border border-slate-200 w-full md:w-80 shrink-0">
-                    <h3 className="font-extrabold text-base mb-1">Start Selling Today</h3>
-                    <p className="text-xs text-slate-500 mb-4 font-medium">Free registration with instant store setup.</p>
+                <div className="bg-white text-slate-900 p-6 rounded-lg shadow-sm border border-sky-100 w-full md:w-80 shrink-0">
+                    <h3 className="font-bold text-base mb-1 text-slate-900">Start Selling Today</h3>
+                    <p className="text-xs text-slate-500 mb-4 font-normal">Free registration with instant store setup.</p>
                     <Link
                         href="/admin"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs uppercase py-3 px-4 rounded-md text-center block shadow-xs transition-colors"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs py-2.5 px-4 rounded-md text-center block shadow-xs transition-colors"
                     >
-                        Create Your Store Now
+                        Open Your Store
                     </Link>
                 </div>
             </div>
 
             {/* Seller Benefits Grid */}
-            <div className="border-b-2 border-slate-900 pb-2 mb-6">
-                <h2 className="text-base font-black text-slate-900 uppercase tracking-wider">
-                    Why Sell On Blue-Commerce?
+            <div className="border-b border-blue-600 pb-2 mb-6">
+                <h2 className="text-base font-bold text-slate-900">
+                    Why Sell on BluE-Commerce?
                 </h2>
             </div>
 
@@ -55,20 +55,20 @@ const BecomeSellerPage = () => {
                 {benefits.map((item, idx) => {
                     const Icon = item.icon;
                     return (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-lg p-5 hover:border-blue-600 transition-all">
+                        <div key={idx} className="bg-white border border-sky-100 rounded-lg p-5 hover:border-blue-400 hover:shadow-md transition-all shadow-xs">
                             <div className="grid h-10 w-10 place-items-center rounded-md bg-blue-50 border border-blue-100 text-blue-600 mb-3">
                                 <Icon className="text-xl" />
                             </div>
                             <h3 className="font-bold text-slate-900 text-sm mb-1">{item.title}</h3>
-                            <p className="text-xs text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                            <p className="text-xs text-slate-500 font-normal leading-relaxed">{item.desc}</p>
                         </div>
                     );
                 })}
             </div>
 
             {/* Steps to Become a Seller */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8">
-                <h2 className="text-lg font-black text-slate-900 uppercase tracking-wider mb-6">Simple 3-Step Onboarding</h2>
+            <div className="bg-white border border-sky-100 rounded-lg p-6 sm:p-8">
+                <h2 className="text-lg font-bold text-slate-900 mb-5">Simple 3-Step Onboarding</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="flex gap-4">
                         <span className="font-black text-2xl text-blue-600">01</span>

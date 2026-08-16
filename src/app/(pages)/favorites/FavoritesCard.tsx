@@ -1,5 +1,4 @@
 'use client';
-import Loader from "@/components/Loader";
 import { useConfirm } from "@/context/ConfirmContext";
 import { useAppDispatch } from "@/redux/hooks";
 import { addToCart } from "@/redux/slices/cartSlice";
@@ -9,92 +8,143 @@ import { shimmer, toBase64 } from "@/utils/clientOnlyUtils";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaCartPlus } from "react-icons/fa";
+import { IoHeart } from "react-icons/io5";
+import { FiLoader, FiTrash2 } from "react-icons/fi";
 import { toast } from "sonner";
+import { openCartModal } from "@/redux/slices/uiSlice";
 
 type Props = {
     fav: SerializedFavorite
 }
 
 const FavoriteCard = ({ fav }: Props) => {
-
-    const [loading, setLoading] = useState(false);
-
-    const stockText = fav.item.stock > 10 ? 'IN STOCK' :
-        fav.item.stock > 0 ? 'LOW STOCK' :
-            'OUT OF STOCK'
-    const stockColor = fav.item.stock > 10 ? 'text-green-400' :
-        fav.item.stock > 0 ? 'text-orange-400' :
-            'text-red-600'
-
-
+    const [isRemoving, setIsRemoving] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
     const dispatch = useAppDispatch();
-
     const ask = useConfirm();
+
+    const isOutOfStock = fav.item.stock <= 0;
+    const isLowStock = !isOutOfStock && fav.item.stock <= 5;
 
     const handleRemoveFromFavorites = async () => {
         const confirmed = await ask('Are you sure you want to remove this item from your favorites?');
-
-
         if (confirmed) {
-            setLoading(true);
-            const res = await dispatch(removeFromFavorites(fav.productId));
-
-            if (res.meta.requestStatus == 'fulfilled') {
-                return toast.success('Item successfully removed from wishlist.')
+            setIsRemoving(true);
+            try {
+                const res = await dispatch(removeFromFavorites(fav.productId));
+                if (res.meta.requestStatus === 'fulfilled') {
+                    toast.success('Item removed from favorites.');
+                } else {
+                    toast.error(`Error: ${res.payload || 'Failed to remove item.'}`);
+                    setIsRemoving(false);
+                }
+            } catch (err) {
+                setIsRemoving(false);
             }
-
-            return toast.error(`ERROR: ${res.payload || 'Unknown error.'}`)
         }
-    }
+    };
 
-    const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    const handleAddToCart = async () => {
+        setIsAdding(true);
+        const res = await dispatch(addToCart({ productId: fav.item.id, quantity: 1 }));
+        setIsAdding(false);
+        if (res.meta.requestStatus === "fulfilled") {
+            dispatch(openCartModal());
+        }
+    };
 
     return (
-        <div
-            className=' w-[200px] md:w-[350px] xl:w-[350px] p-2 lg:p-4 shadow-md border rounded-xl flex flex-col'
-        >
-            <div className='w-full relative aspect-square'>
-                <Link className="bg-red-400 " href={`/product/${fav.item.id}`}>
-                    {
-                        loading &&
-                        <div className="absolute flex bottom-0 top-0 left-0 right-0 items-center justify-center backdrop-blur-sm">
-                            <Loader />
-                        </div>
-                    }
-                    <Image fill sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`} src={fav.item.imageUrl} className='object-stretch border rounded-md' alt="" />
+        <div className={`group relative flex h-full flex-col overflow-hidden rounded-lg border border-sky-100 bg-white transition-all duration-150 hover:border-blue-400 hover:shadow-md shadow-xs ${
+            isRemoving ? 'opacity-50 pointer-events-none' : ''
+        }`}>
+            {/* Remove Favorite Button */}
+            <button
+                aria-label="Remove from favorites"
+                disabled={isRemoving}
+                onClick={handleRemoveFromFavorites}
+                className="absolute right-2.5 top-2.5 z-20 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-rose-500 shadow-sm border border-sky-100 transition hover:scale-110 hover:bg-rose-50 disabled:opacity-50"
+                title="Remove from favorites"
+            >
+                {isRemoving ? (
+                    <FiLoader className="animate-spin text-sm text-blue-600" />
+                ) : (
+                    <IoHeart className="text-rose-500" size={16} />
+                )}
+            </button>
+
+            {/* Product Image */}
+            <Link href={`/product/${fav.item.id}`} className="relative block">
+                <div className="relative flex h-44 items-center justify-center overflow-hidden bg-sky-50/50 p-4">
+                    <Image
+                        width={200}
+                        height={200}
+                        placeholder="blur"
+                        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
+                        src={fav.item.imageUrl}
+                        alt={fav.item.name}
+                        className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                    {isOutOfStock && (
+                        <span className="absolute bottom-2 left-2 rounded bg-slate-800/90 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
+                            Out of stock
+                        </span>
+                    )}
+                    {isLowStock && (
+                        <span className="absolute bottom-2 left-2 rounded bg-amber-600 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
+                            Low Stock: {fav.item.stock}
+                        </span>
+                    )}
+                </div>
+            </Link>
+
+            {/* Body */}
+            <div className="flex flex-1 flex-col p-3">
+                <Link href={`/product/${fav.item.id}`} className="flex-1">
+                    <h3 className="line-clamp-2 min-h-[2.25rem] text-left text-xs font-bold leading-tight text-slate-800 transition-colors group-hover:text-blue-600">
+                        {fav.item.name}
+                    </h3>
                 </Link>
-            </div>
-            <div className='text-content px-2'>
-                <div className='py-4 h-max'>
-                    <h1 className='text-sm lg:text-lg font-semibold line-clamp-1' title={fav.item.name}>{fav.item.name}</h1>
-                </div>
-                <div className='flex justify-between max-lg:flex-col'>
-                    <span className={`font-semibold text-xl ${stockColor}`}>
-                        {
-                            stockText
-                        }
-                    </span>
-                    <span className='font-bold text-xl'>
-                        ${formatter.format(fav.item.price)}
+
+                {/* Price */}
+                <div className="mt-2 mb-3">
+                    <span className="text-sm sm:text-base font-bold text-slate-900 leading-none">
+                        ${Number(fav.item.price).toFixed(2)}
                     </span>
                 </div>
-                <div className='btns flex gap-4 pt-4 max-lg:flex-col'>
+
+                {/* Actions Button */}
+                <div className="mt-auto flex items-center gap-2 border-t border-sky-100 pt-2.5">
                     <button
-                        onClick={() => dispatch(addToCart({ productId: fav.item.id }))}
-                        className='block py-2 text-center flex-[3] bg-green-400 rounded-xl text-white hover:bg-green-500 transition-all text-lg'>
-                        ADD TO CART
+                        onClick={handleAddToCart}
+                        disabled={isOutOfStock || isAdding || isRemoving}
+                        className="flex-1 flex items-center justify-center gap-1.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-3 shadow-xs transition-colors disabled:cursor-not-allowed disabled:bg-slate-300"
+                    >
+                        {isAdding ? (
+                            <FiLoader className="animate-spin text-xs" />
+                        ) : (
+                            <FaCartPlus size={12} />
+                        )}
+                        <span>Add to Cart</span>
                     </button>
+
                     <button
                         onClick={handleRemoveFromFavorites}
-                        className='inline-flex py-3 flex-1 justify-center items-center bg-red-400 text-white rounded-xl hover:bg-red-500 transition-all'>
-                        <FaTrash />
+                        disabled={isRemoving}
+                        aria-label="Remove item"
+                        title="Remove from favorites"
+                        className="grid h-8 w-8 shrink-0 place-items-center rounded bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-200 transition-colors disabled:opacity-50"
+                    >
+                        {isRemoving ? (
+                            <FiLoader className="animate-spin text-xs text-blue-600" />
+                        ) : (
+                            <FiTrash2 className="text-sm" />
+                        )}
                     </button>
                 </div>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
 export default FavoriteCard;
