@@ -4,6 +4,7 @@
 
 ### A modern, full-stack e-commerce platform built with architectural rigor, industry-standard testing, and security-first backend engineering.
 
+![demonstration](demonstration1.gif)
 ![ADMIN PANEL](admin_panel.gif)
 ![BluE-Commerce Cart](cart.png)
 
