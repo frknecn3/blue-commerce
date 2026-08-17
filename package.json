@@ -13,7 +13,8 @@
     "test:ci": "vitest run",
     "test:watch": "dotenv -e .env.test -- vitest",
     "test:push": "dotenv -e .env.test -- prisma db push",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -57,6 +58,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^10.3.0",
+    "@next/bundle-analyzer": "^16.3.1",
     "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
@@ -72,6 +74,8 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "happy-dom": "^20.11.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0",
     "postcss": "^8",
     "prisma": "^7.4.0",
     "tailwindcss": "^3.3.0",

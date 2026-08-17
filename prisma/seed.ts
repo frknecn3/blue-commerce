@@ -178,11 +178,22 @@ async function main() {
             password: password,
             role: "ADMIN",
             avatar: "https://i.pravatar.cc/150?u=admin",
-
         },
     });
 
-    console.log("Seeding Finished")
+    const demoUser = await prisma.user.upsert({
+        where: { email: "user@bluecommerce.com" },
+        update: {},
+        create: {
+            name: "Demo Customer",
+            email: "user@bluecommerce.com",
+            password: password,
+            role: "USER",
+            avatar: "https://i.pravatar.cc/150?u=demouser",
+        },
+    });
+
+    console.log("Seeding Finished (Admin & Demo Customer ready)")
 }
 
 // const allUsers: User[] = await prisma.user.findMany({

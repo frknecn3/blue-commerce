@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import React, { ChangeEvent, useState } from 'react'
 import { toast } from 'sonner'
-import { FiLogIn } from 'react-icons/fi'
+import { FiLogIn, FiShield, FiUser, FiZap } from 'react-icons/fi'
 
 type Props = {}
 
@@ -14,6 +14,12 @@ const LoginForm = (props: Props): React.ReactElement => {
     const [data, setData] = useState<{ email: string, password: string }>({ email: "", password: "" })
     const [loading, setLoading] = useState<boolean>(false);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+    const setDemoCredentials = (email: string, pass: string, roleName: string) => {
+        setData({ email, password: pass });
+        setFieldErrors({});
+        toast.info(`Filled credentials for ${roleName} Demo`);
+    };
 
     const clearFieldError = (field: string) => {
         if (fieldErrors[field]) {
@@ -82,6 +88,32 @@ const LoginForm = (props: Props): React.ReactElement => {
                     <p className="text-xs text-slate-500 mt-1">Sign in to your BluE-Commerce account</p>
                 </div>
 
+                {/* Quick Demo Access Banner for Reviewers & Recruiters */}
+                <div className="w-full mb-5 p-3 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-900 mb-2">
+                        <FiZap className="text-amber-500 text-sm" />
+                        <span>Recruiter / Demo Quick Access:</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            type="button"
+                            onClick={() => setDemoCredentials('admin@bluecommerce.com', '123456', 'Admin')}
+                            className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 bg-white hover:bg-sky-100/70 active:bg-sky-200 border border-sky-300 rounded text-[11px] font-semibold text-slate-800 shadow-2xs transition-colors cursor-pointer"
+                        >
+                            <FiShield className="text-blue-600 text-xs" />
+                            <span>Admin Demo</span>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setDemoCredentials('user@bluecommerce.com', '123456', 'Customer')}
+                            className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 bg-white hover:bg-sky-100/70 active:bg-sky-200 border border-sky-300 rounded text-[11px] font-semibold text-slate-800 shadow-2xs transition-colors cursor-pointer"
+                        >
+                            <FiUser className="text-emerald-600 text-xs" />
+                            <span>User Demo</span>
+                        </button>
+                    </div>
+                </div>
+
                 {/* Single Form */}
                 <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
                     <Input
@@ -89,7 +121,7 @@ const LoginForm = (props: Props): React.ReactElement => {
                         label="E-mail"
                         placeholder="example@info.com"
                         type="email"
-                        defaultValue={data.email}
+                        value={data.email}
                         error={fieldErrors.email}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                             setData(prev => ({ ...prev, email: e.target.value }));
@@ -102,7 +134,7 @@ const LoginForm = (props: Props): React.ReactElement => {
                         label="Password"
                         placeholder="Enter password"
                         type="password"
-                        defaultValue={data.password}
+                        value={data.password}
                         error={fieldErrors.password}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                             setData(prev => ({ ...prev, password: e.target.value }));

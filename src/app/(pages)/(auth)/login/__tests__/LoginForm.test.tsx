@@ -16,6 +16,7 @@ vi.mock('sonner', () => ({
   toast: {
     error: vi.fn(),
     success: vi.fn(),
+    info: vi.fn(),
   },
 }));
 
@@ -109,5 +110,22 @@ describe('LoginForm Component', () => {
     await waitFor(() => {
       expect(screen.getAllByText('Invalid email or password.').length).toBeGreaterThan(0);
     });
+  });
+
+  it('populates credentials when clicking Admin and User demo buttons', () => {
+    render(<LoginForm />);
+
+    const adminBtn = screen.getByRole('button', { name: /Admin Demo/i });
+    const userBtn = screen.getByRole('button', { name: /User Demo/i });
+
+    // Click Admin demo
+    fireEvent.click(adminBtn);
+    expect((screen.getByLabelText('E-mail') as HTMLInputElement).value).toBe('admin@bluecommerce.com');
+    expect((screen.getByLabelText('Password') as HTMLInputElement).value).toBe('123456');
+
+    // Click User demo
+    fireEvent.click(userBtn);
+    expect((screen.getByLabelText('E-mail') as HTMLInputElement).value).toBe('user@bluecommerce.com');
+    expect((screen.getByLabelText('Password') as HTMLInputElement).value).toBe('123456');
   });
 });

@@ -10,13 +10,14 @@ type Props = {
     label?: string,
     placeholder?: string,
     optional?: boolean,
+    value?: string | number,
     defaultValue?: string | number,
     defaultChecked?: boolean,
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
     error?: boolean | string
 }
 
-const Input = ({ placeholder = 'value', id, label, type, optional, defaultValue, defaultChecked, onChange, error }: Props) => {
+const Input = ({ placeholder = 'value', id, label, type, optional, value, defaultValue, defaultChecked, onChange, error }: Props) => {
     const hasError = Boolean(error);
     const errorMessage = typeof error === 'string' ? error : undefined;
 
@@ -36,6 +37,7 @@ const Input = ({ placeholder = 'value', id, label, type, optional, defaultValue,
                         type={type || 'text'}
                         name={id}
                         required={!optional}
+                        value={value}
                         defaultValue={defaultValue}
                         onChange={onChange}
                     />
