@@ -138,6 +138,13 @@ model Favorite {
   @@unique([ownerId, productId])
 }
 
+model ProcessedWebhookEvent {
+  id        String   @id @default(cuid())
+  eventId   String   @unique
+  eventType String
+  createdAt DateTime @default(now())
+}
+
 enum OrderStatus {
   UNPAID
   PROCESSING
