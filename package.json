@@ -1,5 +1,5 @@
 {
-  "name": "firstproject",
+  "name": "blue-commerce",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,10 +7,13 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "seed": "npx tsx prisma/seed.ts",
     "test": "dotenv -e .env.test -- vitest run",
+    "test:ci": "vitest run",
     "test:watch": "dotenv -e .env.test -- vitest",
-    "test:push": "dotenv -e .env.test -- prisma db push"
+    "test:push": "dotenv -e .env.test -- prisma db push",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -54,6 +57,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^10.3.0",
+    "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "@types/bcryptjs": "^2.4.6",
