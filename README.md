@@ -14,13 +14,24 @@
 [![CI Pipeline](https://img.shields.io/badge/CI%20Pipeline-Passing-22c55e?style=for-the-badge&logo=githubactions)](.github/workflows/ci.yml)
 [![Next.js 14](https://img.shields.io/badge/Next.js%2014-App%20Router-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x%20Strict-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Vitest](https://img.shields.io/badge/Tests-48%20Passing%20(Vitest)-22c55e?style=for-the-badge&logo=vitest)](https://vitest.dev)
+[![Vitest](https://img.shields.io/badge/Tests-49%20Passing%20(Vitest)-22c55e?style=for-the-badge&logo=vitest)](https://vitest.dev)
 [![Playwright](https://img.shields.io/badge/E2E-Playwright%20Ready-45ba4b?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Docker](https://img.shields.io/badge/Docker-Compose%20Ready-2496ED?style=for-the-badge&logo=docker)](Dockerfile)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma%20ORM-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org)
 [![Stripe](https://img.shields.io/badge/Stripe-Payments-635BFF?style=for-the-badge&logo=stripe)](https://stripe.com)
 
 </div>
+
+---
+
+## ⚡ Recruiter & Reviewer Quick Demo Access
+
+The live application includes a **One-Click Autofill Bar** on `/login` to instantly explore both customer and administrative experiences:
+
+| Role | Email | Password | Permissions & Features |
+|---|---|---|---|
+| 🛡️ **Admin** | `admin@bluecommerce.com` | `123456` | Access to `/admin` hub, catalog CRUD, metrics, and stock controls |
+| 👤 **Customer** | `user@bluecommerce.com` | `123456` | Real-time Cart, Wishlist, Order history, and Stripe checkout |
 
 ---
 
@@ -34,7 +45,7 @@ flowchart TD
     end
 
     subgraph AppLayer ["Application & API Layer (Next.js 14)"]
-        RSC["Server Components (RSC)<br/>& Streaming Suspense"]
+        RSC["Server Components (RSC)<br/>Streaming Skeletons (loading.tsx)<br/>Error Boundaries (error.tsx)"]
         Actions["Server Actions<br/>(Admin CRUD & Cloudinary)"]
         API["Route Handlers<br/>(/api/cart, /api/favorite, /api/health)"]
         RL["Hybrid Rate Limiter<br/>(Redis Sliding Window / Memory)"]
@@ -91,14 +102,14 @@ Key architectural trade-offs and decisions documented according to industry stan
 
 | Layer | Technology | Key Capabilities |
 |---|---|---|
-| **Framework** | Next.js 14 (App Router) | Server Components (RSC), Server Actions, Streaming Suspense, JSON-LD SEO |
+| **Framework** | Next.js 14 (App Router) | Server Components (RSC), Streaming Skeletons (`loading.tsx`), Error Boundaries (`error.tsx`), Schema.org JSON-LD |
 | **Language** | TypeScript 5.x | Strict mode, End-to-end type safety, Zod schema validation |
 | **Database** | PostgreSQL + Prisma ORM | Relational models, connection pooling, ACID transaction guarantees |
-| **Testing** | Vitest + RTL + Playwright | 48 unit/integration tests and headless multi-browser E2E testing |
-| **Authentication** | NextAuth.js v4 + Bcrypt | JWT strategy, role-based access control (`ADMIN` / `USER`) |
+| **Testing** | Vitest + RTL + Playwright | 49 unit/integration tests and headless multi-browser E2E testing |
+| **Authentication** | NextAuth.js v4 + Bcrypt | JWT strategy, role-based access control (`ADMIN` / `USER`), One-click demo fill |
 | **Payments** | Stripe API | Server checkout sessions + cryptographic webhook verification & idempotency |
 | **Observability** | `/api/health` + JSON Logger | Uptime metrics, DB latency monitoring, structured production logs |
-| **DevOps & CI/CD** | GitHub Actions + Docker | Automated linting, typecheck, tests, build checks, and Docker Compose orchestration |
+| **DevOps & Tooling** | GitHub Actions + Docker + Husky | Automated CI/CD quality gate, multi-stage Docker container, pre-commit hooks, and Next.js bundle analyzer |
 | **Security** | Hybrid Rate Limiter | Distributed Upstash Redis rate limiting with OWASP hardened headers |
 
 ---
@@ -118,6 +129,7 @@ This repository enforces high code quality through a complete testing pyramid:
 │    ✓ Zod runtime schemas (passwords, CUID, product types)   │
 │    ✓ Redux Toolkit reducers (cartSlice, favoriteSlice, ui)  │
 │    ✓ Component steppers, stock caps, double-click guards    │
+│    ✓ One-Click Demo Login autofill behavior verification    │
 │    ✓ Sliding Window & Hybrid Rate Limiter verification      │
 │    ✓ GET /api/health (DB latency ping & degraded state)     │
 │    ✓ POST /api/auth/check-email & /api/favorite routes      │
@@ -126,7 +138,7 @@ This repository enforces high code quality through a complete testing pyramid:
 
 ### Running Tests Locally
 ```bash
-# Run Vitest unit & integration tests
+# Run Vitest unit & integration tests (49 passing)
 npm test
 
 # Run Vitest in interactive watch mode
@@ -134,6 +146,9 @@ npm run test:watch
 
 # Run Playwright End-to-End tests
 npm run test:e2e
+
+# Inspect client & server bundle sizes
+npm run analyze
 ```
 
 ---
@@ -143,8 +158,10 @@ npm run test:e2e
 - **Strict Webhook Idempotency**: Tracks incoming Stripe `event.id` in `ProcessedWebhookEvent` to eliminate duplicate payment fulfillment on network retries.
 - **Atomic Stock Deduction**: Purchases decrement inventory levels (`stock: { decrement: quantity }`) inside `prisma.$transaction`.
 - **Hybrid Rate Limiter**: Ephemeral serverless-resilient rate limiter (Redis REST in production, memory sliding-window in local dev).
+- **Streaming Skeletons & Error Recovery**: Integrated `loading.tsx` shimmering skeletons and `error.tsx` client error boundaries for resilient UX.
 - **Service Observability**: `/api/health` endpoint reporting database ping latency, Node memory usage, and uptime.
 - **Structured JSON Logging**: Centralized logger formatted for CloudWatch/Datadog in production and readable output in development.
+- **Automated Pre-Commit Quality Gate**: `husky` + `lint-staged` running ESLint and strict TypeScript checks on staged commits.
 - **Hardened Security Headers**:
   - `Strict-Transport-Security` (HSTS)
   - `X-Frame-Options: SAMEORIGIN` (Clickjacking prevention)
@@ -164,6 +181,9 @@ docker compose up -d
 
 # View container logs
 docker compose logs -f
+
+# Stop containers
+docker compose down
 ```
 
 ---
@@ -188,7 +208,7 @@ cp .env.example .env.local
 npx prisma generate
 npx prisma db push
 
-# 5. (Optional) Seed demo database
+# 5. Seed demo database (Admin & Demo Customer accounts)
 npm run seed
 
 # 6. Execute tests and typecheck
