@@ -11,6 +11,11 @@ vi.mock('sonner', () => ({
   },
 }));
 
+vi.mock('next-auth/react', () => ({
+  getSession: vi.fn().mockResolvedValue(null),
+  useSession: vi.fn().mockReturnValue({ data: null, status: 'unauthenticated' }),
+}));
+
 const mockCartItem: CartUIItem = {
   id: 'cart-item-1',
   quantity: 2,

@@ -12,7 +12,39 @@ import Image from "next/image";
 import { shimmer, toBase64 } from "@/utils/clientOnlyUtils";
 import ProductButtons from "@/components/ProductButtons";
 import { ProductRawWithSeller, SerializedProduct, SerializedProductWithSeller } from "@/types/product";
+import ProductJsonLd from "@/components/JsonLd/ProductJsonLd";
+import { Metadata } from "next";
 
+export async function generateMetadata({ params }: { params: { productId: string } }): Promise<Metadata> {
+    const product = await prisma.product.findUnique({
+        where: { id: params.productId },
+        select: { name: true, description: true, imageUrl: true, price: true }
+    });
+
+    if (!product) {
+        return {
+            title: "Product Not Found | BluE-Commerce",
+            description: "The requested product could not be found."
+        };
+    }
+
+    return {
+        title: `${product.name} | BluE-Commerce`,
+        description: product.description?.slice(0, 160) || `Buy ${product.name} at BluE-Commerce. Best prices and fast delivery.`,
+        openGraph: {
+            title: `${product.name} | BluE-Commerce`,
+            description: product.description?.slice(0, 160) || `Buy ${product.name} at BluE-Commerce.`,
+            images: product.imageUrl ? [{ url: product.imageUrl, alt: product.name }] : [],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: product.name,
+            description: product.description?.slice(0, 160) || undefined,
+            images: product.imageUrl ? [product.imageUrl] : [],
+        }
+    };
+}
 
 const productId = async ({ params }: { params: { productId: string } }) => {
     const product: ProductRawWithSeller | null = await prisma.product.findUnique({
@@ -36,6 +68,7 @@ const productId = async ({ params }: { params: { productId: string } }) => {
 
     return (
         <div className="min-h-screen bg-slate-50 py-8 max-lg:pb-20 px-4 sm:px-6 lg:px-8 mt-20 md:mt-16 lg:mt-0">
+            <ProductJsonLd product={currentProduct} />
             <div className="max-w-7xl mx-auto">
 
                 <nav className="mb-6 text-sm text-slate-500 flex items-center gap-2">
