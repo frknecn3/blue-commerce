@@ -7,6 +7,7 @@ import { NextAuthProvider } from '../components/Auth/SessionWrapper.tsx'
 import InitCart from '../components/InitCart/index.tsx'
 import { Toaster, toast } from 'sonner'
 import ConfirmProvider from '@/context/ConfirmContext.tsx'
+import { Analytics } from '@vercel/analytics/next'
 export const metadata = {
   title: "BluE-Commerce",
   description: "Hello hey!",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactElement 
             </ConfirmProvider>
           </StoreProvider>
         </NextAuthProvider>
+        <Analytics />
       </body>
     </html >
   );
