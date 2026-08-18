@@ -22,7 +22,6 @@
     "target": "ES2023",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "ignoreDeprecations": "6.0",
     "jsx": "preserve",
     "plugins": [
       {
