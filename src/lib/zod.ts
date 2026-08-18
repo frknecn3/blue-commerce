@@ -45,26 +45,29 @@ export const RegisterUserSchema = z.object({
     defaultDeliveryLocation: z.string(),
     newsletter: z.preprocess(
         (val) => {
-            if (val === 'true') return true;
-            if (val === 'false') return false;
+            if (val === 'true' || val === true) return true;
+            if (val === 'false' || val === false) return false;
             return val;
         },
         z.boolean().optional()
     ),
     terms: z.preprocess(
         (val) => {
-            if (val === 'true') return true;
-            if (val === 'false') return false;
+            if (val === 'true' || val === true) return true;
+            if (val === 'false' || val === false) return false;
             return val;
         },
         z.boolean().refine((val) => val === true, {
             message: "You must accept the terms and conditions",
         })
     ),
-    cart: z.array(z.object(({
+    cart: z.array(z.object({
         productId: z.string(),
-        quantity: z.coerce.string()
-    })))
-})
+        quantity: z.coerce.number().int().positive().default(1)
+    })).optional().default([])
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
+});
 
 export type RegisterUserDto = z.infer<typeof RegisterUserSchema>;
