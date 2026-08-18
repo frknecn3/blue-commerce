@@ -2,7 +2,7 @@
 
 # 🛒 BluE-Commerce
 
-### A high-throughput full-stack e-commerce platform built with architectural rigor, distributed rate limiting, webhook idempotency, end-to-end quality gates, and OWASP-hardened security.
+### A modern full-stack e-commerce platform featuring distributed rate limiting, webhook idempotency, end-to-end quality gates, and OWASP-hardened security.
 
 ![demonstration](demonstration1.gif)
 ![ADMIN PANEL](admin_panel.gif)
@@ -32,6 +32,28 @@ The live application includes a **One-Click Autofill Bar** on `/login` to instan
 |---|---|---|---|
 | 🛡️ **Admin** | `admin@bluecommerce.com` | `123456` | Access to `/admin` hub, catalog CRUD, metrics, and stock controls |
 | 👤 **Customer** | `user@bluecommerce.com` | `123456` | Real-time Cart, Wishlist, Order history, and Stripe checkout |
+
+---
+
+## 💡 Behind the Architecture: Why I Migrated from Firebase to PostgreSQL + Prisma
+
+When I first started building **BluE-Commerce**, I used **Firebase Firestore** because it made prototyping the UI and authentication fast. But as the application evolved into a full-featured e-commerce platform with carts, inventory counts, store-seller relationships, and Stripe payments, Firestore's document-based model quickly showed its limitations for this kind of domain:
+
+- **Orphaned data on deletions:** E-commerce data is fundamentally relational. An order belongs to a user, contains line items, and each item points to a product under a specific store. In Firestore, if an admin deleted a product, stale references lingered in users' active carts and order histories unless I wrote manual cleanup code across multiple collections.
+- **Transactions were fragile:** When a customer completes checkout via Stripe, multiple steps must succeed together: verify inventory, decrement stock, mark the order as paid, and clear the cart. Coordinating multi-document writes in NoSQL without native ACID guarantees felt risky and prone to race conditions during simultaneous checkouts.
+- **Relational queries required workarounds:** Filtering by category, sorting by rating, and paginating with inventory filters simultaneously meant either making multiple sequential queries or pulling extra data to filter in JavaScript.
+
+### The Move to PostgreSQL & Prisma
+
+I decided to rebuild the entire persistence layer with **PostgreSQL** and **Prisma ORM**. It immediately simplified the codebase and solved all three problems:
+
+1. **Foreign Keys & Cascade Deletions:** Relational constraints (`@relation`) and `onDelete: Cascade` guarantee that deleting an entity automatically cleans up related items. No more orphan cart rows or broken relations.
+2. **True ACID Transactions:** Webhook order fulfillment now runs inside a unified `prisma.$transaction(...)`. If any step fails (e.g., an item sells out mid-payment), the entire operation rolls back safely.
+3. **End-to-End Type Safety:** Prisma automatically generates strict TypeScript types directly from `schema.prisma`, syncing perfectly with our Zod validators and frontend props.
+
+Rewriting the data layer gave the project the reliability, consistency, and structural integrity that a production commerce platform requires.
+
+> 📖 *For a technical breakdown of the trade-offs, check out [ADR 001: Relational PostgreSQL Migration](docs/adr/001-relational-postgresql-migration.md).*
 
 ---
 
