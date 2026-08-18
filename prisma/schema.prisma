@@ -8,27 +8,27 @@ datasource db {
 }
 
 model User {
-  id        String        @id @default(cuid())
-  email     String        @unique
-  name      String
-  nameSlug  String?       @unique
-  password  String
-  phone     String?
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  status    AccountStatus @default(DISABLED)
-  avatar    String?
-  role      Role          @default(USER)
-  cart      Cart?
-  favorites Favorite[]
-  orders    Order[]
-  reviews   Review[]
-  store     Store?
+  id                      String        @id @default(cuid())
+  email                   String        @unique
+  name                    String
+  nameSlug                String?       @unique
+  password                String
+  phone                   String?
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  status                  AccountStatus @default(DISABLED)
+  avatar                  String?
+  role                    Role          @default(USER)
+  cart                    Cart?
+  favorites               Favorite[]
+  orders                  Order[]
+  reviews                 Review[]
+  store                   Store?
   defaultDeliveryLocation String?
-  country   String?
-  newsletter Boolean?
+  country                 String?
+  newsletter              Boolean?
 
-  stripeCustomerId String? @unique
+  stripeCustomerId    String? @unique
   activateAccountCode String? @unique
 }
 
@@ -73,7 +73,7 @@ model Order {
   items     OrderItem[]
 
   stripeSessionId String? @unique
-  totalAmount Int
+  totalAmount     Int
 }
 
 model OrderItem {
@@ -82,8 +82,8 @@ model OrderItem {
   productId String
   price     Decimal
   quantity  Int
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade) 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model Product {

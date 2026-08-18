@@ -35,7 +35,7 @@ The live application includes a **One-Click Autofill Bar** on `/login` to instan
 
 ---
 
-## 💡 Behind the Architecture: Why I Migrated from Firebase to PostgreSQL + Prisma
+## Behind the Architecture: Why I Migrated from Firebase to PostgreSQL + Prisma
 
 When I first started building **BluE-Commerce**, I used **Firebase Firestore** because it made prototyping the UI and authentication fast. But as the application evolved into a full-featured e-commerce platform with carts, inventory counts, store-seller relationships, and Stripe payments, Firestore's document-based model quickly showed its limitations for this kind of domain:
 
@@ -57,7 +57,7 @@ Rewriting the data layer gave the project the reliability, consistency, and stru
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 ```mermaid
 flowchart TD
@@ -108,7 +108,7 @@ flowchart TD
 
 ---
 
-## 📜 Architecture Decision Records (ADRs)
+## Architecture Decision Records (ADRs)
 
 Key architectural trade-offs and decisions documented according to industry standards:
 
