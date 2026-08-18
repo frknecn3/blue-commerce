@@ -1,0 +1,7 @@
+# GitHub Linguist Overrides - keep repo stats focused on actual TypeScript source code
+playwright-report/** linguist-vendored
+test-results/** linguist-vendored
+coverage/** linguist-vendored
+src/generated/** linguist-generated
+*.html linguist-detectable=false
+public/** linguist-vendored
