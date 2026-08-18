@@ -65,15 +65,17 @@ model Store {
 }
 
 model Order {
-  id        String      @id @default(cuid())
-  createdAt DateTime    @default(now())
-  ownerId   String
-  status    OrderStatus @default(UNPAID)
-  owner     User        @relation(fields: [ownerId], references: [id])
-  items     OrderItem[]
+  id           String        @id @default(cuid())
+  createdAt    DateTime      @default(now())
+  ownerId      String
+  status       OrderStatus   @default(UNPAID)
+  owner        User          @relation(fields: [ownerId], references: [id])
+  items        OrderItem[]
+  discountCode DiscountCode?
 
-  stripeSessionId String? @unique
-  totalAmount     Int
+  stripeSessionId  String? @unique
+  totalAmount      Int
+  discountedAmount Int?
 }
 
 model OrderItem {
@@ -136,6 +138,17 @@ model Favorite {
   item      Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, productId])
+}
+
+model DiscountCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  discount  Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  used      Boolean  @default(false)
+  order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   String?  @unique
 }
 
 model ProcessedWebhookEvent {
