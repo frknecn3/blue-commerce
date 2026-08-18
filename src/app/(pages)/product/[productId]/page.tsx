@@ -8,8 +8,7 @@ import { prisma } from "../../../../lib/prisma";
 import { Prisma, Product } from "../../../../generated/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { shimmer, toBase64 } from "@/utils/clientOnlyUtils";
+import SafeImage from "@/components/Common/SafeImage";
 import ProductButtons from "@/components/ProductButtons";
 import { ProductRawWithSeller, SerializedProduct, SerializedProductWithSeller } from "@/types/product";
 import ProductJsonLd from "@/components/JsonLd/ProductJsonLd";
@@ -83,7 +82,9 @@ const productId = async ({ params }: { params: { productId: string } }) => {
 
                     <div className="lg:col-span-5 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm top-24">
                         <div className="aspect-square relative w-[75%] mx-auto overflow-hidden rounded-xl bg-slate-100 flex items-center justify-center">
-                            <Image width={150} height={150} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`}
+                            <SafeImage
+                                width={350}
+                                height={350}
                                 src={currentProduct.imageUrl}
                                 alt={currentProduct.name}
                                 className="object-contain w-full h-full max-h-[500px] hover:scale-105 transition-transform duration-300"
@@ -93,7 +94,7 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                             <div className="grid grid-cols-4 gap-2 mt-4">
                                 {images.map((img: string, idx: number) => (
                                     <div key={idx} className="aspect-square border-2 border-slate-200 hover:border-blue-500 rounded-lg overflow-hidden cursor-pointer bg-slate-50">
-                                        <Image width={150} height={150} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(70, 70))}`} src={img} alt="" className="object-cover w-full h-full" />
+                                        <SafeImage width={150} height={150} src={img} alt="" className="object-cover w-full h-full" />
                                     </div>
                                 ))}
                             </div>
@@ -168,10 +169,10 @@ const productId = async ({ params }: { params: { productId: string } }) => {
                 </div>
 
                 {/* Bottom Section: Reviews Section */}
-                <div id="reviews" className="mt-16 border-t border-slate-200 pt-12 max-w-4xl">
-                    <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-2">
+                <div id="reviews" className="mt-16 border-t border-slate-200 max-w-4xl">
+                    {/* <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-2">
                         Customer Feedback
-                    </h2>
+                    </h2> */}
 
                     {/* Render your imported Review and Reviews context components here */}
                     <div className="space-y-6">
