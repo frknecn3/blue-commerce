@@ -21,6 +21,8 @@ import Loader from "./Loader";
 import { Serialized } from "@/types/product";
 import { Product } from "@/generated/prisma";
 
+import SafeImage from "./Common/SafeImage";
+
 // Optional extras a caller can pass if the product was fetched with reviews.
 type ProductCardProps = {
   product: Serialized<Product>;
@@ -81,11 +83,9 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
               <Loader />
             </div>
           )}
-          <Image
+          <SafeImage
             width={200}
             height={200}
-            placeholder="blur"
-            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
             src={product.imageUrl}
             alt={product.name}
             className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
@@ -104,11 +104,16 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
       </Link>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col p-3">
-        <Link href={`/product/${product.id}`} className="flex-1">
-          <h3 className="line-clamp-2 min-h-[2.25rem] text-left text-xs font-bold leading-tight text-slate-800 transition-colors group-hover:text-blue-600">
-            {product.name}
-          </h3>
+      <div className="flex flex-1 flex-col justify-between p-3">
+        <div className="flex flex-col">
+          <Link href={`/product/${product.id}`} className="block">
+            <h3
+              title={product.name}
+              className="line-clamp-2 h-9 text-left text-xs font-bold leading-snug text-slate-800 transition-colors group-hover:text-blue-600 break-words overflow-hidden"
+            >
+              {product.name}
+            </h3>
+          </Link>
 
           {/* Rating */}
           <div className="mt-1.5 flex items-center gap-1">
@@ -125,12 +130,12 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
               ({reviewCount ?? 28})
             </span>
           </div>
-        </Link>
+        </div>
 
         {/* Price + Add to cart */}
         <div className="mt-3 flex items-center justify-between gap-2 border-t border-sky-100 pt-2.5">
-          <div className="flex flex-col">
-            <span className="text-sm sm:text-base font-bold text-slate-900 leading-none">
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm sm:text-base font-extrabold text-slate-900 leading-none truncate">
               ${Number(product.price).toFixed(2)}
             </span>
           </div>
@@ -139,7 +144,7 @@ const ProductCard = ({ product, rating, reviewCount, badge }: ProductCardProps) 
             transition={{ duration: 0.15 }}
             disabled={isOutOfStock || loading}
             onClick={handleAddToCart}
-            className="flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 shrink-0"
           >
             <FaCartPlus size={12} />
             <span>Add</span>

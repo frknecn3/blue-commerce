@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { FiTrash2, FiLoader } from 'react-icons/fi'
-import Image from 'next/image'
+import SafeImage from '@/components/Common/SafeImage'
 import Link from 'next/link'
 import { shimmer, toBase64 } from '@/utils/clientOnlyUtils'
 import { useAppDispatch } from '@/redux/hooks'
@@ -45,12 +45,10 @@ const CartModalProduct = ({ cartItem }: Props) => {
         onClick={() => dispatch(closeCartModal())}
         className="relative w-12 h-12 shrink-0 bg-sky-50/60 border border-sky-100 rounded-md overflow-hidden p-1 flex items-center justify-center"
       >
-        <Image
+        <SafeImage
           fill
           sizes="48px"
-          placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(48, 48))}`}
-          src={product.imageUrl || ''}
+          src={product.imageUrl}
           className="object-contain p-0.5 group-hover:scale-105 transition-transform"
           alt={product.name || 'Product'}
         />
