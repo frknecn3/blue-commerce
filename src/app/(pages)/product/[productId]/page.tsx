@@ -14,6 +14,8 @@ import { ProductRawWithSeller, SerializedProduct, SerializedProductWithSeller } 
 import ProductJsonLd from "@/components/JsonLd/ProductJsonLd";
 import { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: { productId: string } }): Promise<Metadata> {
     const product = await prisma.product.findUnique({
         where: { id: params.productId },

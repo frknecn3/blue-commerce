@@ -4,6 +4,8 @@ import { getCustomServerSession } from '@/utils/serverUtils';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 type Props = {}
 
 export default async function CheckoutPage(props: Props) {

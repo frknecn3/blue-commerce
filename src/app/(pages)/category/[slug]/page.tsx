@@ -6,6 +6,8 @@ import { Product } from '@/generated/prisma';
 import { Serialized } from '@/types/product';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 interface CategoryPageProps {
     params: {
         slug: string;

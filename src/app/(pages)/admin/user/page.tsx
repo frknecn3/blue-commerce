@@ -4,6 +4,8 @@ import SearchInput from '@/components/Admin/UsersTable/SearchInput'
 import { prisma } from '@/lib/prisma'
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
     searchParams: {
         q?: string,

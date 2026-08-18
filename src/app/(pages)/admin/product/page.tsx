@@ -6,6 +6,8 @@ import Link from 'next/link'
 import React from 'react'
 import { FaPlus } from 'react-icons/fa'
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
     searchParams: {
         q?: string,

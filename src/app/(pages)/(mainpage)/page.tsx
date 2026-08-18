@@ -16,6 +16,8 @@ import CategoryShowcase from "@/components/Home/CategoryShowcase";
 import TopRatedSection from "@/components/Home/TopRatedSection";
 import NewsletterBanner from "@/components/Home/NewsletterBanner";
 
+export const dynamic = 'force-dynamic';
+
 const MainPage = async ({
   searchParams,
 }: {

@@ -3,6 +3,8 @@ import APIError from "@/types/api";
 import { getUser, res, withErrorHandler } from "@/utils/serverUtils";
 import { NextRequest } from "next/server";
 
+export const dynamic = 'force-dynamic';
+
 type Params = {
     params: { userId: string }
 }

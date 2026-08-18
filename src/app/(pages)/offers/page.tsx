@@ -7,6 +7,8 @@ import { Serialized } from '@/types/product';
 import Link from 'next/link';
 import { FaTag, FaBolt, FaPercent, FaShippingFast } from 'react-icons/fa';
 
+export const dynamic = 'force-dynamic';
+
 const OffersPage = async () => {
     const dbProducts = await prisma.product.findMany({
         where: { stock: { gt: 0 }, status: 'ACTIVE' },

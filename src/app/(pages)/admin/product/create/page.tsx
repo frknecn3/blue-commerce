@@ -1,6 +1,8 @@
 import CreateProductForm from './form'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic';
+
 type Props = {}
 
 const CreateProductPage = async (props: Props) => {

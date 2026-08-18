@@ -3,6 +3,8 @@ import APIError from "@/types/api";
 import { res, withErrorHandler } from "@/utils/serverUtils";
 import { NextRequest } from "next/server";
 
+export const dynamic = 'force-dynamic';
+
 // RIGHT NOW THIS IS NOT USED
 
 type HandlerParams = {

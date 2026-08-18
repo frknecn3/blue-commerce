@@ -4,6 +4,8 @@ import React from 'react'
 import { FaBox, FaStore, FaUsers, FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa'
 import { FiShield } from 'react-icons/fi'
 
+export const dynamic = 'force-dynamic';
+
 const AdminPage = async () => {
     const [productCount, userCount, storeCount] = await Promise.all([
         prisma.product.count(),
